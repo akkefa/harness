@@ -1,16 +1,93 @@
 [project]
-name = "harness"
-version = "0.1.0"
-description = "Add your description here"
-authors = [
-    { name = "Ikram Ali" }
+name = "cordis-harness"
+version = "0.1.0.dev0"
+description = "Python implementation of the DeepSeek Harness agent runtime, built on deepseek-cordis"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+authors = [{name = "Ikram Ali"}]
+dependencies = [
+  "deepseek-cordis>=0.1.1,<0.2",
+  "pydantic>=2.7,<3",
+  "pyyaml>=6,<7",
 ]
-requires-python = ">=3.12"
-dependencies = []
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Framework :: AsyncIO",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
 
-[project.scripts]
-harness = "harness:main"
+[project.optional-dependencies]
+# Each extra is declared in the phase that adds the module needing it; see docs/PLAN.md.
+
+[project.urls]
+Homepage = "https://github.com/akkefa/harness"
+Repository = "https://github.com/akkefa/harness"
+Issues = "https://github.com/akkefa/harness/issues"
+Documentation = "https://github.com/akkefa/harness/tree/main/docs"
+Changelog = "https://github.com/akkefa/harness/blob/main/CHANGELOG.md"
 
 [build-system]
-requires = ["uv_build>=0.12.2,<0.13.0"]
-build-backend = "uv_build"
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# Twine 6.2 validates through core metadata 2.4; retain PEP 639 license fields.
+core-metadata-version = "2.4"
+packages = ["src/harness"]
+
+[tool.hatch.build.targets.sdist]
+core-metadata-version = "2.4"
+include = [
+  "/.gitignore",
+  "/src",
+  "/tests",
+  "/docs",
+  "/scripts",
+  "/pyproject.toml",
+  "/uv.lock",
+  "/README.md",
+  "/CHANGELOG.md",
+  "/CONTRIBUTING.md",
+  "/LICENSE",
+  "/THIRD_PARTY_NOTICES.md",
+]
+exclude = ["**/__pycache__", "**/*.pyc", "**/.pytest_cache", "**/.mypy_cache", "**/.ruff_cache"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-config --strict-markers"
+markers = [
+  "upstream(source): behavior ported from a pinned upstream test, given as 'path::case title'",
+]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src", "tests", "scripts"]
+
+[dependency-groups]
+# Opt-in tools for checking metadata and the package-index long description.
+packaging = ["twine>=6.2,<7"]
+dev = [
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.10",
+    "types-pyyaml>=6",
+]

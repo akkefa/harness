@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/deepseek-ai/deepseek-harness",
+  "commit": "ce7073d51254c26cd63b22a60835b8f948deb447",
+  "files": [
+    {
+      "upstream": "docs/persistence-schema.json",
+      "local": "persistence-schema.json",
+      "sha256": "329b1a0ecd0ee500f8ece796754cb5c64e9e23e2b67e17e3d34a02bc5a3490bc"
+    },
+    {
+      "upstream": "docs/persistence-changes/finalized/v4.json",
+      "local": "v4.json",
+      "sha256": "daa50d8c227b69e9406c8728e154b5ccb12be9679899b9b8d9254fa994c19416"
+    }
+  ]
+}

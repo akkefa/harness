@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "ce7073d51254c26cd63b22a60835b8f948deb447",
+  "scope": "Upstream test cases ported to Python. Each case names its upstream spec file and title; python_tests lists the Python tests carrying the matching upstream mark.",
+  "source_files": [],
+  "cases": []
+}
