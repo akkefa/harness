@@ -26,7 +26,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "docs" / "compatibility-cases.json"
 UPSTREAM_MAP = ROOT / "docs" / "upstream.json"
-CLASSIFICATIONS = {"ported", "adapted", "not-applicable"}
+CLASSIFICATIONS = {"ported", "adapted", "not-applicable", "deferred"}
 SOURCE = re.compile(r"(?P<path>packages/[a-z0-9-]+/[a-z0-9-]+/\S+\.spec\.ts)::(?P<title>.+)")
 
 
@@ -137,7 +137,10 @@ def catalog_problems(catalog: dict[str, Any], marks: dict[str, str], mapped: set
             problems.append(f"{case['id']}: {spec} missing from source_files")
         if case["classification"] not in CLASSIFICATIONS:
             problems.append(f"{case['id']}: unknown classification {case['classification']}")
-        if case["classification"] != "not-applicable" and not case["python_tests"]:
+        if (
+            case["classification"] not in ("not-applicable", "deferred")
+            and not case["python_tests"]
+        ):
             problems.append(f"{case['id']}: no Python tests")
         for test in case["python_tests"]:
             claimed.add(test)

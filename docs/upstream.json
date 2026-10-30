@@ -18,7 +18,7 @@
       "npm": "@deepseek-ai/dsh-session",
       "module": "harness.core.session",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/system-prompt",
@@ -74,7 +74,7 @@
       "npm": "@deepseek-ai/dsh-llm",
       "module": "harness.llm",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "in-progress"
     },
     {
       "upstream": "packages/llm/llm-retry",

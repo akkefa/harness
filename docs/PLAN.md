@@ -277,6 +277,11 @@ deepseek-cordis version that covers 0.1.
   request header and context events, repair, fork and seed.
 - Port `session/session-format` (v4 codec, filenames, canonical JSON).
 - Port the session spec files (about 20) as source-indexed tests.
+- Also needed, and ported here: the `llm/llm` message and call-config vocabulary and the
+  `util/values` JSON helpers the session log uses (`docs/upstream.json` maps both).
+- Rule found here for every later service: upstream Cordis hands a service method the
+  caller's context; deepseek-cordis doesn't, so services resolve the caller as explicit
+  `ctx=`, else `current_context()`, else themselves (`SessionStore.caller`).
 
 **Exit:** v4 events round-trip through the codec, conform to the pinned
 `persistence-schema.json` inventory (which, at `ce7073d`, already differs from the

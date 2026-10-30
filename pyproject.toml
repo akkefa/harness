@@ -81,7 +81,8 @@ select = ["E", "F", "I", "UP", "B", "ASYNC"]
 python_version = "3.11"
 strict = true
 files = ["src", "tests", "scripts"]
-mypy_path = "tests"
+mypy_path = "src:tests:scripts"
+explicit_package_bases = true
 
 [dependency-groups]
 # Opt-in tools for checking metadata and the package-index long description.

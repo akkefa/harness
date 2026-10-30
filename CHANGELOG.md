@@ -18,3 +18,19 @@
   relies on against the installed deepseek-cordis. Three gaps block 0.1 (public
   `Events.dispatch`, `Fiber.assert_active`, `internal/status` and `internal/plugin`
   events); they are tracked as strict xfails until deepseek-cordis adds them.
+- Phase 2, scope and session log:
+  - `harness.core.scope` (upstream `core/scope`).
+  - `harness.session.format` (upstream `session/session-format`): JSON coordinates,
+    header snapshots, log filenames, the migration chain and the codec catalog.
+  - `harness.core.session` (upstream `core/session`): the append-only Session log, the
+    `sessions` store, the model-visible surface and message projections, request headers,
+    tool history, repair, fork and plugin records. Store operations act for the calling
+    fiber through `SessionStore.caller`.
+  - `harness.util.values`: frozen JSON values and a `JSON.stringify`/`JSON.parse`
+    compatible encoder and parser.
+  - `harness.llm`: the message and call-config vocabulary the session log needs; the
+    adapter seam follows in Phase 4.
+  - 325 upstream test cases from 26 spec files are ported, 35 of them adapted with notes;
+    42 cannot apply in Python and 2 wait on Phase 4.
+  - A conformance check validates Python-written events and headers against upstream's
+    pinned v4 type inventory.

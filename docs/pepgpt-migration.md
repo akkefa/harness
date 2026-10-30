@@ -197,19 +197,19 @@ later if another team needs them.
 ## Session event mapping
 
 PepGPT event types and their v4 equivalents, so PepGPT can convert stored sessions.
-Filled in during Phase 2; the v4 column is confirmed against
-`deepseek-harness/docs/persistence-schema.json`.
+Confirmed in Phase 2 against the pinned inventory (`tests/upstream_assets/persistence-schema.json`,
+upstream `ce7073d`); `tests/support/persistence_schema.py` checks a converted event against it.
 
-| PepGPT event | v4 event | Notes |
+| PepGPT event | v4 | Conversion |
 |---|---|---|
-| `session/created` | `session/created` | |
-| `session/end-seed` | `session/end-seed` | |
-| `session/forked` | — | to confirm |
-| `turn/start`, `turn/end` | `turn/start`, `turn/end` | |
-| `step/start`, `step/end` | `step/start`, `step/end` | |
-| `system/message`, `developer/message`, `user/message` | same names | |
-| `assistant/message`, `assistant/attempt` | same names | v4 embeds the compact timed stream |
-| `tool/call`, `tool/result` | same names | |
-| `request/header`, `request/context` | same names | |
-| `context/summary` | `compaction/summary` (+ `compaction/start`, `compaction/end`) | to confirm |
-| `agent/child-created`, `agent/lineage` | — | to confirm against the subagent package |
+| `session/created` | not an event | v4 has no durable `session/created`; creation metadata lives in the session header (`version`, `id`, `createdAt`, `cwd`, `isSeeded`, …). Drop the event and build the header. |
+| `session/end-seed` | `session/end-seed` | Same. A fork child's marker at its inherited cut carries `{"inherited": true}`. |
+| `session/forked` | not an event | v4 records fork lineage as header `isSeeded: true` plus the inherited `session/end-seed` marker and the exact inherited prefix length. |
+| `turn/start`, `turn/end` | same | `turn/end.reason.kind` must be one of `completed`, `aborted`, `blocked`, `error`, `max-tokens`, `interrupted`, `forked`. |
+| `step/start`, `step/end` | same | |
+| `system/message`, `developer/message`, `user/message` | same | Messages need `id`, `role`, `content` and a `source` whose `kind` is in v4's closed list (e.g. `user`, `system-prompt`, `tool-registry`, `runtime-context`); PepGPT's own producers need a listed kind to conform. |
+| `assistant/message`, `assistant/attempt` | same | v4 requires the embedded compact `stream` array (may be empty) and `source: {kind: "model", provider, model}`. |
+| `tool/call`, `tool/result` | same | `tool/result.message` needs `toolCallId` equal to `source.callId`; failure details go in `error: {name, code, reason?}` with `message.isError: true`. |
+| `request/header`, `request/context` | same | Headers must omit empty `tools` and empty `adapterDefaults`, and never carry `header.system`. |
+| `context/summary` | `compaction/start`, `compaction/summary`, `compaction/end` | Plus a surface `replace` of the summarized range. Exact shape confirmed when `compaction` is ported (0.3). |
+| `agent/child-created`, `agent/lineage` | not events | v4 keeps subagent lineage in the child's header (`parentSession`, `origin: "subagent"`, `delegationDepth`) and the `subagent/*` events. Exact mapping confirmed when `subagent` is ported (0.4). |

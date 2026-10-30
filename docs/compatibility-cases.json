@@ -12,6 +12,86 @@
       "sha256": "3c1e5e3ff4ba50445d140aa0f09dc1e6c5e80cf6244fce628841bdc4e8029ad5"
     },
     {
+      "path": "packages/core/session/tests/canonical-envelopes.spec.ts",
+      "sha256": "6fba07133cb25ab9b9d0f2b803609fd519be9b05bba24cb44e9b4e6ca5eed718"
+    },
+    {
+      "path": "packages/core/session/tests/derived-cache.spec.ts",
+      "sha256": "d943d043cf7b8bd85a9246d2bdd49f6dbfa9785a8f69f424c8513ad8c9eaf403"
+    },
+    {
+      "path": "packages/core/session/tests/developer-header.spec.ts",
+      "sha256": "f7f894f666e4efd6cb1d6fdb4d7b6ece19816f32e4c7b292a31460af28db7381"
+    },
+    {
+      "path": "packages/core/session/tests/fork.spec.ts",
+      "sha256": "95e3af23e832a356d3cff9dbfa8423f65815f64e461221f094df122d20a30cc0"
+    },
+    {
+      "path": "packages/core/session/tests/gen-persistence-catalog.spec.ts",
+      "sha256": "b7e7883baf123ae4f65e54322ecf8279f2eb874e318df5ceb6986a2d386bb4e9"
+    },
+    {
+      "path": "packages/core/session/tests/json.spec.ts",
+      "sha256": "d7460d3fd5ee3ca08778b98e52d38b060303a6a9146bcb290593f9d3c1384735"
+    },
+    {
+      "path": "packages/core/session/tests/message-projections.spec.ts",
+      "sha256": "ca1b4bcfdd1802eaec5e728fd33c22020cc475ae492d8c891d3b50ab1acd9d86"
+    },
+    {
+      "path": "packages/core/session/tests/plugin-records.spec.ts",
+      "sha256": "323ffe2afa9283f98d7814470d78a50af70e4184318605fa6ff2f968586202fd"
+    },
+    {
+      "path": "packages/core/session/tests/preparation.spec.ts",
+      "sha256": "4359b7effbe36526dc5619be2d99fc0d4837c12aec0f3a7c1132b6d77b1aa399"
+    },
+    {
+      "path": "packages/core/session/tests/properties.spec.ts",
+      "sha256": "09897ff2ad2b39bcebf282e1d278344ebb465668ce78e087553bbd61bd273a3d"
+    },
+    {
+      "path": "packages/core/session/tests/repair.spec.ts",
+      "sha256": "7b88e5ae1939b97bf491dfd0821290c371ae968251d1c3d5c4576ea2f7761e24"
+    },
+    {
+      "path": "packages/core/session/tests/request-header.spec.ts",
+      "sha256": "e42c2392193a9ab8027f8783c287c7708a2f28a9732113bd230a20be69d6c90f"
+    },
+    {
+      "path": "packages/core/session/tests/scoped.spec.ts",
+      "sha256": "9a6d5b7fe94116034337b02bb6f5d22bdb15acc15e2e76710a79e94b7a19188c"
+    },
+    {
+      "path": "packages/core/session/tests/seq-ranges.spec.ts",
+      "sha256": "01b36289497e85fa095a2465fb1f9a386661e9f5068759b2eb9796b8005516be"
+    },
+    {
+      "path": "packages/core/session/tests/sequence-types.spec.ts",
+      "sha256": "5188cf8afac8d8316e438061bf3189c5217b6feef159fe29b5f13e1aaeefc74a"
+    },
+    {
+      "path": "packages/core/session/tests/session.spec.ts",
+      "sha256": "d7f15bdca919627522ae60ed26294eadc296bebf213ab1b37a9cce2c11431f3a"
+    },
+    {
+      "path": "packages/core/session/tests/store-membership.spec.ts",
+      "sha256": "73e10dfeefe6a75c48d5da0d44044d6eb2a26e181502ea6e3c32a9b73662a992"
+    },
+    {
+      "path": "packages/core/session/tests/surface.spec.ts",
+      "sha256": "24ff96add9f77859b01a662f48c3406b12b9a3ae2e9393f3317198cd214b3a03"
+    },
+    {
+      "path": "packages/core/session/tests/tool-history.spec.ts",
+      "sha256": "acb70fc4a167278dfdac0a1ce9912d8f0a4c9682ce9cd40b4d28aef414a1c555"
+    },
+    {
+      "path": "packages/core/session/tests/typert.spec.ts",
+      "sha256": "7598fd6f19f42c7da1e2051eeeb52c87f13e3cee076f09943825c1d14b33ee44"
+    },
+    {
       "path": "packages/session/session-format/tests/catalog.spec.ts",
       "sha256": "213d7367345534341a278d49ee015b7f368e948a2fd6a3c254f1d8057936a955"
     },
@@ -217,6 +297,2834 @@
         "tests/core/scope/test_store.py::test_scoped_layers_lazy_and_reclaim"
       ],
       "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-adoption-rejects-current-or-future-replacement-endpoints-s",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata > adoption rejects current or future replacement endpoints (%s)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_adoption_rejects_current_or_future_replacement_endpoints"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-adoption-validates-only-local-metadata-not-referenced-history-or-endpoint-order",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata > adoption validates only local metadata, not referenced history or endpoint order",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_adoption_validates_only_local_metadata"
+      ],
+      "notes": "Python can't freeze in place, so adoption returns an equal frozen copy; identity is asserted only for already-frozen input."
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-rejects-known-log-only-s-metadata-even-when-ignorable",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata > rejects known log-only %s metadata even when ignorable",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_rejects_known_log_only_metadata_even_when_ignorable"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-rejects-noncanonical-replace-keys-j",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata >  rejects noncanonical replace keys (%j)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_rejects_noncanonical_replace_keys"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-requires-markers-and-forbids-non-surface-and-assistant-source-event-references",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata >  requires markers and forbids non-surface and assistant source-event references",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_requires_markers_and_forbids_source_event_references"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-requires-surface-intent-on-event-variants-and-forbids-assistant-source-event-references-in-types",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata > requires surface intent on event variants and forbids assistant source-event references in types",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "TypeScript type-level assertion (expectTypeOf) with no runtime behavior."
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-requires-system-placement-and-preserves-system-data-and-source-event-references-on-head-replacements",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata > requires system placement and preserves system data and source-event references on head replacements",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_requires_system_placement_and_preserves_head_replacements"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-local-surface-metadata-retains-opaque-ignorable-s-metadata-without-deriving-messages",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event-local surface metadata > retains opaque ignorable %s metadata without deriving messages",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_retains_opaque_ignorable_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-accepts-absent-optional-fields-nonempty-fields-and-optional-failure-identity",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > accepts absent optional fields, nonempty fields, and optional failure identity",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_accepts_absent_optional_fields_and_failure_identity"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-adopts-an-assistant-message-and-freezes-its-identified-message",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > adopts an assistant message and freezes its identified message",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_adopts_assistant_message_and_freezes_it"
+      ],
+      "notes": "Python can't freeze in place, so adoption returns an equal frozen copy; identity is asserted only for already-frozen input."
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-does-not-publish-rejected-appends-or-seeds-or-change-derived-state",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > does not publish rejected appends or seeds or change derived state",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_does_not_publish_rejected_appends_or_seeds"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-prepares-owned-restored-events-without-publication-s",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > prepares owned restored events without publication (%s)",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_prepares_owned_restored_events_without_publication"
+      ],
+      "notes": "Python can't freeze in place, so adoption returns an equal frozen copy; identity is asserted only for already-frozen input."
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-preserves-nested-header-source-and-data-extras-without-normalizing-accepted-events",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > preserves nested header, source, and data extras without normalizing accepted events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_preserves_nested_extras_without_normalizing"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-rejects-a-non-object-restored-request-config-j",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > rejects a non-object restored request config (%j)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_rejects_non_object_restored_request_config"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-rejects-any-own-header-system-even-when-its-value-is-undefined-at-adoption",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > rejects any own header.system even when its value is undefined at adoption",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_rejects_own_header_system_even_when_none"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-rejects-name-with-a-located-error",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > rejects $name with a located error",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_rejects_invalid_data_with_a_located_error"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-reports-malformed-restored-event-envelopes-without-typeerror-j",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > reports malformed restored event envelopes without TypeError (%j)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_reports_malformed_restored_envelopes_without_type_error"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-restores-system-prompts-only-with-system-prompt-producer-attribution",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > restores system prompts only with system-prompt producer attribution",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_restores_system_prompts_only_with_system_prompt_source"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonical-event-payload-acceptance-updates-the-frozen-request-header-cache-only-for-accepted-snapshots",
+      "source": "packages/core/session/tests/canonical-envelopes.spec.ts::canonical event payload acceptance > updates the frozen request-header cache only for accepted snapshots",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_canonical_envelopes.py::test_updates_request_header_cache_only_for_accepted_snapshots"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derived-message-cache-rebuilds-on-a-surface-replace-and-still-matches-scratch",
+      "source": "packages/core/session/tests/derived-cache.spec.ts::derived-message cache > rebuilds on a surface replace and still matches scratch",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_derived_cache.py::test_rebuilds_on_surface_replace"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derived-message-cache-returns-a-fresh-array-per-call-later-appends-never-grow-a-held-snapshot",
+      "source": "packages/core/session/tests/derived-cache.spec.ts::derived-message cache > returns a fresh array per call: later appends never grow a held snapshot",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_derived_cache.py::test_returns_fresh_list_per_call"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derived-message-cache-stays-deep-equal-to-a-from-scratch-replay-derivation-as-the-log-grows",
+      "source": "packages/core/session/tests/derived-cache.spec.ts::derived-message cache > stays deep-equal to a from-scratch replay derivation as the log grows",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_derived_cache.py::test_stays_equal_to_scratch_replay"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-deriveeventmessage-the-per-event-projection-projects-null-for-events-that-produce-no-message-boundaries-empty-assistant",
+      "source": "packages/core/session/tests/derived-cache.spec.ts::Session.deriveEventMessage — the per-event projection > projects null for events that produce no message (boundaries, empty assistant)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_derived_cache.py::test_projects_none_for_messageless_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-deriveeventmessage-the-per-event-projection-projects-one-appended-event-exactly-as-the-full-derivation-projects-its-node",
+      "source": "packages/core/session/tests/derived-cache.spec.ts::Session.deriveEventMessage — the per-event projection > projects one appended event exactly as the full derivation projects its node",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_derived_cache.py::test_projects_event_like_full_derivation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-deriveeventmessage-the-per-event-projection-reuses-the-logged-event-s-already-frozen-content",
+      "source": "packages/core/session/tests/derived-cache.spec.ts::Session.deriveEventMessage — the per-event projection > reuses the logged event\\'s already frozen content",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_derived_cache.py::test_reuses_frozen_content"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-applies-the-same-binding-check-to-imported-events-and-full-log-surface-folds",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > applies the same binding check to imported events and full-log surface folds",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_applies_binding_check_to_imports_and_folds"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-keeps-an-older-header-binding-through-compound-changes-replacement-restore-and-fork",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > keeps an older header binding through compound changes, replacement, restore, and fork",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_keeps_older_header_binding"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-refuses-a-non-header-or-non-earlier-reference-s-before-append",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > refuses a non-header or non-earlier reference %s before append",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_refuses_non_header_or_non_earlier_reference"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-refuses-an-addition-bound-to-a-tool-less-header",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > refuses an addition bound to a tool-less header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_refuses_addition_bound_to_toolless_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-refuses-an-incomplete-referenced-definition-in-imported-history",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > refuses an incomplete referenced definition in imported history %#",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_refuses_incomplete_referenced_definition"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-refuses-missing-or-ambiguous-historical-tool-names",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > refuses missing or ambiguous historical tool names %#",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_refuses_missing_or_ambiguous_tool_names"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-request-header-references-requires-a-header-exactly-for-additions-and-rejects-inline-definitions",
+      "source": "packages/core/session/tests/developer-header.spec.ts::developer request-header references > requires a header exactly for additions and rejects inline definitions",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_developer_header.py::test_requires_header_exactly_for_additions"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-around-a-surface-replacement-derives-the-compacted-surface-for-a-cut-after-the-replacement",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries around a surface replacement > derives the compacted surface for a cut after the replacement",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_derives_compacted_after_replacement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-around-a-surface-replacement-derives-the-original-message-for-a-cut-before-the-replacement",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries around a surface replacement > derives the original message for a cut before the replacement",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_derives_original_before_replacement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-answers-a-dispatched-call-cut-before-its-result-with-an-unknown-outcome-error-citing-the-tool-call",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > answers a dispatched call cut before its result with an unknown-outcome error citing the tool/call",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_answers_dispatched_call_with_unknown_outcome"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-answers-an-assistant-call-cut-before-its-tool-call-with-a-forked-not-started-error-result",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > answers an assistant call cut before its tool/call with a forked not-started error result",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_answers_not_started_call"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-closes-an-empty-open-turn-with-a-synthetic-turn-end-forked-outside-seedlength",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > closes an empty open turn with a synthetic turn/end {forked} outside seedLength",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_closes_empty_open_turn"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-closes-only-the-turn-when-the-cut-lands-on-a-closed-step-boundary",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > closes only the turn when the cut lands on a closed step boundary",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_closes_only_turn_on_closed_step"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-leaves-a-plugin-bracket-left-open-at-the-cut-untouched-log-only-locks-belong-to-their-owner",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > leaves a plugin bracket left open at the cut untouched (log-only locks belong to their owner)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_leaves_open_plugin_bracket"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-omits-a-failed-assistant-attempt-from-derived-history",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > omits a failed assistant attempt from derived history",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_omits_failed_attempt"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::fork-boundaries-inside-an-open-turn-preserves-a-closed-step-with-an-unanswered-call-turn-ended-s",
+      "source": "packages/core/session/tests/fork.spec.ts::fork boundaries inside an open turn > preserves a closed step with an unanswered call (turn ended: %s)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_preserves_closed_step_with_unanswered_call"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-accepts-every-turn-end-reason-as-an-explicit-fork-boundary",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > accepts every turn/end reason as an explicit fork boundary",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_accepts_every_turn_end_reason"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-forks-an-empty-live-session-as-an-independent-empty-seeded-session",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > forks an empty live session as an independent empty seeded session",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_forks_empty_live_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-forks-from-an-earlier-turn-boundary-even-when-the-source-currently-has-an-open-tail",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > forks from an earlier turn boundary even when the source currently has an open tail",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_forks_from_earlier_boundary"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-forks-the-latest-completed-boundary-by-default-into-detached-frozen-seed-events",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > forks the latest completed boundary by default into detached frozen seed events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_forks_latest_completed_boundary"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-includes-stable-log-only-events-appended-after-a-closed-turn",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > includes stable log-only events appended after a closed turn",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_includes_log_only_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-marks-a-bracket-the-child-inherited-from-a-still-running-parent",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > marks a bracket the child inherited from a still-running parent",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_marks_inherited_bracket"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-a-child-session-id-that-is-already-live-with-a-typed-fork-error",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects a child session id that is already live with a typed fork error",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_live_child_id"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-a-corrupted-live-source-whose-array-index-no-longer-matches-event-seq",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects a corrupted live source whose array index no longer matches event seq",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_corrupted_live_source"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-a-detached-session-object-that-is-not-live-in-ctx-sessions",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects a detached Session object that is not live in ctx.sessions",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_detached_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-a-duplicate-child-session-id-before-validating-the-boundary",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects a duplicate child session id before validating the boundary",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_duplicate_child_before_boundary"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-a-stale-session-object-whose-id-is-live-on-a-different-instance",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects a stale Session object whose id is live on a different instance",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_stale_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-an-unknown-live-session-id",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects an unknown live session id",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_unknown_session_id"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-fork-rejects-invalid-boundaries-before-creating-a-child",
+      "source": "packages/core/session/tests/fork.spec.ts::SessionStore.fork > rejects invalid boundaries before creating a child",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_fork.py::test_rejects_invalid_boundaries"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-annotatesurface-render-badges-union-members-surface-and-everything-else-log-only",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog annotateSurface + render > badges union members surface and everything else log-only",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-annotatesurface-render-hard-errors-on-a-union-member-naming-no-declared-event",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog annotateSurface + render > hard-errors on a union member naming no declared event",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-annotatesurface-render-renders-badges-declaration-fences-and-the-generated-file-header",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog annotateSurface + render > renders badges, declaration fences, and the generated-file header",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collecteventenvelopetypes-extracts-the-envelope-declarations-with-their-complete-jsdoc-in-canonical-order",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectEventEnvelopeTypes > extracts the envelope declarations with their complete JSDoc in canonical order",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collecteventenvelopetypes-hard-errors-on-duplicate-unexported-undocumented-or-mistagged-envelope-declarations",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectEventEnvelopeTypes > hard-errors on duplicate, unexported, undocumented, or mistagged envelope declarations",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collecteventenvelopetypes-hard-errors-when-an-envelope-declaration-is-missing",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectEventEnvelopeTypes > hard-errors when an envelope declaration is missing",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-aggregates-every-violation-into-one-error-instead-of-failing-fast",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > aggregates every violation into one error instead of failing fast",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-collapses-a-newline-separated-multi-line-payload-to-a-valid-one-line-fragment",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > collapses a newline-separated multi-line payload to a valid one-line fragment",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-extracts-a-documented-member-of-the-owning-top-level-interface",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > extracts a documented member of the owning top-level interface",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-extracts-a-member-declaration-merged-via-the-session-module",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > extracts a member declaration-merged via the session module",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-generates-required-interpreter-types-from-plugin-owned-event-declarations",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > generates required interpreter types from plugin-owned event declarations",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-a-member-with-no-description-prose",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on a member with no description prose",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-a-method-form-member-it-still-joins-keyof-sessioneventmap",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on a method-form member (it still joins keyof SessionEventMap)",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-a-non-exported-top-level-interface-even-in-the-owning-package",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on a non-exported top-level interface even in the owning package",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-a-non-literal-member-name",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on a non-literal member name",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-a-property-member-with-no-payload-type-annotation",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on a property member with no payload type annotation",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-a-top-level-interface-outside-the-owning-package",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on a top-level interface outside the owning package",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-an-event-type-in-the-plugin-record-namespace",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on an event type in the plugin record namespace",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-an-extends-clause-inherited-keys-would-escape-the-catalog",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on an extends clause (inherited keys would escape the catalog)",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-an-extra-indented-mode-tag-does-not-leak-into-prose",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on an extra-indented @mode tag (does not leak into prose)",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-on-an-mode-tag-a-log-event-has-no-dispatch-mode",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors on an @mode tag (a log event has no dispatch mode)",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-when-the-owning-interface-is-exported-from-two-files",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors when the owning interface is exported from two files",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectlogevents-hard-errors-when-the-same-event-is-declared-twice",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectLogEvents > hard-errors when the same event is declared twice",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectsurfaceeventtypes-hard-errors-on-a-non-string-literal-union-member",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectSurfaceEventTypes > hard-errors on a non-string-literal union member",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectsurfaceeventtypes-hard-errors-when-no-union-is-declared",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectSurfaceEventTypes > hard-errors when no union is declared",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectsurfaceeventtypes-hard-errors-when-the-union-is-declared-more-than-once",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectSurfaceEventTypes > hard-errors when the union is declared more than once",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::gen-persistence-catalog-collectsurfaceeventtypes-parses-the-literal-union",
+      "source": "packages/core/session/tests/gen-persistence-catalog.spec.ts::gen-persistence-catalog collectSurfaceEventTypes > parses the literal union",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Tests upstream's TypeScript persistence-catalog generator script, not runtime behavior."
+    },
+    {
+      "id": "core/session::isjsonvalue-accepts-dense-arrays-and-plain-objects-including-null-prototype-records",
+      "source": "packages/core/session/tests/json.spec.ts::isJsonValue > accepts dense arrays and plain objects, including null-prototype records",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_accepts_dense_arrays_and_plain_objects"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::isjsonvalue-recognizes-supported-scalars-and-rejects-every-lossy-scalar-case",
+      "source": "packages/core/session/tests/json.spec.ts::isJsonValue > recognizes supported scalars and rejects every lossy scalar case",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_recognizes_supported_scalars_and_rejects_lossy_scalars"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::isjsonvalue-rejects-sparse-or-decorated-arrays-invalid-children-exotic-objects-and-cycles",
+      "source": "packages/core/session/tests/json.spec.ts::isJsonValue > rejects sparse or decorated arrays, invalid children, exotic objects, and cycles",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_predicate_rejects_exotic_objects_cycles_and_invalid_children"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-accepts-deeply-nested-valid-json-without-using-the-javascript-call-stack",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > accepts deeply nested valid JSON without using the JavaScript call stack",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_accepts_deeply_nested_json_without_recursion"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-accepts-intrinsic-containers-with-webkit-native-constructor-formatting-across-realms",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > accepts intrinsic containers with WebKit native constructor formatting across realms",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Python has no JavaScript realms or Function.prototype.toString."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-accepts-intrinsic-plain-containers-from-another-javascript-realm",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > accepts intrinsic plain containers from another JavaScript realm",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Python has no JavaScript realms or Function.prototype.toString."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-copies-the-complete-json-scalar-vocabulary-and-rejects-unsupported-scalars",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > copies the complete JSON scalar vocabulary and rejects unsupported scalars",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_copies_json_scalars_and_rejects_unsupported_scalars"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-detaches-every-occurrence-of-a-shared-child-in-a-wide-array",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > detaches every occurrence of a shared child in a wide array",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_detaches_every_occurrence_of_a_shared_child"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-does-not-read-an-array-slot-outside-a-fractional-proxy-length-throwing-slot-s",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > does not read an array slot outside a fractional Proxy length, throwing slot=%s",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Python has no Proxy or coerced array length."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-keeps-captured-keys-and-lengths-with-depth-first-getter-reads-in-s-mode",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > keeps captured keys and lengths with depth-first getter reads in %s mode",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-preserves-a-literal-proto-json-key-without-changing-the-snapshot-prototype",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > preserves a literal __proto__ JSON key without changing the snapshot prototype",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_preserves_literal_proto_key"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-propagates-a-throwing-getter-after-reading-it-once",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > propagates a throwing getter after reading it once",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-reads-each-object-value-and-array-slot-once-while-materializing",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > reads each object value and array slot once while materializing",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-recursively-detaches-dense-arrays-and-plain-or-null-prototype-objects",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > recursively detaches dense arrays and plain or null-prototype objects",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_recursively_detaches_arrays_and_objects"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-rejects-an-array-slot-deleted-by-an-earlier-getter-in-s-mode",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > rejects an array slot deleted by an earlier getter in %s mode",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-rejects-exotic-containers-sparse-or-decorated-arrays-cycles-and-invalid-children",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > rejects exotic containers, sparse or decorated arrays, cycles, and invalid children",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_json.py::test_snapshot_rejects_exotic_containers_cycles_and_invalid_children"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::snapshotjsonvalue-and-isjsonvalue-uses-one-captured-proxy-index-schedule-in-s-mode",
+      "source": "packages/core/session/tests/json.spec.ts::snapshotJsonValue and isJsonValue > uses one captured Proxy index schedule in %s mode",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Python has no Proxy or coerced array length."
+    },
+    {
+      "id": "core/session::plugin-owned-message-projections-applies-a-supplied-interpreter-to-a-loaded-window-with-absolute-sequences",
+      "source": "packages/core/session/tests/message-projections.spec.ts::plugin-owned message projections > applies a supplied interpreter to a loaded window with absolute sequences",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_message_projections.py::test_applies_interpreter_to_loaded_window"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-owned-message-projections-applies-generic-decisions-atomically-and-replays-them-through-detached-folds",
+      "source": "packages/core/session/tests/message-projections.spec.ts::plugin-owned message projections > applies generic decisions atomically and replays them through detached folds",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_message_projections.py::test_applies_decisions_atomically_and_replays"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-owned-message-projections-does-not-retain-an-interpreter-for-a-candidate-that-never-committed",
+      "source": "packages/core/session/tests/message-projections.spec.ts::plugin-owned message projections > does not retain an interpreter for a candidate that never committed",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_message_projections.py::test_does_not_retain_uncommitted_interpreter"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-owned-message-projections-refuses-required-events-when-no-interpreter-is-supplied",
+      "source": "packages/core/session/tests/message-projections.spec.ts::plugin-owned message projections > refuses required events when no interpreter is supplied",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_message_projections.py::test_refuses_required_events_without_interpreter"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-owned-message-projections-registers-by-fiber-and-refuses-cached-or-pending-decisions-after-disposal",
+      "source": "packages/core/session/tests/message-projections.spec.ts::plugin-owned message projections > registers by fiber and refuses cached or pending decisions after disposal",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_message_projections.py::test_registers_by_fiber_and_refuses_after_disposal"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-carries-records-through-a-snapshot-restore-a-storage-reopen-and-a-fork",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > carries records through a snapshot restore, a storage reopen, and a fork",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_carries_records_through_restore_reopen_and_fork"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-commits-an-ignorable-record-outside-the-model-visible-surface",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > commits an ignorable record outside the model-visible surface",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_commits_ignorable_record_outside_surface"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-does-not-read-a-known-event-even-one-marked-ignorable",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > does not read a known event, even one marked ignorable",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_does_not_read_known_event_even_when_ignorable"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-publishes-a-record-to-session-event-observers-and-contains-a-reentrant-record",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > publishes a record to session/event observers and contains a reentrant record",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_publishes_record_and_contains_reentrant_record"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-reads-records-back-and-leaves-every-other-event-unread",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > reads records back and leaves every other event unread",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_reads_records_back_and_leaves_other_events_unread"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-rejects-data-that-is-not-losslessly-json-serializable-without-changing-the-log",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > rejects data that is not losslessly JSON-serializable without changing the log",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_rejects_lossy_data_without_changing_log"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-rejects-the-record-type-j-without-changing-the-log",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > rejects the record type %j without changing the log",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_rejects_record_type_without_changing_log"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::plugin-records-snapshots-an-interface-typed-request-with-readonly-messages",
+      "source": "packages/core/session/tests/plugin-records.spec.ts::plugin records > snapshots an interface-typed request with readonly messages",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_plugin_records.py::test_snapshots_interface_typed_request"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionpreparation-disposes-a-preparation-without-provider-state",
+      "source": "packages/core/session/tests/preparation.spec.ts::SessionPreparation > disposes a preparation without provider state",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_preparation.py::test_disposes_without_provider_state"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionpreparation-retains-the-exact-session-and-releases-provider-state-only-once",
+      "source": "packages/core/session/tests/preparation.spec.ts::SessionPreparation > retains the exact Session and releases provider state only once",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_preparation.py::test_retains_session_and_releases_once"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-properties-derivemessages-is-deterministic-same-log-identical-derivation",
+      "source": "packages/core/session/tests/properties.spec.ts::Session properties > deriveMessages is deterministic (same log → identical derivation)",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_properties.py::test_derive_messages_is_deterministic"
+      ],
+      "notes": "fast-check properties become seeded random.Random generators with 100 runs each and no shrinking."
+    },
+    {
+      "id": "core/session::session-properties-every-derived-message-has-a-known-role-and-is-frozen-append-only-contract",
+      "source": "packages/core/session/tests/properties.spec.ts::Session properties > every derived message has a known role and is frozen (append-only contract)",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_properties.py::test_derived_messages_have_known_role_and_are_frozen"
+      ],
+      "notes": "fast-check properties become seeded random.Random generators with 100 runs each and no shrinking."
+    },
+    {
+      "id": "core/session::session-properties-non-message-events-never-affect-derived-history-any-interleaving",
+      "source": "packages/core/session/tests/properties.spec.ts::Session properties > non-message events never affect derived history (any interleaving)",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_properties.py::test_non_message_events_never_affect_history"
+      ],
+      "notes": "fast-check properties become seeded random.Random generators with 100 runs each and no shrinking."
+    },
+    {
+      "id": "core/session::session-properties-replay-from-seed-reproduces-the-derivation-identically",
+      "source": "packages/core/session/tests/properties.spec.ts::Session properties > replay-from-seed reproduces the derivation identically",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_properties.py::test_replay_reproduces_derivation"
+      ],
+      "notes": "fast-check properties become seeded random.Random generators with 100 runs each and no shrinking."
+    },
+    {
+      "id": "core/session::session-properties-replaying-a-log-that-already-ends-in-end-seed-adds-no-further-marker",
+      "source": "packages/core/session/tests/properties.spec.ts::Session properties > replaying a log that already ends in end-seed adds no further marker",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_properties.py::test_replaying_end_seed_log_adds_no_marker"
+      ],
+      "notes": "fast-check properties become seeded random.Random generators with 100 runs each and no shrinking."
+    },
+    {
+      "id": "core/session::session-properties-seq-is-strictly-monotonic-and-zero-based-contiguous",
+      "source": "packages/core/session/tests/properties.spec.ts::Session properties > seq is strictly monotonic and zero-based contiguous",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_properties.py::test_seq_is_monotonic_and_contiguous"
+      ],
+      "notes": "fast-check properties become seeded random.Random generators with 100 runs each and no shrinking."
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-closes-an-open-step-before-the-turn-step-end-then-turn-end",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > closes an open step before the turn (step/end then turn/end)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_open_step_before_turn"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-closes-an-open-turn-with-no-open-step-turn-end-with-the-cause-reason-only",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > closes an open turn with no open step (turn/end with the cause reason only)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_open_turn_without_step"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-does-not-synthesize-a-result-for-a-tool-call-that-already-has-one",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > does NOT synthesize a result for a tool-call that already has one",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_answered_call_gets_no_result"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-handles-tool-call-without-a-matching-assistant-message-entry-gracefully",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > handles tool/call without a matching assistant/message entry gracefully",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_orphan_tool_call"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-marks-an-assistant-tool-request-with-no-recorded-call-as-not-started",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > marks an assistant tool request with no recorded call as not started",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_tool_request_not_started"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-preserves-an-unanswered-assistant-call-after-the-owning-step-already-closed",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > preserves an unanswered assistant call after the owning step already closed",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_unanswered_call_after_closed_step"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-returns-nothing-for-a-balanced-log-ends-on-turn-end",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > returns nothing for a balanced log (ends on turn/end)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_balanced_log"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-returns-nothing-for-an-empty-log",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > returns nothing for an empty log",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_empty_log"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-synthesized-tool-result-carries-surfaceop-and-sourceeventseqs-when-tool-call-was-logged",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > synthesized tool/result carries surfaceOp and sourceEventSeqs when tool/call was logged",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_result_carries_surface_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-synthesizes-a-result-for-each-of-multiple-unanswered-calls-in-log-order",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > synthesizes a result for each of multiple unanswered calls, in log order",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_result_for_each_unanswered_call"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-cause-o-synthesizes-results-only-for-the-still-open-turn-not-a-committed-earlier-turn",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers (cause %o) > synthesizes results only for the still-open turn, not a committed earlier turn",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_results_only_for_open_turn"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-model-visible-wording-cause-o-started-s-pins-its-exact-text",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers model-visible wording > cause %o, started=%s pins its exact text",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_pins_exact_text"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-model-visible-wording-interruptedturnclosers-is-the-public-interrupted-cause-entry-cause-selection-stays-internal",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers model-visible wording > interruptedTurnClosers is the public interrupted-cause entry (cause selection stays internal)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_interrupted_turn_closers_is_public_entry"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::openturnclosers-model-visible-wording-shares-the-error-codes-across-causes-they-state-the-same-call-lifecycle-fact",
+      "source": "packages/core/session/tests/repair.spec.ts::openTurnClosers model-visible wording > shares the error codes across causes: they state the same call lifecycle fact",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_shares_error_codes_across_causes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::toolcallrecovery-does-not-acknowledge-a-pending-call-with-kind-result-reusing-its-id",
+      "source": "packages/core/session/tests/repair.spec.ts::ToolCallRecovery > does not acknowledge a pending call with $kind result reusing its id",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_recovery_ignores_non_matching_results"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::toolcallrecovery-observes-a-live-step-without-earlier-history-and-retains-repairs-until-their-commits-arrive",
+      "source": "packages/core/session/tests/repair.spec.ts::ToolCallRecovery > observes a live step without earlier history and retains repairs until their commits arrive",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_repair.py::test_recovery_observes_live_step"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::canonicalheader-normalizes-empty-optional-fields-to-absence-and-preserves-populated-fields",
+      "source": "packages/core/session/tests/request-header.spec.ts::canonicalHeader > normalizes empty optional fields to absence and preserves populated fields",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_canonical_header_normalizes_empty_fields"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldrequestheader-returns-the-supplied-baseline-when-no-snapshot-follows",
+      "source": "packages/core/session/tests/request-header.spec.ts::foldRequestHeader > returns the supplied baseline when no snapshot follows",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_fold_returns_baseline"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldrequestheader-takes-the-latest-full-snapshot-and-skips-unrelated-events",
+      "source": "packages/core/session/tests/request-header.spec.ts::foldRequestHeader > takes the latest full snapshot and skips unrelated events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_fold_takes_latest_snapshot"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::headerequals-compares-every-canonical-field-and-preserves-tool-order",
+      "source": "packages/core/session/tests/request-header.spec.ts::headerEquals > compares every canonical field and preserves tool order",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_header_equals_compares_every_field"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::headerequals-treats-absent-and-empty-tool-arrays-as-equivalent-canonical-absence",
+      "source": "packages/core/session/tests/request-header.spec.ts::headerEquals > treats absent and empty tool arrays as equivalent canonical absence",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_header_equals_absent_and_empty_tools"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-requestcontext-advances-incrementally-across-appends-and-skips-unrelated-events",
+      "source": "packages/core/session/tests/request-header.spec.ts::Session.requestContext > advances incrementally across appends and skips unrelated events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_request_context_advances_incrementally"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-requestcontext-exposes-a-frozen-record-so-a-reader-cannot-desync-later-comparisons",
+      "source": "packages/core/session/tests/request-header.spec.ts::Session.requestContext > exposes a frozen record so a reader cannot desync later comparisons",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_request_context_is_frozen"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-requestcontext-folds-a-batch-appended-between-two-reads",
+      "source": "packages/core/session/tests/request-header.spec.ts::Session.requestContext > folds a batch appended between two reads",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_request_context_folds_batch"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-requestcontext-folds-a-seeded-log-on-first-read-taking-the-last-record",
+      "source": "packages/core/session/tests/request-header.spec.ts::Session.requestContext > folds a seeded log on first read, taking the last record",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_request_context_folds_seeded_log"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-requestcontext-reads-undefined-before-any-record-exists",
+      "source": "packages/core/session/tests/request-header.spec.ts::Session.requestContext > reads undefined before any record exists",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_request_header.py::test_request_context_undefined_before_record"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-dispatch-carriers-a-bare-session-dispatches-subject-less-scoped-listeners-never-hear-it",
+      "source": "packages/core/session/tests/scoped.spec.ts::session dispatch carriers > a bare session dispatches subject-less: scoped listeners never hear it",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_bare_session_dispatches_subject_less"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-dispatch-carriers-a-session-entered-through-a-scoped-context-dispatches-its-events-in-that-scope",
+      "source": "packages/core/session/tests/scoped.spec.ts::session dispatch carriers > a session entered through a scoped context dispatches its events in that scope",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_scoped_session_dispatches_events_in_its_scope"
+      ],
+      "notes": "deepseek-cordis services keep their own context, so the test names the calling context with ctx= (upstream gets it from the ctx.sessions view); see SessionStore.caller."
+    },
+    {
+      "id": "core/session::session-dispatch-carriers-reuses-the-captured-owner-carrier-for-the-paired-disposal-notification",
+      "source": "packages/core/session/tests/scoped.spec.ts::session dispatch carriers > reuses the captured owner carrier for the paired disposal notification",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_reuses_owner_carrier_for_disposal"
+      ],
+      "notes": "deepseek-cordis services keep their own context, so the test names the calling context with ctx= (upstream gets it from the ctx.sessions view); see SessionStore.caller."
+    },
+    {
+      "id": "core/session::sessions-flush-allows-an-ordinary-flush-with-no-listeners",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > allows an ordinary flush with no listeners",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_allows_flush_with_no_listeners"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessions-flush-clears-a-detached-carrier-and-rejects-stale-flushes",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > clears a detached carrier and rejects stale flushes",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_clears_detached_carrier_and_rejects_stale_flushes"
+      ],
+      "notes": "deepseek-cordis services keep their own context, so the test names the calling context with ctx= (upstream gets it from the ctx.sessions view); see SessionStore.caller."
+    },
+    {
+      "id": "core/session::sessions-flush-dispatches-session-flush-with-the-owning-carrier-and-awaits-all-listeners",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > dispatches session/flush with the owning carrier and awaits all listeners",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_flush_uses_owning_carrier_and_awaits_listeners"
+      ],
+      "notes": "deepseek-cordis services keep their own context, so the test names the calling context with ctx= (upstream gets it from the ctx.sessions view); see SessionStore.caller."
+    },
+    {
+      "id": "core/session::sessions-flush-does-not-let-a-synchronous-flush-failure-starve-later-listeners",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > does not let a synchronous flush failure starve later listeners",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_synchronous_flush_failure_does_not_starve_listeners"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessions-flush-keyof-sanity-distinct-scopes-carry-distinct-keys",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > keyOf sanity: distinct scopes carry distinct keys",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_distinct_scopes_carry_distinct_keys"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessions-flush-propagates-a-rejecting-flush-listener-the-caller-owns-the-failure-policy",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > propagates a rejecting flush listener (the caller owns the failure policy)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_propagates_rejecting_flush_listener"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessions-flush-rejects-a-never-entered-session-instead-of-inventing-a-carrier",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > rejects a never-entered session instead of inventing a carrier",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_rejects_flush_of_never_entered_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessions-flush-reports-a-participating-listener-after-it-succeeds",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > reports a participating listener after it succeeds",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_reports_participating_listener"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessions-flush-waits-for-slower-flush-listeners-before-reporting-another-listener-failure",
+      "source": "packages/core/session/tests/scoped.spec.ts::sessions.flush() > waits for slower flush listeners before reporting another listener failure",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_scoped.py::test_waits_for_slower_listeners_before_reporting_failure"
+      ],
+      "notes": "flush is a coroutine, so the test drives it as a task and yields to the loop instead of awaiting one microtask."
+    },
+    {
+      "id": "core/session::sourceeventseqs-ranges-does-not-impose-a-persistence-only-source-event-length-limit",
+      "source": "packages/core/session/tests/seq-ranges.spec.ts::sourceEventSeqs ranges > does not impose a persistence-only source-event length limit",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_seq_ranges.py::test_no_persistence_only_length_limit"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sourceeventseqs-ranges-encodes-only-profitable-increasing-runs",
+      "source": "packages/core/session/tests/seq-ranges.spec.ts::sourceEventSeqs ranges > encodes only profitable increasing runs",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_seq_ranges.py::test_encodes_only_profitable_increasing_runs"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sourceeventseqs-ranges-rejects-malformed-or-impossible-expansions",
+      "source": "packages/core/session/tests/seq-ranges.spec.ts::sourceEventSeqs ranges > rejects malformed or impossible expansions",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_seq_ranges.py::test_rejects_malformed_or_impossible_expansions"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sourceeventseqs-ranges-round-trips-j",
+      "source": "packages/core/session/tests/seq-ranges.spec.ts::sourceEventSeqs ranges > round-trips %j",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_seq_ranges.py::test_round_trips"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-accepts-child-closers-after-the-inherited-marker-and-rejects-a-later-inherited-marker",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > accepts child closers after the inherited marker and rejects a later inherited marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_accepts_child_closers_rejects_later_marker"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-admits-non-negative-safe-integers-into-distinct-sequence-roles",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > admits non-negative safe integers into distinct sequence roles",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_admits_non_negative_safe_integers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-appends-child-owned-setup-after-the-constructor-owned-inherited-marker",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > appends child-owned setup after the constructor-owned inherited marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_appends_child_setup_after_inherited_marker"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-keeps-event-identities-separate-from-log-offsets",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > keeps event identities separate from log offsets",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_keeps_event_identities_separate"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-keeps-fork-lineage-outside-the-logical-header-integer-fields",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > keeps fork lineage outside the logical header integer fields",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_keeps_fork_lineage_outside_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-rejects-a-negative-zero-seq-at-the-restored-event-boundary",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > rejects a negative-zero seq at the restored event boundary",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_rejects_negative_zero_restored_seq"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-rejects-invalid-session-sequence-positions-s",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > rejects invalid Session sequence positions (%s)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_rejects_invalid_sequence_positions"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-requires-a-separately-supplied-inherited-cut-for-a-seeded-header",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > requires a separately supplied inherited cut for a seeded header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_requires_inherited_cut_for_seeded_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-requires-an-explicit-constructor-seed-for-seeded-lineage",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > requires an explicit constructor seed for seeded lineage",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_requires_explicit_seed_for_seeded_lineage"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-requires-the-exact-cut-to-agree-with-lineage-and-log-length",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > requires the exact cut to agree with lineage and log length",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_requires_cut_to_agree_with_lineage"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-log-positions-revalidates-a-supplied-inherited-event-count-s",
+      "source": "packages/core/session/tests/sequence-types.spec.ts::Session log positions > revalidates a supplied inherited event count (%s)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_sequence_types.py::test_revalidates_supplied_inherited_event_count"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-accepts-a-null-prototype-seed-event-shell-as-a-plain-json-record",
+      "source": "packages/core/session/tests/session.spec.ts::Session > accepts a null-prototype seed event shell as a plain JSON record",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "JavaScript null-prototype objects have no Python counterpart; plain dict seeds are covered by other cases."
+    },
+    {
+      "id": "core/session::session-accepts-a-well-formed-contiguous-serializable-seed",
+      "source": "packages/core/session/tests/session.spec.ts::Session > accepts a well-formed contiguous serializable seed",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_accepts_well_formed_seed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-accepts-and-round-trips-a-max-tokens-turn-end-reason",
+      "source": "packages/core/session/tests/session.spec.ts::Session > accepts and round-trips a max-tokens turn/end reason",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_round_trips_max_tokens_reason"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-accepts-dense-arrays-and-nested-plain-objects",
+      "source": "packages/core/session/tests/session.spec.ts::Session > accepts dense arrays and nested plain objects",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_accepts_dense_arrays_and_nested_objects"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-adds-seed-context-when-surface-validation-throws-s",
+      "source": "packages/core/session/tests/session.spec.ts::Session > adds seed context when surface validation throws %s",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_adds_seed_context_when_surface_validation_throws"
+      ],
+      "notes": "Only the Error row applies: Python can raise only exceptions."
+    },
+    {
+      "id": "core/session::session-adopts-a-system-message-by-freezing-its-message",
+      "source": "packages/core/session/tests/session.spec.ts::Session > adopts a system/message by freezing its message",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_adopts_system_message_by_freezing"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-adopts-developer-messages-in-place-and-freezes-their-nested-tool-changes",
+      "source": "packages/core/session/tests/session.spec.ts::Session > adopts developer messages in place and freezes their nested tool changes",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_adopts_developer_messages_and_freezes_tool_changes"
+      ],
+      "notes": "Python can't freeze in place, so adoption returns an equal frozen copy; identity is asserted only for already-frozen input."
+    },
+    {
+      "id": "core/session::session-adopts-exclusively-owned-messages-in-place-and-keeps-snapshots-detached",
+      "source": "packages/core/session/tests/session.spec.ts::Session > adopts exclusively owned messages in place and keeps snapshots detached",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_adopts_owned_messages_and_detaches_snapshots"
+      ],
+      "notes": "Python can't freeze in place, so adoption returns an equal frozen copy; identity is asserted only for already-frozen input."
+    },
+    {
+      "id": "core/session::session-deep-freezes-seeded-and-appended-event-snapshots",
+      "source": "packages/core/session/tests/session.spec.ts::Session > deep-freezes seeded and appended event snapshots",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_deep_freezes_seeded_and_appended_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-derives-message-history-from-the-event-log",
+      "source": "packages/core/session/tests/session.spec.ts::Session > derives message history from the event log",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_derives_message_history"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-detaches-and-freezes-an-explicitly-supplied-session-header",
+      "source": "packages/core/session/tests/session.spec.ts::Session > detaches and freezes an explicitly supplied session header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_detaches_and_freezes_supplied_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-exposes-one-stable-readonly-surface-view",
+      "source": "packages/core/session/tests/session.spec.ts::Session > exposes one stable readonly surface view",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_exposes_one_stable_surface_view"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-isolates-the-log-from-mutation-through-a-derived-message-append-only-contract",
+      "source": "packages/core/session/tests/session.spec.ts::Session > isolates the log from mutation through a derived message (append-only contract)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_isolates_log_from_derived_message_mutation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-keeps-the-exact-identified-context-message-in-durable-history-and-projection",
+      "source": "packages/core/session/tests/session.spec.ts::Session > keeps the exact identified context message in durable history and projection",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_keeps_exact_identified_context_message"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-marks-an-explicitly-empty-seed-without-marking-a-fresh-session",
+      "source": "packages/core/session/tests/session.spec.ts::Session > marks an explicitly empty seed without marking a fresh session",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_marks_explicitly_empty_seed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-reads-a-nested-append-data-getter-once-and-stores-its-first-json-value",
+      "source": "packages/core/session/tests/session.spec.ts::Session > reads a nested append-data getter once and stores its first JSON value",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::session-reads-a-nested-append-metadata-getter-once-and-stores-its-first-json-value",
+      "source": "packages/core/session/tests/session.spec.ts::Session > reads a nested append-metadata getter once and stores its first JSON value",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::session-reads-a-nested-seed-data-getter-once-and-stores-its-first-json-value",
+      "source": "packages/core/session/tests/session.spec.ts::Session > reads a nested seed-data getter once and stores its first JSON value",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::session-reads-a-nested-seed-metadata-getter-once-and-stores-its-first-json-value",
+      "source": "packages/core/session/tests/session.spec.ts::Session > reads a nested seed-metadata getter once and stores its first JSON value",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Uses JavaScript accessor properties; Python dict values are not computed and only exact dict/list containers are lossless JSON."
+    },
+    {
+      "id": "core/session::session-reads-each-seed-array-entry-once-so-validation-and-storage-use-the-same-event",
+      "source": "packages/core/session/tests/session.spec.ts::Session > reads each seed array entry once so validation and storage use the same event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_reads_each_seed_entry_once"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-reads-one-event-without-materializing-an-array-and-snapshots-half-open-ranges",
+      "source": "packages/core/session/tests/session.spec.ts::Session > reads one event without materializing an array and snapshots half-open ranges",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_reads_one_event_and_snapshots_ranges"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-a-surface-eligible-append-with-no-surfaceop-marker-runtime-guard-for-the-union-widening-loophole",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects a surface-eligible append with no surfaceOp marker (runtime guard for the union-widening loophole)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_surface_eligible_append_without_marker"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-an-exotic-non-json-or-mismatched-supplied-header",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects an exotic, non-JSON, or mismatched supplied header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_exotic_non_json_or_mismatched_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-an-exotic-seed-event-shell-before-spreading-erases-its-prototype",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects an exotic seed event shell before spreading erases its prototype",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_exotic_seed_event_shell"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-event-specific-malformed-message-shapes-on-seed-load",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects event-specific malformed message shapes on seed/load",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_malformed_message_shapes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-exotic-seed-metadata-before-cloning-can-erase-its-prototype",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects exotic seed metadata before cloning can erase its prototype",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_exotic_seed_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-exotic-surface-metadata-before-cloning-can-erase-its-prototype",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects exotic surface metadata before cloning can erase its prototype",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_exotic_append_surface_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-historical-or-malformed-request-header-lifecycle-markers-on-seed-load",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects historical or malformed request-header lifecycle markers on seed/load",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_malformed_request_header_markers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-invalid-plain-surface-metadata-shapes-at-append",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects invalid plain surface metadata shapes at append",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_invalid_append_surface_shapes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-invalid-scalar-fields-in-an-explicitly-supplied-header",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects invalid scalar fields in an explicitly supplied header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_invalid_scalar_header_fields"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-non-json-serializable-event-data-at-the-source-incl-sparse-arrays",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects non-JSON-serializable event data at the source (incl. sparse arrays)",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_non_json_event_data"
+      ],
+      "notes": "JavaScript-only values become Python counterparts (2**64, a lambda, a class instance, a set, inf/nan); undefined and sparse-array rows have none."
+    },
+    {
+      "id": "core/session::session-rejects-non-json-surface-metadata-before-appending-the-event",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects non-JSON surface metadata before appending the event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_non_json_append_surface_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-non-json-surface-metadata-in-a-seed-event",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects non-JSON surface metadata in a seed event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_non_json_seed_surface_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-pre-provider-request-headers-and-assistant-messages-on-seed-load",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects pre-provider request headers and assistant messages on seed/load",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_pre_provider_seed_shapes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-seed-records-with-invalid-fixed-envelope-fields",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects seed records with invalid fixed-envelope fields",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_invalid_seed_envelopes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-rejects-surface-metadata-on-non-surface-append-and-seed-events",
+      "source": "packages/core/session/tests/session.spec.ts::Session > rejects surface metadata on non-surface append and seed events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_surface_metadata_on_non_surface_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-renders-injected-context-and-user-messages-as-plain-user-content",
+      "source": "packages/core/session/tests/session.spec.ts::Session > renders injected-context and user messages as plain user content",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_renders_context_and_user_messages"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-replays-identically-from-a-seeded-event-log",
+      "source": "packages/core/session/tests/session.spec.ts::Session > replays identically from a seeded event log",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_replays_identically_from_seed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-retains-opaque-logical-header-metadata-except-the-physical-v0-seed-field",
+      "source": "packages/core/session/tests/session.spec.ts::Session > retains opaque logical header metadata except the physical v0 seed field",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_retains_opaque_header_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-returns-cached-frozen-event-array-snapshots-that-do-not-grow-after-append",
+      "source": "packages/core/session/tests/session.spec.ts::Session > returns cached frozen event-array snapshots that do not grow after append",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_returns_cached_frozen_event_snapshots"
+      ],
+      "notes": "The frozen snapshot is a tuple, which has no append, instead of a frozen array whose push throws."
+    },
+    {
+      "id": "core/session::session-round-trips-a-non-empty-reasoning-effort-and-rejects-invalid-durable-values",
+      "source": "packages/core/session/tests/session.spec.ts::Session > round-trips a non-empty reasoning effort and rejects invalid durable values",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_round_trips_reasoning_effort"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-round-trips-adapter-default-markers-and-rejects-invalid-durable-values",
+      "source": "packages/core/session/tests/session.spec.ts::Session > round-trips adapter-default markers and rejects invalid durable values",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_round_trips_adapter_default_markers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-round-trips-an-aborted-turn-with-its-cancellation-cause",
+      "source": "packages/core/session/tests/session.spec.ts::Session > round-trips an aborted turn with its cancellation cause",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_round_trips_aborted_turn"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-snapshots-append-data-mutating-the-passed-object-after-append-does-not-affect-session-snapshotevents",
+      "source": "packages/core/session/tests/session.spec.ts::Session > snapshots append data: mutating the passed object after append does not affect session.snapshotEvents()",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_snapshots_append_data"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-snapshots-message-events-without-validating-plugin-owned-block-details",
+      "source": "packages/core/session/tests/session.spec.ts::Session > snapshots message events without validating plugin-owned block details",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_snapshots_message_events_without_plugin_block_validation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-snapshots-the-seed-mutating-the-original-after-construction-does-not-affect-session-snapshotevents",
+      "source": "packages/core/session/tests/session.spec.ts::Session > snapshots the seed: mutating the original after construction does not affect session.snapshotEvents()",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_snapshots_the_seed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-validates-assistant-settlement-fields-without-replaying-embedded-streams",
+      "source": "packages/core/session/tests/session.spec.ts::Session > validates Assistant settlement fields without replaying embedded streams",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_validates_assistant_settlement_fields"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-validates-message-shape-before-adopting-ownership",
+      "source": "packages/core/session/tests/session.spec.ts::Session > validates message shape before adopting ownership",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_validates_message_shape_before_adopting"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-validates-seed-events-rejects-a-non-contiguous-seq",
+      "source": "packages/core/session/tests/session.spec.ts::Session > validates seed events: rejects a non-contiguous seq",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_non_contiguous_seed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-validates-seed-events-rejects-a-non-json-serializable-seed",
+      "source": "packages/core/session/tests/session.spec.ts::Session > validates seed events: rejects a non-JSON-serializable seed",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_non_json_seed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-validates-seed-events-rejects-a-surface-eligible-event-missing-its-surfaceop-marker",
+      "source": "packages/core/session/tests/session.spec.ts::Session > validates seed events: rejects a surface-eligible event missing its surfaceOp marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_seed_event_missing_surface_marker"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-a-bare-session-constructed-without-the-store-still-exposes-a-current-version-header",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > a bare Session() constructed without the store still exposes a current-version header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_bare_session_exposes_current_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-attaches-cwd-and-parentsession-from-meta-to-the-header",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > attaches cwd and parentSession from meta to the header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_attaches_cwd_and_parent_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-attaches-subagent-origin-and-delegationdepth-from-meta-to-the-header",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > attaches subagent origin and delegationDepth from meta to the header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_attaches_origin_and_delegation_depth"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-contains-a-reentrant-observer-append-without-reordering-later-observers",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > contains a reentrant observer append without reordering later observers",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_contains_reentrant_observer_append"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-contains-internal-dispatch-failure-after-session-detachment",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > contains internal dispatch failure after session detachment",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_contains_internal_dispatch_failure_after_detach"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-contains-session-event-observer-failures-after-the-append-commit-point",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > contains session/event observer failures after the append commit point",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_contains_session_event_observer_failures"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-contains-synchronous-and-async-session-disposed-listener-failures-per-observer",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > contains synchronous and async session/disposed listener failures per observer",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_contains_disposed_listener_failures"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-creates-sessions-emits-session-created-and-session-event",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > creates sessions, emits session/created and session/event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_creates_sessions_and_emits_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-defers-a-reentrant-detach-until-the-creation-dispatch-unwinds",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > defers a reentrant detach until the creation dispatch unwinds",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_defers_reentrant_detach_during_creation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-defers-detach-through-dispatch-resolution-commit-and-observer-publication",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > defers detach through dispatch resolution, commit, and observer publication",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_defers_detach_through_append_publication"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-detaches-sessions-when-the-creating-fiber-is-disposed-hmr-safety",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > detaches sessions when the creating fiber is disposed (HMR safety)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_detaches_sessions_when_fiber_disposed"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-does-not-let-internal-dispatch-replace-the-disposed-callback-tuple",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > does not let internal dispatch replace the disposed callback tuple",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_internal_dispatch_cannot_replace_disposed_tuple"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-does-not-publish-a-surface-transition-rejected-by-internal-dispatch",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > does not publish a surface transition rejected by internal dispatch",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejected_surface_transition_not_published"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-enter-rejects-a-stale-prepared-session-whose-id-is-already-live-no-overwrite",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > enter() rejects a stale prepared session whose id is already live (no overwrite)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_enter_rejects_stale_prepared_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-observes-async-session-created-rejection-without-rolling-back-or-starving-peers",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > observes async session/created rejection without rolling back or starving peers",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_observes_async_created_rejection"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-pairs-a-partial-session-created-announcement-with-disposal-during-rollback",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > pairs a partial session/created announcement with disposal during rollback",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_pairs_partial_announcement_with_disposal"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-prepare-enter-announce-register-a-session-and-emit-session-created",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > prepare() + enter() + announce() register a session and emit session/created",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_prepare_enter_announce_lifecycle"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-prevents-simultaneous-attachment-of-one-session-object-to-two-stores",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > prevents simultaneous attachment of one session object to two stores",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_prevents_attachment_to_two_stores"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-rejects-a-non-absolute-meta-cwd",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > rejects a non-absolute meta.cwd",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_relative_meta_cwd"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-rejects-direct-and-reentrant-repeat-announcements-to-preserve-one-lifecycle-pair",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > rejects direct and reentrant repeat announcements to preserve one lifecycle pair",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_repeat_announcements"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-rejects-duplicate-ids-and-supports-seeding",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > rejects duplicate ids and supports seeding",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_duplicate_ids_and_supports_seeding"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-rejects-non-json-and-invalid-scalar-session-metadata",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > rejects non-JSON and invalid scalar session metadata",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rejects_invalid_session_metadata"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-resolves-session-event-dispatch-before-commit-so-instrumentation-failure-cannot-hide-a-logged-event",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > resolves session/event dispatch before commit so instrumentation failure cannot hide a logged event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_dispatch_resolution_failure_blocks_commit"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-rolls-back-create-when-its-owner-unloads-from-session-created",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > rolls back create when its owner unloads from session/created",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_rolls_back_create_when_owner_unloads"
+      ],
+      "notes": "deepseek-cordis services keep their own context, so the test names the calling context with ctx= (upstream gets it from the ctx.sessions view); see SessionStore.caller."
+    },
+    {
+      "id": "core/session::sessionstore-runs-internal-dispatch-validation-on-one-frozen-candidate-before-commit-and-resets-after-a-veto",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > runs internal dispatch validation on one frozen candidate before commit and resets after a veto",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_internal_dispatch_validates_frozen_candidate"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::sessionstore-synthesizes-a-minimal-current-version-header-for-a-bare-created-session",
+      "source": "packages/core/session/tests/session.spec.ts::SessionStore > synthesizes a minimal current-version header for a bare-created session",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_session.py::test_synthesizes_minimal_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-allows-name-only-after-creation-announcement-and-before-removal",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > allows $name only after creation announcement and before removal",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_allows_appends_only_between_announcement_and_removal"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-appends-to-independent-constructor-restore-and-fork-history-without-publication",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > appends to independent constructor, restore, and fork history without publication",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_appends_to_independent_history_without_publication"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-keeps-independent-name-local-and-adopts-their-history-without-replaying-notifications",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > keeps independent $name local and adopts their history without replaying notifications",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_keeps_independent_appends_local_and_adopts_history"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-keeps-prepared-restored-history-read-only-s",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > keeps prepared restored history read-only (%s)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_keeps_prepared_restored_history_read_only"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-keeps-writes-disabled-after-a-failed-announcement",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > keeps writes disabled after a failed announcement",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_keeps_writes_disabled_after_failed_announcement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-rechecks-s-after-payload-evaluation-transfers-an-independent-session-to-a-store",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > rechecks %s after payload evaluation transfers an independent Session to a store",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_rechecks_after_payload_evaluation_transfers_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-rejects-s-before-reading-payloads-when-writes-are-disabled",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > rejects %s before reading payloads when writes are disabled",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_rejects_before_reading_payloads_when_writes_disabled"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-rejects-s-when-reading-the-payload-detaches-the-session",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > rejects %s when reading the payload detaches the Session",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_rejects_when_reading_payload_detaches_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-store-membership-revokes-writes-when-the-owning-fiber-releases-a-session",
+      "source": "packages/core/session/tests/store-membership.spec.ts::Session store membership > revokes writes when the owning fiber releases a session",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_store_membership.py::test_revokes_writes_when_owning_fiber_releases_session"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derivemessages-with-surface-derivemessages-via-surface-respects-replace-shadowed-nodes-are-excluded",
+      "source": "packages/core/session/tests/surface.spec.ts::deriveMessages with surface > deriveMessages via surface respects replace (shadowed nodes are excluded)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_derive_messages_respects_replace"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derivemessages-with-surface-injected-context-and-user-messages-appear-on-surface",
+      "source": "packages/core/session/tests/surface.spec.ts::deriveMessages with surface > injected-context and user messages appear on surface",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_injected_context_and_user_messages_appear"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derivemessages-with-surface-surface-path-skips-non-surface-events-attempts-boundaries",
+      "source": "packages/core/session/tests/surface.spec.ts::deriveMessages with surface > surface path skips non-surface events (attempts, boundaries)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_surface_path_skips_non_surface_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::derivemessages-with-surface-uses-the-surface-path-when-surface-markers-are-present",
+      "source": "packages/core/session/tests/surface.spec.ts::deriveMessages with surface > uses the surface path when surface markers are present",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_uses_surface_path_with_markers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-message-history-rejects-a-mismatched-developer-role-in-s-at-event-admission",
+      "source": "packages/core/session/tests/surface.spec.ts::developer message history > rejects a mismatched developer role in %s at event admission",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_mismatched_developer_role"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-message-history-rejects-s-in-user-messages-at-session-admission",
+      "source": "packages/core/session/tests/surface.spec.ts::developer message history > rejects %s in user messages at Session admission",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_tool_change_in_user_messages"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-message-history-retains-an-empty-developer-node-while-projecting-no-message",
+      "source": "packages/core/session/tests/surface.spec.ts::developer message history > retains an empty developer node while projecting no message",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_retains_empty_developer_node"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::developer-message-history-retains-developer-blocks-through-append-replacement-and-restoration",
+      "source": "packages/core/session/tests/surface.spec.ts::developer message history > retains developer blocks through append, replacement, and restoration",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_retains_developer_blocks"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-source-event-references-accepts-absent-or-valid-source-event-references-and-complete-replacement-coverage",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface source-event references > accepts absent or valid source-event references and complete replacement coverage",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_accepts_valid_source_event_references"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-source-event-references-rejects-obsolete-assistant-chunk-references-on-an-assistant-message",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface source-event references > rejects obsolete Assistant chunk references on an assistant message",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_assistant_chunk_references"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-source-event-references-rejects-s",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface source-event references > rejects %s",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_invalid_source_event_references"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-source-event-references-rejects-source-event-references-on-a-non-surface-event",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface source-event references > rejects source-event references on a non-surface event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_source_event_references_on_non_surface_event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-tool-result-rewrites-compares-array-valued-rest-fields-structurally-meta-arrays-equal-accepted-drifted-rejected",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface tool-result rewrites > compares array-valued rest fields structurally (meta arrays: equal accepted, drifted rejected)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_compares_array_valued_rest_fields_structurally"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-tool-result-rewrites-rejects-a-replacement-spanning-multiple-current-nodes",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface tool-result rewrites > rejects a replacement spanning multiple current nodes",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_rewrite_spanning_multiple_nodes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-tool-result-rewrites-rejects-a-replacement-targeting-a-non-result-node",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface tool-result rewrites > rejects a replacement targeting a non-result node",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_rewrite_targeting_non_result"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-tool-result-rewrites-rejects-a-replacement-that-changes-the-result-block-s",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface tool-result rewrites > rejects a replacement that changes the result block %s",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_rewrite_changing_result_block"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::foldsurface-tool-result-rewrites-rejects-changes-outside-tool-result-content",
+      "source": "packages/core/session/tests/surface.spec.ts::foldSurface tool-result rewrites > rejects changes outside tool-result content",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_changes_outside_tool_result_content"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-append-surface-opts-a-non-surface-event-carries-no-surface-fields",
+      "source": "packages/core/session/tests/surface.spec.ts::Session.append surface opts > a non-surface event carries no surface fields",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_non_surface_event_carries_no_surface_fields"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-append-surface-opts-derivemessages-skips-a-surface-node-that-derives-to-null-empty-assistant-message",
+      "source": "packages/core/session/tests/surface.spec.ts::Session.append surface opts > deriveMessages skips a surface node that derives to null (empty assistant/message)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_derive_messages_skips_null_surface_node"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-append-surface-opts-issurfaceevent-rejects-a-surface-eligible-type-missing-its-surfaceop-marker",
+      "source": "packages/core/session/tests/surface.spec.ts::Session.append surface opts > isSurfaceEvent rejects a surface-eligible type missing its surfaceOp marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_is_surface_event_rejects_markerless_event_opts"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-append-surface-opts-records-sourceeventseqs-and-surfaceop-on-a-source-derived-event",
+      "source": "packages/core/session/tests/surface.spec.ts::Session.append surface opts > records sourceEventSeqs and surfaceOp on a source-derived event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_records_source_event_seqs_and_surface_op"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-append-surface-opts-surfaceop-primitives-are-not-cloned-they-are-immutable",
+      "source": "packages/core/session/tests/surface.spec.ts::Session.append surface opts > surfaceOp primitives are not cloned (they are immutable)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_surface_op_primitives_are_not_cloned"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surface-type-guards-issurfaceeligibletype-is-true-only-for-message-producing-types",
+      "source": "packages/core/session/tests/surface.spec.ts::surface type guards > isSurfaceEligibleType is true only for message-producing types",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_is_surface_eligible_type"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surface-type-guards-issurfaceevent-narrows-a-fully-formed-surface-event",
+      "source": "packages/core/session/tests/surface.spec.ts::surface type guards > isSurfaceEvent narrows a fully-formed surface event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_is_surface_event_accepts_formed_event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surface-type-guards-issurfaceevent-rejects-a-non-surface-eligible-type",
+      "source": "packages/core/session/tests/surface.spec.ts::surface type guards > isSurfaceEvent rejects a non-surface-eligible type",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_is_surface_event_rejects_non_eligible_type"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surface-type-guards-issurfaceevent-rejects-a-surface-eligible-type-missing-its-surfaceop-marker",
+      "source": "packages/core/session/tests/surface.spec.ts::surface type guards > isSurfaceEvent rejects a surface-eligible type missing its surfaceOp marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_is_surface_event_rejects_markerless_event_guards"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surface-type-guards-rejects-log-only-and-markerless-events-from-both-marker-guards",
+      "source": "packages/core/session/tests/surface.spec.ts::surface type guards > rejects log-only and markerless events from both marker guards",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_marker_guards_reject_log_only_and_markerless"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surface-type-guards-splits-surface-events-into-append-origin-and-replacement-by-their-marker",
+      "source": "packages/core/session/tests/surface.spec.ts::surface type guards > splits surface events into append-origin and replacement by their marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_splits_append_and_replacement_events"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-does-not-retain-fold-only-replacement-history-in-incremental-state",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > does not retain fold-only replacement history in incremental state",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_does_not_retain_replacement_history_incrementally"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-empty-surface-yields-empty-nodes",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > empty surface yields empty nodes",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_empty_surface_yields_empty_nodes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-folds-a-contiguous-window-without-materializing-earlier-event-sequences",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > folds a contiguous window without materializing earlier event sequences",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_folds_contiguous_window"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-folds-an-ordered-sequence-list-from-surfaceop-append-markers",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > folds an ordered sequence list from surfaceOp: append markers",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_folds_ordered_sequence_from_append_markers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-foldsurface-rejects-a-surface-eligible-event-without-its-mandatory-marker",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > foldSurface rejects a surface-eligible event without its mandatory marker",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_fold_rejects_markerless_surface_event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-foldsurface-rejects-surfaceop-on-a-non-surface-event",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > foldSurface rejects surfaceOp on a non-surface event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_fold_rejects_surface_op_on_non_surface_event"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-foldsurface-reports-the-same-invalid-replacement-failures-as-the-incremental-manager",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > foldSurface reports the same invalid replacement failures as the incremental manager",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_fold_reports_same_failures_as_manager"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-leaves-incremental-state-unchanged-when-candidate-validation-fails",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > leaves incremental state unchanged when candidate validation fails",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_leaves_state_unchanged_on_failed_validation"
+      ],
+      "notes": "SurfaceManager.nodes returns a fresh tuple, so the test checks the internal state objects are unchanged instead of array identity."
+    },
+    {
+      "id": "core/session::surfacemanager-picks-up-new-events-incrementally-delta-processing",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > picks up new events incrementally (delta processing)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_picks_up_new_events_incrementally"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-rebuild-with-replace-operation-splices-out-shadowed-nodes",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > rebuild with replace operation splices out shadowed nodes",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_replace_splices_out_shadowed_nodes"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-rejects-a-replacement-that-crosses-a-loaded-window-head",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > rejects a replacement that crosses a loaded window head",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_replacement_crossing_window_head"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-rejects-negative-zero-replacement-event-sequences",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > rejects negative-zero replacement event sequences",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_negative_zero_replacement_sequences"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-replace-starting-at-non-head-position-preserves-surrounding-order",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > replace starting at non-head position preserves surrounding order",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_non_head_replace_preserves_order"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-replace-with-both-ends-at-real-nodes-splices-only-the-range",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > replace with both ends at real nodes splices only the range",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_replace_splices_only_the_range"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-replacegeneration-folds-the-pending-log-delta-on-access-and-counts-replaces",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager.replaceGeneration > folds the pending log delta on access and counts replaces",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_replace_generation_folds_pending_delta"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-replays-identically-from-a-seeded-log-with-surface-markers",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > replays identically from a seeded log with surface markers",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_replays_identically_from_seeded_log"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-shares-ordered-entries-and-nested-replacement-ranges-with-foldsurface",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > shares ordered entries and nested replacement ranges with foldSurface",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_shares_entries_and_replacement_ranges_with_fold"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-single-node-replacement-start-end",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > single-node replacement (start === end)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_single_node_replacement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-sourceeventseqs-is-snapshot-so-caller-mutation-does-not-affect-logged-event",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > sourceEventSeqs is snapshot so caller mutation does not affect logged event",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_source_event_seqs_are_snapshot"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-surfaceop-replace-object-is-snapshot-so-caller-mutation-is-isolated",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > surfaceOp replace object is snapshot so caller mutation is isolated",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_surface_op_replace_object_is_snapshot"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-throws-when-replace-end-is-not-found",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > throws when replace end is not found",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_throws_when_replace_end_not_found"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-throws-when-replace-start-is-not-found",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > throws when replace start is not found",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_throws_when_replace_start_not_found"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-throws-when-start-is-after-end",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > throws when start is after end",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_throws_when_start_after_end"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::surfacemanager-validates-tool-result-rewrites-against-a-nonzero-window-offset",
+      "source": "packages/core/session/tests/surface.spec.ts::SurfaceManager > validates tool-result rewrites against a nonzero window offset",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_validates_tool_result_rewrites_with_window_offset"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::system-message-surface-node-leaves-later-system-nodes-and-a-non-system-head-unprotected",
+      "source": "packages/core/session/tests/surface.spec.ts::system/message surface node > leaves later system nodes and a non-system head unprotected",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_later_system_nodes_and_plain_head_unprotected"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::system-message-surface-node-projects-a-system-node-as-the-leading-system-role-message-and-an-empty-one-as-no-message",
+      "source": "packages/core/session/tests/surface.spec.ts::system/message surface node > projects a system node as the leading system-role message and an empty one as no message",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_projects_system_node_as_leading_message"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::system-message-surface-node-rejects-a-seeded-system-message-with-a-non-system-role-or-non-system-prompt-source",
+      "source": "packages/core/session/tests/surface.spec.ts::system/message surface node > rejects a seeded system/message with a non-system role or non-system-prompt source",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_rejects_seeded_system_message_with_bad_role_or_source"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::system-message-surface-node-replaces-node-0-with-a-new-system-node-and-rejects-other-rewrites-of-the-head",
+      "source": "packages/core/session/tests/surface.spec.ts::system/message surface node > replaces node 0 with a new system node and rejects other rewrites of the head",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_surface.py::test_replaces_system_head_and_rejects_other_rewrites"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-activates-deferred-baseline-tools-through-folded-history-on-s-routes",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > activates deferred baseline tools through folded history on %s routes",
+      "classification": "deferred",
+      "python_tests": [],
+      "notes": "Needs projectToolUpdates from llm/llm, ported in Phase 4; port this case then."
+    },
+    {
+      "id": "core/session::session-toolhistory-continues-the-series-when-a-retained-name-is-restored-unchanged",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > continues the series when a retained name is restored unchanged",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_continues_series_on_unchanged_restore"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-falls-back-to-complete-active-declarations-while-a-header-lacks-its-update-record",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > falls back to complete active declarations while a header lacks its update record",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_falls_back_while_header_lacks_update"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-reconstructs-inherited-history-on-restore-and-continues-from-live-events",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > reconstructs inherited history on restore and continues from live events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_reconstructs_history_on_restore"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-refuses-an-addition-whose-referenced-header-lacks-the-definition",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > refuses an addition whose referenced header lacks the definition",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_refuses_addition_missing_definition"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-resolves-additions-from-their-referenced-header-and-keeps-earlier-snapshots-unchanged",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > resolves additions from their referenced header and keeps earlier snapshots unchanged",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_resolves_additions_from_referenced_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-restarts-declarations-at-an-explicit-series-start",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > restarts declarations at an explicit series start %#",
+      "classification": "deferred",
+      "python_tests": [],
+      "notes": "Needs projectToolUpdates from llm/llm, ported in Phase 4; port this case then."
+    },
+    {
+      "id": "core/session::session-toolhistory-restarts-declarations-when-a-retained-name-returns-with-a-changed-definition",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > restarts declarations when a retained name returns with a changed definition",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_restarts_on_changed_definition"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-toolhistory-returns-frozen-active-declarations-with-no-updates-for-an-initial-header",
+      "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > returns frozen active declarations with no updates for an initial header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_returns_frozen_initial_declarations"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/session::session-typert-provider-contributes-live-session-lookup-in-either-service-load-order",
+      "source": "packages/core/session/tests/typert.spec.ts::Session Typert provider > contributes live Session lookup in either service load order",
+      "classification": "not-applicable",
+      "python_tests": [],
+      "notes": "Typed-RPC (typert) registration is out of scope for this package."
     },
     {
       "id": "session/session-format::session-format-catalog-classifies-headers-and-restores-physical-rows-through-the-compiled-chain",
