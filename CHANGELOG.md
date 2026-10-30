@@ -34,3 +34,22 @@
     42 cannot apply in Python and 2 wait on Phase 4.
   - A conformance check validates Python-written events and headers against upstream's
     pinned v4 type inventory.
+- Phase 3, session persistence:
+  - `harness.session.persistence` (upstream `session/session-persistence`): the
+    `sessionPersistence` service definition, handles, errors and shared storage checks.
+  - `harness.session.persistence_jsonl` (upstream `session/session-persistence-jsonl`):
+    the JSONL backend with upstream's directory layout, single-writer lease, durable
+    publication, live write batching and torn-tail repair. Format v4 and uncompressed
+    files only for now; zstd and v0–v3 migration are not ported.
+  - The v4 codec stack: `harness.session.format_v1_to_v2` (the v2 row framing v4 reuses),
+    `harness.session.format_v3_to_v4` (v4 admission and relationship checks) and
+    `harness.session.format_catalog` (v4 current; v0–v3 reported unsupported).
+  - `harness.session.projection` (upstream `session/session-projection`).
+  - `harness.testing`: the upstream persistence and live-write contract suites as a
+    pytest-free public API, so any `SessionPersistence` backend can run them.
+  - 740 catalogued upstream cases from 63 files (629 ported, 35 adapted, 31 run through
+    the contract suites). Cases not ported yet (migrations, zstd, Node-only, JavaScript-only)
+    are listed by reason in `docs/upstream.md`.
+  - `session-checkpoint-policy` and `session-title` move to Phase 5: both need the agent
+    package.
+

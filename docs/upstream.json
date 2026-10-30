@@ -126,39 +126,62 @@
       "status": "ported"
     },
     {
+      "upstream": "packages/session/session-format-v1-to-v2",
+      "npm": "@deepseek-ai/dsh-session-format-v1-to-v2",
+      "module": "harness.session.format_v1_to_v2",
+      "milestone": "0.1",
+      "status": "in-progress"
+    },
+    {
+      "upstream": "packages/session/session-format-v3-to-v4",
+      "npm": "@deepseek-ai/dsh-session-format-v3-to-v4",
+      "module": "harness.session.format_v3_to_v4",
+      "milestone": "0.1",
+      "status": "in-progress"
+    },
+    {
+      "upstream": "packages/session/session-format-catalog",
+      "npm": "@deepseek-ai/dsh-session-format-catalog",
+      "module": "harness.session.format_catalog",
+      "milestone": "0.1",
+      "status": "in-progress"
+    },
+    {
       "upstream": "packages/session/session-persistence",
       "npm": "@deepseek-ai/dsh-session-persistence",
       "module": "harness.session.persistence",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/session/session-persistence-jsonl",
       "npm": "@deepseek-ai/dsh-session-persistence-jsonl",
       "module": "harness.session.persistence_jsonl",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "in-progress"
     },
     {
       "upstream": "packages/session/session-projection",
       "npm": "@deepseek-ai/dsh-session-projection",
       "module": "harness.session.projection",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/session/session-checkpoint-policy",
       "npm": "@deepseek-ai/dsh-session-checkpoint-policy",
       "module": "harness.session.checkpoint_policy",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "planned",
+      "note": "moved to Phase 5: hooks agent and tool events"
     },
     {
       "upstream": "packages/session/session-title",
       "npm": "@deepseek-ai/dsh-session-title",
       "module": "harness.session.title",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "planned",
+      "note": "moved to Phase 5: reads agent turn state"
     },
     {
       "upstream": "packages/session/session-log-deepseek",
@@ -643,7 +666,7 @@
       "milestone": "0.1",
       "origin": "new",
       "note": "Scripted adapter and contract suites for third-party providers",
-      "status": "planned"
+      "status": "in-progress"
     },
     {
       "module": "harness.llm.openai",

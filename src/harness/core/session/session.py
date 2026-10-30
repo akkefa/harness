@@ -18,6 +18,7 @@ from typing import Any, Literal
 
 from deepseek_cordis import Context, Service, current_context
 
+from harness._cordis import dispatch
 from harness.core.scope import ScopeCarrier, scope_of, scope_target
 from harness.llm import Message, ToolHistory
 from harness.util.values import (
@@ -332,10 +333,7 @@ def plugin_record_of(event: SessionEvent) -> PluginRecord | None:
 def _collect_callbacks(
     ctx: Context, name: str, args: tuple[object, ...], carrier: ScopeCarrier[Session]
 ) -> list[Callable[..., object]]:
-    # Gap G1 (docs/cordis-alignment.md): upstream calls ctx.events.dispatch('emit', ...).
-    # deepseek-cordis keeps it private; switch to Events.dispatch when it is public.
-    dispatch = ctx.events._dispatch
-    return list(dispatch("emit", name, args, carrier))
+    return dispatch(ctx, "emit", name, args, carrier)
 
 
 def _contain(returned: object, describe: str) -> None:

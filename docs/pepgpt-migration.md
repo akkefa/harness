@@ -37,7 +37,7 @@ are confirmed, with exact names, in the phase that ports that package.
 | `harness.core.session.thaw_json` | package | `harness.session.format` JSON helpers | 0.1 |
 | `harness.persistence.SessionStore` | package | `harness.session.persistence` (`SessionPersistence`) | 0.1 |
 | `harness.persistence.MemorySessionStore` | package | in-memory store in `harness.core.session` | 0.1 |
-| `harness.persistence.DatabaseSessionStore` | pepgpt-plugin | PepGPT Postgres `SessionPersistence` backend, checked with `harness.testing.persistence_contract` | 0.1 |
+| `harness.persistence.DatabaseSessionStore` | pepgpt-plugin | PepGPT Postgres `SessionPersistence` backend (`harness.session.persistence`), checked with `harness.testing.run_persistence_contract` and `run_live_write_path_contract` | 0.1 |
 
 ## System prompt and tools
 

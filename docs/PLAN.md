@@ -302,6 +302,16 @@ upstream test cases.
 **Exit:** Python opens, projects and replays `dsh`-written fixtures; a Python-written
 session opens in `dsh`; the contract suite passes for memory and JSONL stores.
 
+Done (Phase 3), with these changes to scope:
+
+- The v4 codec lives upstream in `session-format-v1-to-v2` (row framing),
+  `session-format-v3-to-v4` (v4 checks) and `session-format-catalog`; their v4 halves are
+  ported here, the migrations are not.
+- `session-checkpoint-policy` and `session-title` move to Phase 5 (they need the agent).
+- Still open: zstd compression, and fixtures written by `dsh` itself (needs a Node build
+  of the upstream checkout). Upstream ships no in-memory backend, so the contract suite
+  runs against JSONL only.
+
 ### Phase 4 — Model seam
 
 - Port `llm/llm` (message and stream vocabulary, adapter seam, `ctx.llm`),

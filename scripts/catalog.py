@@ -26,8 +26,10 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "docs" / "compatibility-cases.json"
 UPSTREAM_MAP = ROOT / "docs" / "upstream.json"
-CLASSIFICATIONS = {"ported", "adapted", "not-applicable", "deferred"}
-SOURCE = re.compile(r"(?P<path>packages/[a-z0-9-]+/[a-z0-9-]+/\S+\.spec\.ts)::(?P<title>.+)")
+# "contract": a case from an upstream shared contract module (e.g. contract.ts), run through
+# harness.testing by a parametrized test; its id is the upstream title, so it carries no mark.
+CLASSIFICATIONS = {"ported", "adapted", "not-applicable", "deferred", "contract"}
+SOURCE = re.compile(r"(?P<path>packages/[a-z0-9-]+/[a-z0-9-]+/\S+\.ts)::(?P<title>.+)")
 
 
 def _string(node: ast.expr, constants: dict[str, str]) -> str | None:
@@ -138,7 +140,7 @@ def catalog_problems(catalog: dict[str, Any], marks: dict[str, str], mapped: set
         if case["classification"] not in CLASSIFICATIONS:
             problems.append(f"{case['id']}: unknown classification {case['classification']}")
         if (
-            case["classification"] not in ("not-applicable", "deferred")
+            case["classification"] not in ("not-applicable", "deferred", "contract")
             and not case["python_tests"]
         ):
             problems.append(f"{case['id']}: no Python tests")

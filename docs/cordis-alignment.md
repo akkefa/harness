@@ -86,3 +86,14 @@ known drift.
 
 None of these deepseek-cordis changes has been made. They touch the PyCordis repo and
 wait for the maintainer's approval.
+
+## Dependencies on deepseek-cordis internals
+
+Added in Phase 3. Recheck these whenever the deepseek-cordis pin moves:
+
+- `harness.session.projection` subclasses `deepseek_cordis.Effect`, through its public
+  constructor `(owner, setup, label)`, so that a registration is both its handle and its
+  disposer, as upstream's is. A change to that constructor or to how effects adopt
+  returned values would break it; `tests/session/projection/test_compatibility.py`
+  covers the adoption cases.
+- `harness._cordis` holds the G1/G2 shims (`Events._dispatch`, `Fiber.uid`).
