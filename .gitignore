@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# cordis-harness development tools
+.ruff_cache/
+.mypy_cache/
+.uv-cache/
+.vscode/
