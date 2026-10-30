@@ -112,11 +112,18 @@
       "status": "planned"
     },
     {
+      "upstream": "packages/util/values",
+      "npm": "@deepseek-ai/dsh-util-values",
+      "module": "harness.util.values",
+      "milestone": "0.1",
+      "status": "in-progress"
+    },
+    {
       "upstream": "packages/session/session-format",
       "npm": "@deepseek-ai/dsh-session-format",
       "module": "harness.session.format",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/session/session-persistence",

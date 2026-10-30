@@ -10,6 +10,22 @@
     {
       "path": "packages/core/scope/tests/store.spec.ts",
       "sha256": "3c1e5e3ff4ba50445d140aa0f09dc1e6c5e80cf6244fce628841bdc4e8029ad5"
+    },
+    {
+      "path": "packages/session/session-format/tests/catalog.spec.ts",
+      "sha256": "213d7367345534341a278d49ee015b7f368e948a2fd6a3c254f1d8057936a955"
+    },
+    {
+      "path": "packages/session/session-format/tests/chain.spec.ts",
+      "sha256": "2d3de274aa73d65b64a1b5a1ebe7cfbd4cb090d3f87cb3b373814d982bd8eb18"
+    },
+    {
+      "path": "packages/session/session-format/tests/filename.spec.ts",
+      "sha256": "6cfacf9489647da2627442e91f9bf4acd4ea7e1373eb4cb813a0cc7cb5716f0e"
+    },
+    {
+      "path": "packages/session/session-format/tests/json.spec.ts",
+      "sha256": "8a94b214c59626d5216ecf56fdeb742bc00606884db4cc5dd110e844a600489b"
     }
   ],
   "cases": [
@@ -201,6 +217,222 @@
         "tests/core/scope/test_store.py::test_scoped_layers_lazy_and_reclaim"
       ],
       "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-classifies-headers-and-restores-physical-rows-through-the-compiled-chain",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > classifies headers and restores physical rows through the compiled chain",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_classifies_headers_and_restores_through_chain"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-classifies-migrated-header-refusals-as-unsupported-and-current-corruption-as-malformed",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > classifies migrated header refusals as unsupported and current corruption as malformed",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_classifies_header_refusals_and_corruption"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-classifies-migrated-target-validation-failures-as-unsupported",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > classifies migrated target validation failures as unsupported",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_classifies_target_validation_failures"
+      ],
+      "notes": "Python can only raise exceptions, so the non-Error refusal parameter is a ValueError carrying the same text."
+    },
+    {
+      "id": "session/session-format::session-format-catalog-enforces-decoder-stage-and-restorer-lifecycle-results",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > enforces decoder, stage, and restorer lifecycle results",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_enforces_lifecycle_results"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-expands-an-unhandled-compact-run-without-an-intermediate-array",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > expands an unhandled compact run without an intermediate array",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_expands_unhandled_compact_run"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-preserves-current-validation-failures-and-explicit-migration-refusals",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > preserves current-validation failures and explicit migration refusals",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_preserves_current_failures_and_explicit_refusals"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-preserves-unsupported-header-and-migration-failures",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > preserves unsupported header and migration failures",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_preserves_unsupported_header_and_migration_failures"
+      ],
+      "notes": "Python can only raise exceptions, so the non-Error header failure is a ValueError."
+    },
+    {
+      "id": "session/session-format::session-format-catalog-rejects-a-current-encoder-that-returns-a-non-current-header",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > rejects a current encoder that returns a non-current header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_rejects_non_current_encoder_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-rejects-duplicate-missing-and-future-codec-declarations",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > rejects duplicate, missing, and future codec declarations",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_rejects_bad_codec_declarations"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-catalog-restores-current-rows-without-a-migration-and-encodes-one-record-at-a-time",
+      "source": "packages/session/session-format/tests/catalog.spec.ts::Session format catalog > restores current rows without a migration and encodes one record at a time",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_catalog.py::test_restores_current_rows_and_encodes_records"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-bypasses-adjacent-stages-for-current-input",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > bypasses adjacent stages for current input",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_bypasses_stages_for_current_input"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-classifies-stage-failures-as-unsupported-and-preserves-explicit-refusals",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > classifies stage failures as unsupported and preserves explicit refusals",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_classifies_stage_failures"
+      ],
+      "notes": "Python can only raise exceptions, so the non-Error refusal is a ValueError; cause is checked through __cause__."
+    },
+    {
+      "id": "session/session-format::session-format-chain-collects-compact-runs-as-expanded-events",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > collects compact runs as expanded events",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_collects_compact_runs"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-composes-one-adjacent-stage-and-its-header-conversion",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > composes one adjacent stage and its header conversion",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_composes_one_stage"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-composes-stages-whose-inherited-cut-is-derived-from-the-body",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > composes stages whose inherited cut is derived from the body",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_composes_body_derived_cut"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-rejects-invalid-declarations-and-incomplete-chain-construction",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > rejects invalid declarations and incomplete chain construction",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_rejects_invalid_declarations"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-rejects-newer-inputs-and-wrong-header-versions",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > rejects newer inputs and wrong header versions",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_rejects_newer_inputs_and_wrong_versions"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::session-format-chain-validates-every-adjacent-target-header-and-the-final-current-header",
+      "source": "packages/session/session-format/tests/chain.spec.ts::Session format chain > validates every adjacent target header and the final current header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_chain.py::test_validates_target_and_current_headers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::canonical-session-log-filenames-names-version-zero-without-a-generation-component-and-later-generations-with-vn",
+      "source": "packages/session/session-format/tests/filename.spec.ts::canonical Session log filenames > names version zero without a generation component and later generations with .vN",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_filename.py::test_names_generations"
+      ],
+      "notes": "-0 is -0.0 in Python; Number.MAX_SAFE_INTEGER + 1 is 2**53."
+    },
+    {
+      "id": "session/session-format::canonical-session-log-filenames-parses-only-canonical-raw-generation-names",
+      "source": "packages/session/session-format/tests/filename.spec.ts::canonical Session log filenames > parses only canonical raw generation names",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_filename.py::test_parses_only_canonical_names"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::lossless-session-format-json-snapshots-detaches-freezes-and-retains-repeated-non-cyclic-values-and-proto-keys",
+      "source": "packages/session/session-format/tests/json.spec.ts::lossless Session format JSON snapshots > detaches, freezes, and retains repeated non-cyclic values and __proto__ keys",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_json.py::test_detaches_freezes_and_retains_repeats"
+      ],
+      "notes": "Frozen means FrozenJsonObject/FrozenJsonArray (dict/list subclasses that refuse mutation); Python dicts have no __proto__ semantics, so the key is ordinary data."
+    },
+    {
+      "id": "session/session-format::lossless-session-format-json-snapshots-refuses-a-non-object-header-snapshot",
+      "source": "packages/session/session-format/tests/json.spec.ts::lossless Session format JSON snapshots > refuses a non-object header snapshot",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/format/test_json.py::test_refuses_non_object_header"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-format::lossless-session-format-json-snapshots-refuses-invalid-scalar-coordinates-cycles-and-custom-prototypes",
+      "source": "packages/session/session-format/tests/json.spec.ts::lossless Session format JSON snapshots > refuses invalid scalar coordinates, cycles, and custom prototypes",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_json.py::test_refuses_bad_coordinates_cycles_and_custom_types"
+      ],
+      "notes": "Custom prototypes become a plain class instance and a list subclass."
+    },
+    {
+      "id": "session/session-format::lossless-session-format-json-snapshots-refuses-s-that-json-cannot-preserve",
+      "source": "packages/session/session-format/tests/json.spec.ts::lossless Session format JSON snapshots > refuses %s that JSON cannot preserve",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/session/format/test_json.py::test_refuses_values_json_cannot_preserve"
+      ],
+      "notes": "Python has no undefined, sparse arrays, symbol keys, non-enumerable or array properties; the parameters are their Python counterparts (non-JSON member, non-string key, unsafe integer, set member) plus negative zero and infinity."
     }
   ]
 }
