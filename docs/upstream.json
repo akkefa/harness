@@ -11,7 +11,7 @@
       "npm": "@deepseek-ai/dsh-scope",
       "module": "harness.core.scope",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/session",

@@ -62,7 +62,7 @@ exclude = ["**/__pycache__", "**/*.pyc", "**/.pytest_cache", "**/.mypy_cache", "
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--strict-config --strict-markers"
+addopts = "--strict-config --strict-markers --import-mode=importlib"
 markers = [
   "upstream(source): behavior ported from a pinned upstream test, given as 'path::case title'",
 ]

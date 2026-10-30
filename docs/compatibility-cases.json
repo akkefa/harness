@@ -2,6 +2,205 @@
   "schema_version": 1,
   "upstream_commit": "ce7073d51254c26cd63b22a60835b8f948deb447",
   "scope": "Upstream test cases ported to Python. Each case names its upstream spec file and title; python_tests lists the Python tests carrying the matching upstream mark.",
-  "source_files": [],
-  "cases": []
+  "source_files": [
+    {
+      "path": "packages/core/scope/tests/scope.spec.ts",
+      "sha256": "491dc7c01521e78cd29d19d5762d3460af40dc67aa3ee68cb0480fae10454095"
+    },
+    {
+      "path": "packages/core/scope/tests/store.spec.ts",
+      "sha256": "3c1e5e3ff4ba50445d140aa0f09dc1e6c5e80cf6244fce628841bdc4e8029ad5"
+    }
+  ],
+  "cases": [
+    {
+      "id": "core/scope::createscope-exposes-the-exact-raw-disposer-for-ordered-composite-teardown",
+      "source": "packages/core/scope/tests/scope.spec.ts::createScope > exposes the exact raw disposer for ordered composite teardown",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_raw_disposer_in_composite_teardown"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::createscope-is-usable-synchronously-before-the-backing-fiber-activates",
+      "source": "packages/core/scope/tests/scope.spec.ts::createScope > is usable synchronously before the backing fiber activates",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_usable_synchronously"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::createscope-shares-quiescence-across-repeat-and-raw-disposer-first-calls",
+      "source": "packages/core/scope/tests/scope.spec.ts::createScope > shares quiescence across repeat and raw-disposer-first calls",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_shares_quiescence"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::createscope-tags-contexts-and-derived-contexts-with-the-nearest-tag-winning",
+      "source": "packages/core/scope/tests/scope.spec.ts::createScope > tags contexts and derived contexts, with the nearest tag winning",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_tags_contexts_nearest_tag_wins"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scope-parent-chain-admits-an-ancestor-tagged-listener-for-a-descendant-dispatch-never-the-reverse",
+      "source": "packages/core/scope/tests/scope.spec.ts::scope parent chain > admits an ancestor-tagged listener for a descendant dispatch, never the reverse",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_ancestor_listener_admission"
+      ],
+      "notes": "Async test: deepseek-cordis mounts plugins only inside a running event loop; dispatch uses filter_."
+    },
+    {
+      "id": "core/scope::scope-parent-chain-links-at-mint-walks-to-the-root-and-rejects-cycles",
+      "source": "packages/core/scope/tests/scope.spec.ts::scope parent chain > links at mint, walks to the root, and rejects cycles",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_parent_chain_links_and_rejects_cycles"
+      ],
+      "notes": "Async test: deepseek-cordis mounts plugins only inside a running event loop. Keys are class instances because plain object() cannot be weakly referenced."
+    },
+    {
+      "id": "core/scope::scope-parent-chain-re-links-only-through-the-binding-held-by-the-original-binder",
+      "source": "packages/core/scope/tests/scope.spec.ts::scope parent chain > re-links only through the binding held by the original binder",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_relinks_only_through_binding"
+      ],
+      "notes": "Async test: deepseek-cordis mounts plugins only inside a running event loop."
+    },
+    {
+      "id": "core/scope::scopetarget-global-true-listeners-retain-cordis-global-listener-semantics",
+      "source": "packages/core/scope/tests/scope.spec.ts::scopeTarget > { global: true } listeners retain Cordis global-listener semantics",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_global_listeners"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scopetarget-preserves-a-base-cordis-filter-and-its-receiver",
+      "source": "packages/core/scope/tests/scope.spec.ts::scopeTarget > preserves a base Cordis filter and its receiver",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_preserves_base_filter"
+      ],
+      "notes": "The base subject's filter is its matches_scope(ctx) method (deepseek-cordis Service API) instead of base[Context.filter]."
+    },
+    {
+      "id": "core/scope::scopetarget-routes-scoped-listeners-by-key-while-untagged-listeners-remain-global",
+      "source": "packages/core/scope/tests/scope.spec.ts::scopeTarget > routes scoped listeners by key while untagged listeners remain global",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_routes_scoped_listeners"
+      ],
+      "notes": "Dispatch passes scope_target(...) as deepseek-cordis filter_ instead of a Cordis thisArg carrier."
+    },
+    {
+      "id": "core/scope::scopetarget-uses-an-opaque-branded-carrier-with-a-separately-tracked-key",
+      "source": "packages/core/scope/tests/scope.spec.ts::scopeTarget > uses an opaque branded carrier with a separately tracked key",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_scope.py::test_opaque_carrier"
+      ],
+      "notes": "The TypeScript-only expectTypeOf assertion becomes an isinstance check on ScopeCarrier."
+    },
+    {
+      "id": "core/scope::anonymousentries-owns-equal-values-independently-with-live-insertion-ordered-iteration-and-idempotent-undo",
+      "source": "packages/core/scope/tests/store.spec.ts::AnonymousEntries > owns equal values independently with live insertion-ordered iteration and idempotent undo",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_anonymous_entries_contract"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::anonymousentries-starts-a-fresh-iterator-generation-after-the-table-drains",
+      "source": "packages/core/scope/tests/store.spec.ts::AnonymousEntries > starts a fresh iterator generation after the table drains",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_anonymous_entries_fresh_generation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::namedentries-owns-duplicate-diagnostics-lookup-insertion-order-live-iteration-and-exact-idempotent-undo",
+      "source": "packages/core/scope/tests/store.spec.ts::NamedEntries > owns duplicate diagnostics, lookup, insertion order, live iteration, and exact idempotent undo",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_named_entries_contract"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::namedentries-starts-a-fresh-iterator-generation-after-the-table-drains",
+      "source": "packages/core/scope/tests/store.spec.ts::NamedEntries > starts a fresh iterator generation after the table drains",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_named_entries_fresh_generation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scopedlayers-cleans-up-failed-factories-and-empty-failed-actions-without-discarding-an-existing-layer",
+      "source": "packages/core/scope/tests/store.spec.ts::ScopedLayers > cleans up failed factories and empty failed actions without discarding an existing layer",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_scoped_layers_failed_factories_and_actions"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scopedlayers-constructs-global-state-eagerly-while-reads-stay-non-creating-and-merge-named-shadows-in-order",
+      "source": "packages/core/scope/tests/store.spec.ts::ScopedLayers > constructs global state eagerly while reads stay non-creating and merge named shadows in order",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_scoped_layers_reads_do_not_create"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scopedlayers-returns-the-exact-context-effect-disposer",
+      "source": "packages/core/scope/tests/store.spec.ts::ScopedLayers > returns the exact context effect disposer",
+      "classification": "adapted",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_scoped_layers_returns_exact_disposer"
+      ],
+      "notes": "The fake context exposes metadata because scope_of reads ctx.metadata; the effect call is checked by recorded arguments instead of a vitest mock."
+    },
+    {
+      "id": "core/scope::scopedlayers-rolls-back-a-scoped-insertion-when-notification-throws",
+      "source": "packages/core/scope/tests/store.spec.ts::ScopedLayers > rolls back a scoped insertion when notification throws",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_scoped_layers_rollback_on_notification_error"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scopedlayers-runs-action-notification-undo-and-disposal-notification-in-order-with-cordis-idempotence-and-labels",
+      "source": "packages/core/scope/tests/store.spec.ts::ScopedLayers > runs action, notification, undo, and disposal notification in order with Cordis idempotence and labels",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_scoped_layers_effect_order"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/scope::scopedlayers-uses-the-same-scoped-context-for-lazy-visibility-and-ownership-and-reclaims-only-an-empty-aggregate",
+      "source": "packages/core/scope/tests/store.spec.ts::ScopedLayers > uses the same scoped context for lazy visibility and ownership, and reclaims only an empty aggregate",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/scope/test_store.py::test_scoped_layers_lazy_and_reclaim"
+      ],
+      "notes": ""
+    }
+  ]
 }
