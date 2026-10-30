@@ -12,3 +12,9 @@
 - Pinned copies of upstream's session-format inventory and finalized v4 baseline.
 - Boundary tests that reject product imports and undeclared dependencies, and a
   catalog check tying `@pytest.mark.upstream` tests to their upstream sources.
+- Cordis alignment (plan Phase 1): `scripts/cordis_usage.py` inventories the Cordis
+  features mapped upstream packages use, [docs/cordis-alignment.md](docs/cordis-alignment.md)
+  records the result, and `tests/test_cordis_contract.py` checks the behaviour the harness
+  relies on against the installed deepseek-cordis. Three gaps block 0.1 (public
+  `Events.dispatch`, `Fiber.assert_active`, `internal/status` and `internal/plugin`
+  events); they are tracked as strict xfails until deepseek-cordis adds them.
