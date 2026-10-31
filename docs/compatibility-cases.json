@@ -8,6 +8,10 @@
       "sha256": "749b7c440fb4422a4a3726af1f9db7af2c7c9f45c7988293956d13d6b81492a1"
     },
     {
+      "path": "packages/core/agent-loop/tests/cancel.spec.ts",
+      "sha256": "c32cb53c94e23941b489b69197cdc6fd7b545eb049da404a8aece464b0407b6d"
+    },
+    {
       "path": "packages/core/agent-loop/tests/contract-regressions.spec.ts",
       "sha256": "fd9b254ed2bf3f3f2e8b4a7b51ddef9894f41bb8f337eb67fec1d2fb869e594d"
     },
@@ -26,6 +30,10 @@
     {
       "path": "packages/core/agent-loop/tests/tool-updates.spec.ts",
       "sha256": "bb9a31bd5606633d78a48fb9f7ebc61e3be6299d9d72b73f65638cc571a0ee05"
+    },
+    {
+      "path": "packages/core/agent/tests/agent-initiator.spec.ts",
+      "sha256": "54f3bfdeac7ebc7b38a77c6d041adec0bbd42fdf3ef2bb46b996b71e0585bca2"
     },
     {
       "path": "packages/core/scope/tests/scope.spec.ts",
@@ -379,6 +387,15 @@
       "notes": ""
     },
     {
+      "id": "core/agent-loop::cancel-mid-stream-finalizes-the-streamed-prefix-onto-the-surface",
+      "source": "packages/core/agent-loop/tests/cancel.spec.ts::cancel mid-stream finalizes the streamed prefix onto the surface",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_cancelled_stream_commits_its_visible_prefix"
+      ],
+      "notes": ""
+    },
+    {
       "id": "core/agent-loop::plugin-exceptions-are-contained-a-throwing-agent-turn-stopping-listener-ends-the-turn-with-an-error-loop-survives",
       "source": "packages/core/agent-loop/tests/contract-regressions.spec.ts::plugin exceptions are contained > a throwing agent/turn-stopping listener ends the turn with an error, loop survives",
       "classification": "ported",
@@ -438,6 +455,42 @@
       "classification": "ported",
       "python_tests": [
         "tests/core/test_phase5_runtime.py::test_tool_registry_changes_append_developer_messages"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent::agentregistry-initiator-scope-does-not-self-deadlock-when-a-boundary-returns-service-disposal",
+      "source": "packages/core/agent/tests/agent-initiator.spec.ts::AgentRegistry initiator scope > does not self-deadlock when a boundary returns service disposal",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_agent_initiator.py::test_initiator_can_dispose_its_own_service_without_deadlock"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent::agentregistry-initiator-scope-isolates-overlapping-initiators",
+      "source": "packages/core/agent/tests/agent-initiator.spec.ts::AgentRegistry initiator scope > isolates overlapping initiators",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_agent_initiator.py::test_overlapping_initiators_keep_their_own_context"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent::agentregistry-initiator-scope-restores-nested-and-explicitly-cleared-boundaries",
+      "source": "packages/core/agent/tests/agent-initiator.spec.ts::AgentRegistry initiator scope > restores nested and explicitly cleared boundaries",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_agent_initiator.py::test_initiator_boundaries_are_nested_and_clearable"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent::agentregistry-initiator-scope-stops-new-boundaries-drains-active-promises-and-invalidates-retained-references",
+      "source": "packages/core/agent/tests/agent-initiator.spec.ts::AgentRegistry initiator scope > stops new boundaries, drains active Promises, and invalidates retained references",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_agent_initiator.py::test_disposal_drains_active_initiators_and_invalidates_the_service"
       ],
       "notes": ""
     },
@@ -3504,6 +3557,42 @@
       "classification": "ported",
       "python_tests": [
         "tests/core/test_phase5_runtime.py::test_thrown_tool_still_reaches_post_execute"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::toolruntime-an-ask-decision-with-no-reason-degrades-to-deny-with-a-default-message",
+      "source": "packages/core/tools/tests/tools.spec.ts::ToolRuntime > an ask decision with no reason degrades to deny with a default message",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_ask_without_approval_degrades_to_denial"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::toolruntime-ask-routing-through-ctx-approval-dispatches-the-tool-when-the-answerer-grants-allowed-once-forwarding-the-ask-fields",
+      "source": "packages/core/tools/tests/tools.spec.ts::ToolRuntime > ask routing through ctx.approval > dispatches the tool when the answerer grants allowed-once, forwarding the ask fields",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_ask_uses_the_optional_approval_service"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::toolruntime-keeps-value-meta-through-content-replacement-and-recomputes-both-projections-after-value-replacement",
+      "source": "packages/core/tools/tests/tools.spec.ts::ToolRuntime > keeps value/meta through content replacement and recomputes both projections after value replacement",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_post_execute_value_replacement_reprojects_the_result"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::toolruntime-preserves-tool-deferred-execute-wrapper-and-post-execute-contexts-in-order",
+      "source": "packages/core/tools/tests/tools.spec.ts::ToolRuntime > preserves tool-deferred, execute-wrapper, and post-execute contexts in order",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_tool_contexts_survive_each_pipeline_layer_in_order"
       ],
       "notes": ""
     },

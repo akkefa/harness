@@ -5,13 +5,14 @@ Upstream: packages/core/agent at ce7073d.
 
 from __future__ import annotations
 
+import asyncio
 import contextvars
 import inspect
 import logging
 from collections.abc import Callable, Mapping, Sequence
 from typing import Any, Protocol
 
-from deepseek_cordis import Context, Service, current_context
+from deepseek_cordis import Context, Fiber, FiberState, Service, current_context
 
 from deskagents._cordis import emit_contained
 from deskagents.core.scope import scope_target
@@ -191,6 +192,12 @@ class _Entry:
         self.agent, self.owner, self.announced = agent, owner, False
 
 
+class _InitiatorRun:
+    def __init__(self, parent: _InitiatorRun | None) -> None:
+        self.parent = parent
+        self.active = True
+
+
 class AgentFactory(Protocol):
     async def create_agent(self, owner_ctx: Context, options: Mapping[str, Any]) -> Any: ...
 
@@ -206,6 +213,17 @@ class AgentRegistry(Service):
         self._factory: AgentFactory | None = None
         self._initiator: contextvars.ContextVar[Agent | None] = contextvars.ContextVar(
             "harness_agent_initiator", default=None
+        )
+        self._initiator_runs: contextvars.ContextVar[_InitiatorRun | None] = contextvars.ContextVar(
+            "harness_agent_initiator_run", default=None
+        )
+        self._initiator_state = "active"
+        self._active_initiator_runs = 0
+        self._initiator_drain: asyncio.Future[None] | None = None
+        ctx.on("internal/status", self._on_internal_status, global_=True)
+        ctx.effect(
+            lambda: (self._dispose_initiators, self._close_initiators),
+            "agents.initiatorLifecycle()",
         )
 
     def caller(self, ctx: Context | None = None) -> Context:
@@ -296,6 +314,7 @@ class AgentRegistry(Service):
         return entry is not None and entry.owner is owner
 
     def current_initiator(self) -> Agent | None:
+        self._assert_initiators_readable()
         return self._initiator.get()
 
     def require_initiator(self) -> Agent:
@@ -305,42 +324,89 @@ class AgentRegistry(Service):
         return agent
 
     def with_initiator(self, agent: Agent, operation: Callable[[], Any]) -> Any:
-        token = self._initiator.set(agent)
-        try:
-            result = operation()
-            if inspect.isawaitable(result):
-
-                async def finish() -> Any:
-                    try:
-                        return await result
-                    finally:
-                        self._initiator.reset(token)
-
-                return finish()
-            self._initiator.reset(token)
-            return result
-        except BaseException:
-            self._initiator.reset(token)
-            raise
+        return self._run_with_initiator(agent, operation)
 
     def without_initiator(self, operation: Callable[[], Any]) -> Any:
-        token = self._initiator.set(None)
+        return self._run_with_initiator(None, operation)
+
+    def _run_with_initiator(
+        self,
+        agent: Agent | None,
+        operation: Callable[[], Any],
+    ) -> Any:
+        if self._initiator_state != "active":
+            raise RuntimeError("agent initiator scope is disposed")
+        run = _InitiatorRun(self._initiator_runs.get())
+        self._active_initiator_runs += 1
+        initiator_token = self._initiator.set(agent)
+        run_token = self._initiator_runs.set(run)
         try:
             result = operation()
             if inspect.isawaitable(result):
-
-                async def finish() -> Any:
-                    try:
-                        return await result
-                    finally:
-                        self._initiator.reset(token)
-
-                return finish()
-            self._initiator.reset(token)
+                try:
+                    future = asyncio.ensure_future(result)
+                except BaseException:
+                    self._release_initiator_run(run)
+                    raise
+                future.add_done_callback(lambda _future: self._release_initiator_run(run))
+                return future
+            self._release_initiator_run(run)
             return result
         except BaseException:
-            self._initiator.reset(token)
+            self._release_initiator_run(run)
             raise
+        finally:
+            self._initiator_runs.reset(run_token)
+            self._initiator.reset(initiator_token)
+
+    def _on_internal_status(self, fiber: Fiber, old: FiberState) -> None:
+        del old
+        if fiber.state is FiberState.UNLOADING and self._has_lifecycle_ancestor(fiber):
+            self._close_initiators()
+
+    def _has_lifecycle_ancestor(self, candidate: Fiber) -> bool:
+        fiber = self.ctx.fiber
+        while True:
+            if fiber is candidate:
+                return True
+            parent = fiber.parent.fiber
+            if parent is fiber:
+                return False
+            fiber = parent
+
+    def _assert_initiators_readable(self) -> None:
+        if self._initiator_state == "disposed":
+            raise RuntimeError("agent initiator scope is disposed")
+
+    def _close_initiators(self) -> None:
+        if self._initiator_state == "active":
+            self._initiator_state = "closing"
+
+    async def _dispose_initiators(self) -> None:
+        if self._initiator_state == "disposed":
+            return
+        self._close_initiators()
+        run = self._initiator_runs.get()
+        while run is not None:
+            self._release_initiator_run(run)
+            run = run.parent
+        if self._active_initiator_runs:
+            loop = asyncio.get_running_loop()
+            if self._initiator_drain is None:
+                self._initiator_drain = loop.create_future()
+            await asyncio.shield(self._initiator_drain)
+        self._initiator_state = "disposed"
+
+    def _release_initiator_run(self, run: _InitiatorRun) -> None:
+        if not run.active:
+            return
+        run.active = False
+        self._active_initiator_runs -= 1
+        if self._active_initiator_runs:
+            return
+        if self._initiator_drain is not None and not self._initiator_drain.done():
+            self._initiator_drain.set_result(None)
+        self._initiator_drain = None
 
     def turn_boundary_of(self, session: Any) -> Mapping[str, Any]:
         return turn_boundary_of(session)

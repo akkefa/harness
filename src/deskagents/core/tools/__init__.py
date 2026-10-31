@@ -111,6 +111,32 @@ def _failure(error: BaseException) -> dict[str, Any]:
     }
 
 
+def _denied(reason: str, info: object = None) -> dict[str, Any]:
+    return {
+        "isError": True,
+        "error": {
+            "message": reason,
+            **({"info": info} if info is not None else {}),
+        },
+        "content": [{"type": "text", "text": f"Error: {reason}"}],
+    }
+
+
+def _failure_message_from_content(content: object) -> str:
+    if isinstance(content, Sequence) and not isinstance(content, str | bytes):
+        text = "\n".join(
+            block["text"]
+            for block in content
+            if isinstance(block, Mapping)
+            and block.get("type") == "text"
+            and isinstance(block.get("text"), str)
+            and block["text"]
+        )
+        if text:
+            return text
+    return "tool result blocked by post-execute policy"
+
+
 class ToolRunContext(Mapping[str, Any]):
     def __init__(self, values: Mapping[str, Any]) -> None:
         self._values = dict(values)
@@ -429,6 +455,211 @@ class NativeToolExecutor:
     def describe(self, tools: Sequence[Mapping[str, Any]]) -> Mapping[str, Any]:
         return {"schemas": [project_tool_schema(tool, False) for tool in tools]}
 
+    async def _resolve_ask(
+        self,
+        execution: ToolRunContext,
+        decision: Mapping[str, Any],
+    ) -> tuple[Mapping[str, Any], bool]:
+        approval = self.ctx.get("approval")
+        request_approval = getattr(approval, "request", None)
+        reason = decision.get("reason")
+        if not callable(request_approval):
+            return (
+                {
+                    "kind": "deny",
+                    "reason": (
+                        reason
+                        if isinstance(reason, str)
+                        else f'tool "{execution["name"]}" requires approval (not yet supported)'
+                    ),
+                },
+                False,
+            )
+        agent = execution.get("agent")
+        if agent is None:
+            return (
+                {
+                    "kind": "deny",
+                    "reason": (
+                        f'tool "{execution["name"]}" requires approval, but the call has '
+                        "no agent to route it through"
+                    ),
+                },
+                False,
+            )
+        request = {
+            "agent": agent,
+            "toolName": execution["name"],
+            "callId": execution["callId"],
+            **({"reason": reason} if isinstance(reason, str) else {}),
+            **({"displayReason": decision["displayReason"]} if "displayReason" in decision else {}),
+            "signal": execution["signal"],
+        }
+        outcome = request_approval(request)
+        if inspect.isawaitable(outcome):
+            outcome = await outcome
+        if outcome == "allowed-once":
+            return {"kind": "allow"}, False
+        if outcome == "rejected":
+            return {
+                "kind": "deny",
+                "reason": f'the user rejected tool "{execution["name"]}"',
+            }, False
+        if outcome == "cancelled":
+            return {
+                "kind": "deny",
+                "reason": f'approval for tool "{execution["name"]}" was cancelled',
+            }, True
+        if outcome == "unavailable":
+            return {
+                "kind": "deny",
+                "reason": (
+                    f'tool "{execution["name"]}" requires approval, but no approval '
+                    "channel is available"
+                ),
+            }, False
+        raise ValueError(f"unknown approval outcome: {outcome!r}")
+
+    def _success_result(
+        self,
+        call: Mapping[str, Any],
+        arguments: object,
+        execution: ToolRunContext,
+        input_: Mapping[str, Any],
+        value: object,
+    ) -> dict[str, Any]:
+        tool = self.tools.executable(call["name"], input_.get("agent"), input_.get("toolSet"))
+        if tool is None:
+            raise ToolNotFoundError(call["name"])
+        detached = snapshot_json_value(value)
+        if detached is None and value is not None:
+            raise ToolOutputError(call["name"], ["value is not lossless JSON"])
+        violations = validate_json_schema_value(tool["output"]["schema"], detached)
+        if violations:
+            raise ToolOutputError(call["name"], violations)
+        frozen = deep_freeze(detached)
+        try:
+            content = tool["output"]["render"](arguments, frozen)
+        except Exception as error:
+            raise ToolOutputError(call["name"], [f"output.render failed: {error}"]) from error
+        projected_content = snapshot_json_value(content)
+        if not isinstance(projected_content, list):
+            raise ToolOutputError(call["name"], ["output.render returned non-lossless JSON"])
+        result: dict[str, Any] = {
+            "isError": False,
+            "value": frozen,
+            "content": projected_content,
+            **({"concludesTurn": True} if execution.concludes_turn else {}),
+        }
+        presentation_meta = tool["output"].get("presentationMeta")
+        if callable(presentation_meta):
+            try:
+                meta = presentation_meta(arguments, frozen)
+            except Exception as error:
+                raise ToolOutputError(
+                    call["name"], [f"output.presentationMeta failed: {error}"]
+                ) from error
+            projected_meta = snapshot_json_value(meta)
+            if projected_meta is None and meta is not None:
+                raise ToolOutputError(
+                    call["name"], ["output.presentationMeta returned non-lossless JSON"]
+                )
+            result["meta"] = projected_meta
+        return result
+
+    def _normalize_dispatch_result(
+        self,
+        call: Mapping[str, Any],
+        arguments: object,
+        execution: ToolRunContext,
+        input_: Mapping[str, Any],
+        candidate: object,
+    ) -> dict[str, Any]:
+        if not isinstance(candidate, Mapping):
+            raise TypeError("tools/execute must return a tool result")
+        if candidate.get("isError") is True:
+            return {
+                "isError": True,
+                "error": candidate["error"],
+                "content": candidate["content"],
+                **({"meta": candidate["meta"]} if "meta" in candidate else {}),
+                **(
+                    {"additionalContexts": candidate["additionalContexts"]}
+                    if "additionalContexts" in candidate
+                    else {}
+                ),
+            }
+        if candidate.get("isError") is not False:
+            raise TypeError("tools/execute returned a result without isError")
+        result = self._success_result(
+            call,
+            arguments,
+            execution,
+            input_,
+            candidate.get("value"),
+        )
+        if "additionalContexts" in candidate:
+            result["additionalContexts"] = candidate["additionalContexts"]
+        return result
+
+    async def _post_execute(
+        self,
+        call: Mapping[str, Any],
+        arguments: object,
+        execution: ToolRunContext,
+        input_: Mapping[str, Any],
+        result: Mapping[str, Any],
+        scope: Callable[[Context], bool],
+    ) -> dict[str, Any]:
+        post = self.ctx.waterfall(
+            "tools/post-execute",
+            execution,
+            result,
+            next_=lambda: {"kind": "accept"},
+            filter_=scope,
+        )
+        if inspect.isawaitable(post):
+            post = await post
+        if not isinstance(post, Mapping):
+            raise TypeError("tools/post-execute must return a decision")
+        decision_contexts = list(post.get("additionalContexts", ()))
+        if post.get("kind") == "block":
+            feedback = post["feedback"]
+            return {
+                "isError": True,
+                "error": {"message": _failure_message_from_content(feedback)},
+                "content": feedback,
+                **({"additionalContexts": decision_contexts} if decision_contexts else {}),
+            }
+        if post.get("kind") != "accept":
+            raise TypeError(f"unknown tools/post-execute decision: {post.get('kind')!r}")
+        if "content" in post and "value" in post:
+            raise TypeError(
+                "tools/post-execute accept decision cannot replace both value and content"
+            )
+        contexts = [*result.get("additionalContexts", ()), *decision_contexts]
+        if "value" in post:
+            if result.get("isError") is True:
+                raise TypeError("tools/post-execute cannot replace the value of a failed result")
+            replaced = self._success_result(
+                call,
+                arguments,
+                execution,
+                input_,
+                post["value"],
+            )
+            if contexts:
+                replaced["additionalContexts"] = contexts
+            return replaced
+        accepted = dict(result)
+        if "content" in post:
+            accepted["content"] = post["content"]
+        if contexts:
+            accepted["additionalContexts"] = contexts
+        else:
+            accepted.pop("additionalContexts", None)
+        return accepted
+
     async def _one(
         self,
         call: Mapping[str, Any],
@@ -451,72 +682,92 @@ class NativeToolExecutor:
             "token": object(),
         }
         execution = ToolRunContext(values)
-        if _aborted(signal):
-            return {
-                "callId": call["id"],
-                "result": _failure(
+        scope = scope_target(self.tools, input_.get("agent"))
+        result: Mapping[str, Any]
+        try:
+            needs_post = False
+            if _aborted(signal):
+                result = _failure(
                     HarnessError(
                         "tool call aborted before dispatch",
                         TOOL_ABORTED_BEFORE_DISPATCH,
                     )
-                ),
-            }
-        scope = scope_target(self.tools, input_.get("agent"))
-        result: Mapping[str, Any]
-        try:
-            decision = self.ctx.waterfall(
-                "tools/pre-execute",
-                execution,
-                next_=lambda: {"kind": "allow"},
-                filter_=scope,
-            )
-            if inspect.isawaitable(decision):
-                decision = await decision
-            decision = cast(Mapping[str, Any], decision)
-            reason = (
-                decision.get("reason")
-                if decision["kind"] in ("deny", "ask")
-                else self.tools.check_guards(execution)
-            )
-            if decision["kind"] == "cancel":
-                raise HarnessError(
-                    "tool call aborted before dispatch", TOOL_ABORTED_BEFORE_DISPATCH
                 )
-            if reason is not None:
-                raise HarnessError(reason, (decision.get("info") or {}).get("code", "DENIED"))
+            else:
+                decision = self.ctx.waterfall(
+                    "tools/pre-execute",
+                    execution,
+                    next_=lambda: {"kind": "allow"},
+                    filter_=scope,
+                )
+                if inspect.isawaitable(decision):
+                    decision = await decision
+                decision = cast(Mapping[str, Any], decision)
+                approval_cancelled = False
+                if decision.get("kind") == "ask":
+                    decision, approval_cancelled = await self._resolve_ask(execution, decision)
+                if decision.get("kind") == "cancel" or (approval_cancelled and _aborted(signal)):
+                    result = _failure(
+                        HarnessError(
+                            "tool call aborted before dispatch",
+                            TOOL_ABORTED_BEFORE_DISPATCH,
+                        )
+                    )
+                    needs_post = True
+                else:
+                    reason = (
+                        self.tools.check_guards(execution)
+                        if decision.get("kind") == "allow"
+                        else decision.get("reason")
+                    )
+                    if reason is not None:
+                        result = _denied(str(reason), decision.get("info"))
+                        needs_post = True
+                    elif _aborted(signal):
+                        result = _failure(
+                            HarnessError(
+                                "tool call aborted before dispatch",
+                                TOOL_ABORTED_BEFORE_DISPATCH,
+                            )
+                        )
+                        needs_post = True
+                    else:
+                        canonical: Mapping[str, Any] | None = None
 
-            async def dispatch() -> Mapping[str, Any]:
-                # A thrown or unknown tool is already an error result when a
-                # tools/execute wrapper's next() returns, and still reaches post-execute.
-                try:
-                    return await self._dispatch_body(call, arguments, execution, input_)
-                except Exception as error:
-                    return _failure(error)
+                        async def dispatch() -> Mapping[str, Any]:
+                            nonlocal canonical
+                            # A thrown or unknown tool is already an error result when a
+                            # tools/execute wrapper's next() returns.
+                            try:
+                                canonical = await self._dispatch_body(
+                                    call, arguments, execution, input_
+                                )
+                            except Exception as error:
+                                canonical = _failure(error)
+                            return canonical
 
-            dispatched = self.ctx.waterfall(
-                "tools/execute", execution, next_=dispatch, filter_=scope
-            )
-            if inspect.isawaitable(dispatched):
-                dispatched = await dispatched
-            result = cast(Mapping[str, Any], dispatched)
-            post = self.ctx.waterfall(
-                "tools/post-execute",
-                execution,
-                result,
-                next_=lambda: {"kind": "accept"},
-                filter_=scope,
-            )
-            if inspect.isawaitable(post):
-                post = await post
-            post = cast(Mapping[str, Any], post)
-            if post["kind"] == "block":
-                result = {
-                    "isError": True,
-                    "error": {"message": "tool result blocked by post-execute policy"},
-                    "content": post["feedback"],
-                }
-            elif "content" in post:
-                result = {**result, "content": post["content"]}
+                        dispatched = self.ctx.waterfall(
+                            "tools/execute", execution, next_=dispatch, filter_=scope
+                        )
+                        if inspect.isawaitable(dispatched):
+                            dispatched = await dispatched
+                        result = (
+                            canonical
+                            if dispatched is canonical and canonical is not None
+                            else self._normalize_dispatch_result(
+                                call, arguments, execution, input_, dispatched
+                            )
+                        )
+                        needs_post = True
+            if needs_post:
+                result = await self._post_execute(
+                    call,
+                    arguments,
+                    execution,
+                    input_,
+                    result,
+                    scope,
+                )
         except BaseException as error:
             result = _failure(error)
         final = snapshot_json_value(result, freeze=True)
@@ -542,22 +793,8 @@ class NativeToolExecutor:
         if tool is None:
             raise ToolNotFoundError(call["name"])
         value = await tool["execute"](arguments, execution)
-        detached = snapshot_json_value(value)
-        if detached is None and value is not None:
-            raise ToolOutputError(call["name"], ["value is not lossless JSON"])
-        violations = validate_json_schema_value(tool["output"]["schema"], detached)
-        if violations:
-            raise ToolOutputError(call["name"], violations)
-        content = tool["output"]["render"](arguments, detached)
         return {
-            "isError": False,
-            "value": deep_freeze(detached),
-            "content": content,
-            **(
-                {"meta": tool["output"]["presentationMeta"](arguments, detached)}
-                if "presentationMeta" in tool["output"]
-                else {}
-            ),
+            **self._success_result(call, arguments, execution, input_, value),
             **(
                 {"additionalContexts": execution.additional_contexts}
                 if execution.additional_contexts

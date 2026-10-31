@@ -22,7 +22,11 @@ import deskagents.bundle
 from deskagents.bundle import MINIMAL_BUNDLE, BundleLoader, apply_row_patches, load_bundle_rows
 from deskagents.core import AgentRegistry, SystemPrompt, ToolsService
 from deskagents.llm import LlmRuntime, create_user_message
-from deskagents.testing import ScriptedAdapter
+from deskagents.testing import (
+    PluginContractBackend,
+    ScriptedAdapter,
+    run_plugin_contract,
+)
 
 PLUGIN = Path(__file__).resolve().parents[2] / "examples" / "external_plugin"
 
@@ -68,6 +72,82 @@ def skill_turn() -> ScriptedAdapter:
             ],
         ]
     )
+
+
+async def external_plugin_backend() -> PluginContractBackend:
+    patches = yaml.safe_load((PLUGIN / "bundle.yml").read_text())
+    ctx = Context()
+    loader = BundleLoader(ctx)
+    await loader.load_file(MINIMAL_BUNDLE)
+    family = await loader.load(apply_row_patches([], patches))
+    tools = ctx.get("tools")
+    prompt = ctx.get("systemPrompt")
+    llm = ctx.get("llm")
+    agents = ctx.get("agents")
+    assert isinstance(tools, ToolsService)
+    assert isinstance(prompt, SystemPrompt)
+    assert isinstance(llm, LlmRuntime)
+    assert isinstance(agents, AgentRegistry)
+    adapter = skill_turn()
+    llm.register_adapter(["scripted"], adapter, ctx=ctx)
+    handles: list[Any] = []
+
+    async def assert_active() -> None:
+        assert [tool["name"] for tool in tools.definitions()] == ["skill"]
+        assembly = await prompt.assemble({})
+        assert "skills" in [section["name"] for section in assembly["sections"]]
+
+    async def exercise() -> None:
+        handle = await agents.create(
+            {
+                "sessionId": f"plugin-contract-{len(handles)}",
+                "agentOptions": {"provider": "scripted", "model": "scripted"},
+            }
+        )
+        handles.append(handle)
+        handle.agent.followup(
+            create_user_message(
+                content=[{"type": "text", "text": "notes"}],
+                source={"kind": "user"},
+            )
+        )
+        await handle.agent.when_idle()
+        results = [
+            event["data"]
+            for event in handle.agent.session.snapshot_events()
+            if event["type"] == "tool/result"
+        ]
+        assert results[-1]["message"]["content"][0]["text"].startswith("Group changes")
+
+    async def assert_disposed() -> None:
+        assert tools.definitions() == []
+        assembly = await prompt.assemble({})
+        assert "skills" not in [section["name"] for section in assembly["sections"]]
+
+    async def dispose() -> None:
+        while handles:
+            await handles.pop().dispose()
+        await loader.dispose()
+        await ctx.fiber.dispose()
+
+    return PluginContractBackend(
+        assert_active=assert_active,
+        exercise=exercise,
+        dispose_plugin=family.dispose,
+        assert_disposed=assert_disposed,
+        dispose=dispose,
+    )
+
+
+@pytest.mark.asyncio
+async def test_external_family_passes_the_reusable_plugin_contract(
+    installed: list[importlib.metadata.EntryPoint],
+) -> None:
+    del installed
+    results = await run_plugin_contract(external_plugin_backend)
+    failures = [result.detail for result in results if result.outcome == "failed"]
+    assert failures == []
+    assert [result.outcome for result in results] == ["passed", "passed", "passed"]
 
 
 @pytest.mark.asyncio

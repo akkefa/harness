@@ -42,7 +42,7 @@
       "module": "deskagents.core.tools",
       "milestone": "0.1",
       "status": "in-progress",
-      "note": "Registry, scoped layers, guards and the pre-execute, execute, post-execute and result seams are ported; post-execute accept with a replacement value or additional contexts is not, and most of the upstream suite is not yet catalogued."
+      "note": "Registry, scoped layers, guards, optional approval routing and the pre-execute, execute, post-execute and result seams are ported, including value/content replacement and additional contexts; most of the upstream suite is not yet catalogued."
     },
     {
       "upstream": "packages/core/tool-executor-native",
@@ -57,7 +57,7 @@
       "module": "deskagents.core.agent",
       "milestone": "0.1",
       "status": "in-progress",
-      "note": "Registry, scoped agent events with contained notifications and model selection are ported; initiator tracking is not, and the upstream suite is not yet catalogued."
+      "note": "Registry, scoped agent events with contained notifications, model selection and draining initiator boundaries are ported; the rest of the upstream suite is not yet catalogued."
     },
     {
       "upstream": "packages/core/agent-loop",
@@ -65,7 +65,7 @@
       "module": "deskagents.core.agent_loop",
       "milestone": "0.1",
       "status": "in-progress",
-      "note": "Turn and step driving, inbox, pre-step, request, request-error, assistant-stream, turn-stopping, request-header series and tool-registry diffs are ported; recording interrupted assistant blocks on abort is not, and most of the upstream suite is not yet catalogued."
+      "note": "Turn and step driving, inbox, pre-step, request, request-error, assistant-stream (including interrupted partial output), turn-stopping, request-header series and tool-registry diffs are ported; most of the upstream suite is not yet catalogued."
     },
     {
       "upstream": "packages/core/agent-default-model",
@@ -87,7 +87,7 @@
       "module": "deskagents.llm",
       "milestone": "0.1",
       "status": "ported",
-      "note": "Core runtime, stream and registry behavior is ported; attachment projection remains in the external attachment plugin."
+      "note": "Core runtime, stream and registry behavior, including provider model-catalog update notifications, is ported; attachment projection remains in the external attachment plugin."
     },
     {
       "upstream": "packages/llm/llm-retry",

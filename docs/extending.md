@@ -10,6 +10,26 @@ just as upstream DeepSeek Harness mounts npm packages. The family boundaries are
 distribution laid out as its own repository. `tests/bundle/test_external_plugin.py`
 mounts it on the core bundle and drives a turn through it.
 
+## Compatibility guarantee
+
+At the upstream pin in [upstream.json](upstream.json), a manually converted
+**headless** DeepSeek Harness plugin can use the corresponding public Python services,
+events and lifecycle:
+
+- install the Python distribution;
+- declare its Cordis plugins in the `deskagents.plugins` entry-point group; and
+- compose their names with bundle rows.
+
+Loading and lifecycle are automatic after conversion. Source conversion is not: imports,
+types, promises, cancellation and any package-specific dependencies must be translated
+to Python. A plugin from a newer upstream revision may require a deskagents pin update.
+
+The profile excludes Node host APIs, browser/client UI, HMR, pnpm profile installation,
+nested Loader trees, `include`, and JavaScript `!!js` bundle expressions. Use flat
+id-addressed rows and Python configuration. A headless plugin that depends on another
+upstream service (for example `fs`, `web` or `skills`) also needs that service's Python
+plugin package; the core does not manufacture missing capabilities.
+
 ## A plugin
 
 A plugin is a Cordis plugin:
@@ -19,6 +39,9 @@ A plugin is a Cordis plugin:
 
 Either form may declare `inject = ["tools", "systemPrompt", ...]`. The plugin starts
 when those services exist and stops when any of them leaves.
+
+A plugin may expose `Config.validate(value)` for synchronous configuration validation.
+The normalized return value is passed to `apply` or the `Service` constructor.
 
 Register through the plugin's `ctx`. Every registration below is owned by the
 registering plugin and is removed when it unloads:
@@ -57,6 +80,22 @@ dependencies = ["deskagents>=0.1,<0.2", "deepseek-cordis>=0.2.0,<0.3"]
 The entry-point name is what a bundle row's `name` refers to. A name declared by two
 installed distributions is rejected.
 
+## Converting an upstream TypeScript plugin
+
+1. Read the package and tests at the deskagents upstream pin, including every package
+   it imports.
+2. Keep its public service name, event names, tool names, schemas and durable record
+   vocabulary unchanged.
+3. Translate a `Service` subclass or `apply(ctx, config)` module and its `inject`
+   declaration. Use `async`/`await` and the supplied signal instead of JavaScript
+   promises and `AbortSignal`.
+4. Register every listener, tool, projection, prompt section and adapter through the
+   plugin's `ctx`; pass `ctx=ctx` to registry methods. Do not return an awaited
+   registration as though it were a JavaScript disposer.
+5. Port or depend on Python providers for every non-core service the plugin consumes.
+6. Declare entry points, add bundle rows, and run the plugin contract plus any
+   capability-specific contracts and upstream cases.
+
 ## Mounting
 
 Bundle rows resolve a `name` to a plugin passed to `BundleLoader`, then a core plugin,
@@ -91,13 +130,15 @@ mounts plugins that are not installed, such as a host application's own.
 
 Registries, all taking `ctx=` for ownership:
 
-| Service | Registration |
-|---|---|
-| `tools` | `register(definition, when=...)`, `guard(callback)` |
-| `systemPrompt` | `section(...)`, `variable(name, provider)`, `tools(provider)` |
-| `llm` | `register_adapter(routes, adapter)`; see [model-adapters.md](model-adapters.md) |
-| `deepseekLlmApiExtensions` | `register(field, provider)` for DeepSeek request fields |
-| `sessionPersistence` | a `SessionPersistence` subclass for a storage backend |
+| Service | Public import | Registration |
+|---|---|---|
+| `tools` | `deskagents.core` | `register(definition, when=...)`, `guard(callback)` |
+| `systemPrompt` | `deskagents.core` | `section(...)`, `variable(name, provider)`, `tools(provider)` |
+| `llm` | `deskagents.llm` | `register_adapter(routes, adapter)`, `models_updated(provider)`; see [model-adapters.md](model-adapters.md) |
+| `deepseekLlmApiExtensions` | `deskagents.llm` | `register(field, provider)` for DeepSeek request fields |
+| `sessionPersistence` | `deskagents.session.persistence` | a `SessionPersistence` subclass for a storage backend |
+| `sessionProjections` | `deskagents.session.projection` | `register(definition)`, `on_changed(listener)` |
+| `agents` | `deskagents.core` | `create`, `resume`, and initiator attribution for child work |
 
 Events, with the upstream names and dispatch modes. A waterfall listener receives
 `next_` and returns the (possibly replaced) result. Listener failures of notification
@@ -105,7 +146,7 @@ events are logged and contained; failures of waterfall and serial listeners prop
 
 | Event | Mode | Use |
 |---|---|---|
-| `tools/pre-execute` | waterfall | allow, deny or cancel a call before dispatch |
+| `tools/pre-execute` | waterfall | allow, deny, ask or cancel a call before dispatch |
 | `tools/execute` | waterfall | wrap dispatch; `next_()` returns the normalized result |
 | `tools/post-execute` | waterfall | inspect each result, errors included |
 | `tools/result` | notification | observe the final frozen result |
@@ -117,11 +158,15 @@ events are logged and contained; failures of waterfall and serial listeners prop
 | `agent/turn-stopping` | serial | `agent.steer(...)` to continue the turn |
 | `agent/status`, `agent/error`, `agent/disposed`, `agent/inbox/*` | notification | observe |
 | `llm/stream` | waterfall | wrap a model stream |
+| `llm/models-updated` | notification | tell catalog consumers to reload one provider |
 | `session/event` | notification | observe each committed session event |
 | `session/flush` | awaited | make the session durable at a checkpoint |
 
-A `tools/pre-execute` decision of `ask` is treated as a denial until the approval seam
-of the control family exists.
+An `ask` decision calls the optional `approval` service. Without that service, without
+an agent to route through, or when the channel is unavailable, the call degrades to a
+denial. The approval service implementation remains in the external control family.
+`tools/post-execute` may replace successful `value` (which is validated and rendered
+again), replace `content`, block a result, and attach `additionalContexts`.
 
 ## Skills and web search
 
@@ -143,9 +188,12 @@ family; a full port follows the upstream packages above and their tests.
 
 - Mount it with the core bundle in a `Context` and drive turns with
   `deskagents.testing.ScriptedAdapter`.
-- Run the contract suites in `deskagents.testing` for persistence backends, live write
-  paths and model adapters.
-- Dispose the plugin and assert its tools, sections and listeners are gone.
+- Supply a fresh `PluginContractBackend` and run
+  `deskagents.testing.run_plugin_contract`. Its probes verify mount, execution and
+  cleanup without depending on pytest.
+- Run the capability contracts in `deskagents.testing` for persistence backends, live
+  write paths and model adapters.
+- Port the upstream package's behavior tests and mark each with its pinned source.
 
 Use only public `deskagents` and `deepseek-cordis` APIs; modules and attributes whose
 names start with an underscore are private.

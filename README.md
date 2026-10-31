@@ -36,6 +36,10 @@ plugin families. See the [plugin roadmap](docs/plugin-roadmap.md), and
 [extending deskagents](docs/extending.md) for writing a plugin package in another
 repository.
 
+A manually ported headless DeepSeek Harness plugin can keep the pinned service names,
+events and schemas, then load through Python entry points and bundle rows. This does not
+include Node/UI/HMR plugins or automatic TypeScript source conversion.
+
 ## Quick start
 
 Install the core with the provider extra you need:

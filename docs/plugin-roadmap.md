@@ -10,6 +10,19 @@ expected to live in an independently versioned package and repository which depe
 the public `deskagents` seams and validates its providers with the contract suites
 published by `deskagents.testing`.
 
+## Compatibility profile
+
+The core guarantees the public lifecycle, service, registry and event contracts needed
+by manually converted headless plugins at the pinned DeepSeek Harness revision. Once a
+Python plugin distribution is installed, entry-point discovery and bundle composition
+mount it without host code imports. `deskagents.testing.run_plugin_contract` verifies
+mount, execution and teardown.
+
+This is not JavaScript source compatibility. Each family ports its own implementation
+and non-core dependencies. Node hosts, client UI, HMR, pnpm profile management, nested
+Loader trees and JavaScript bundle expressions remain outside the Python profile. See
+[extending.md](extending.md) for the exact conversion and testing contract.
+
 ## Planned plugin families
 
 | Family | Candidate distribution | Upstream groups or product code |

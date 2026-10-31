@@ -15,9 +15,9 @@
 - Cordis alignment (plan Phase 1): `scripts/cordis_usage.py` inventories the Cordis
   features mapped upstream packages use, [docs/cordis-alignment.md](docs/cordis-alignment.md)
   records the result, and `tests/test_cordis_contract.py` checks the behaviour the harness
-  relies on against the installed deepseek-cordis. Three gaps block 0.1 (public
-  `Events.dispatch`, `Fiber.assert_active`, `internal/status` and `internal/plugin`
-  events); they are tracked as strict xfails until deepseek-cordis adds them.
+  relies on against the installed deepseek-cordis. deepseek-cordis 0.2.0 closes the
+  public dispatch, active-fiber, lifecycle-event, entry and config-access gaps; advanced
+  Loader composition remains outside the core profile.
 - Phase 2, scope and session log:
   - `deskagents.core.scope` (upstream `core/scope`).
   - `deskagents.session.format` (upstream `session/session-format`): JSON coordinates,
@@ -100,12 +100,19 @@
     `agent/pre-step` carries `turn` and `agent/error` carries `turn` and `step`.
   - Agent creation closes the new write handle when the seed append fails, and create
     and resume reject an owner that unloaded meanwhile.
+  - Tool `ask` decisions use an optional approval service; post-execute policies can
+    replace values or content and attach context. Agent initiator boundaries drain on
+    teardown, cancelled streams retain visible partial output, and model providers can
+    publish catalog updates.
   - `core/agent-loop`, `core/agent` and `core/tools` are now marked `in-progress`,
-    with notes on what is not yet ported.
+    until the remaining large upstream suites are catalogued.
 - Plugin packages: `BundleLoader` resolves bundle row names through the
   `deskagents.plugins` entry-point group, so a plugin distribution from another
   repository is mounted by name. [docs/extending.md](docs/extending.md) and
-  `examples/external_plugin` show a complete plugin family.
+  `examples/external_plugin` show a complete plugin family. The pytest-independent
+  `deskagents.testing` plugin contract verifies mount, public-seam execution and clean
+  family unload; lifecycle tests cover tools, guards, prompts, adapters, events and
+  projections owned by a real plugin fiber.
 - Upstream watch: `docs/upstream.json` records the vendored Cordis versions and the
   unmapped upstream packages the core imports. `scripts/upstream_changes.py` reports
   their changes and gains `--exit-code`. A daily workflow keeps a tracking issue open

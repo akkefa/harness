@@ -38,6 +38,26 @@ def test_provider_attribution_headers() -> None:
     }
 
 
+@pytest.mark.asyncio
+async def test_model_providers_can_publish_catalog_updates() -> None:
+    ctx = Context()
+    await ctx.plugin(LlmRuntime)
+    llm = ctx.get("llm")
+    assert isinstance(llm, LlmRuntime)
+    seen: list[str] = []
+
+    def broken(provider: str) -> None:
+        raise RuntimeError(f"cannot refresh {provider}")
+
+    ctx.on("llm/models-updated", broken)
+    ctx.on("llm/models-updated", seen.append)
+    llm.models_updated("catalog")
+    assert seen == ["catalog"]
+    with pytest.raises(ValueError, match="non-empty"):
+        llm.models_updated("")
+    await ctx.fiber.dispose()
+
+
 @pytest.mark.upstream(f"{SPEC}/tests/api-key.spec.ts::normalizeApiKey")
 def test_api_key_normalization_and_safe_diagnostic() -> None:
     assert normalize_api_key("  sk-abc\t\n") == {"ok": True, "value": "sk-abc"}

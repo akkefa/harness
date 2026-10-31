@@ -1,8 +1,8 @@
 """The deepseek-cordis behaviour the harness relies on, checked against the installed version.
 
-docs/cordis-alignment.md lists where upstream packages use each item. A remaining gap is
-a strict xfail: when deepseek-cordis gains the feature the test passes, fails as XPASS,
-and points here to remove the marker and the workaround.
+docs/cordis-alignment.md lists where upstream packages use each item. The core-facing
+gaps closed in deepseek-cordis 0.2.0 are ordinary regression tests here; advanced
+Loader composition remains outside the core compatibility profile.
 """
 
 from __future__ import annotations

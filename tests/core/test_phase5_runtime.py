@@ -297,6 +297,21 @@ class WaitingAdapter(LlmAdapter):
         return generate()
 
 
+class PartialWaitingAdapter(LlmAdapter):
+    def __init__(self) -> None:
+        self.started = asyncio.Event()
+
+    def stream(self, options: Mapping[str, Any]) -> AsyncIterable[Mapping[str, Any]]:
+        async def generate() -> AsyncIterable[Mapping[str, Any]]:
+            yield {"type": "text-delta", "index": 0, "text": "partial"}
+            self.started.set()
+            signal = options["signal"]
+            while not signal.aborted:  # noqa: ASYNC110 - adapter observes the runtime signal
+                await asyncio.sleep(0)
+
+        return generate()
+
+
 @pytest.mark.asyncio
 async def test_scripted_agent_cancelled_turn_is_balanced() -> None:
     ctx, agents, _ = await runtime([])
@@ -685,7 +700,7 @@ async def test_assistant_stream_abandons_a_rejected_settlement() -> None:
 
 
 @pytest.mark.asyncio
-async def test_assistant_stream_abandons_a_cancelled_attempt() -> None:
+async def test_assistant_stream_commits_a_cancelled_empty_attempt() -> None:
     ctx, agents, _ = await runtime([])
     llm = ctx.get("llm")
     assert isinstance(llm, LlmRuntime)
@@ -701,7 +716,42 @@ async def test_assistant_stream_abandons_a_cancelled_attempt() -> None:
     await handle.agent.when_idle()
     assert frames[0]["type"] == "start"
     assert frames[-1]["type"] == "end"
-    assert frames[-1]["outcome"] == {"kind": "abandoned"}
+    assert frames[-1]["outcome"]["kind"] == "committed"
+    assert frames[-1]["outcome"]["eventType"] == "assistant/attempt"
+    await handle.dispose()
+    await ctx.fiber.dispose()
+
+
+@pytest.mark.asyncio
+@pytest.mark.upstream(
+    "packages/core/agent-loop/tests/cancel.spec.ts::"
+    "cancel mid-stream finalizes the streamed prefix onto the surface"
+)
+async def test_cancelled_stream_commits_its_visible_prefix() -> None:
+    ctx, agents, _ = await runtime([])
+    llm = ctx.get("llm")
+    assert isinstance(llm, LlmRuntime)
+    waiting = PartialWaitingAdapter()
+    llm.register_adapter(["partial"], waiting)
+    handle = await agents.create(
+        {
+            "sessionId": "cancelled-prefix",
+            "agentOptions": {"provider": "partial", "model": "m"},
+        }
+    )
+    frames = record_frames(ctx, handle.agent)
+    handle.agent.followup(user("wait"))
+    await waiting.started.wait()
+    handle.agent.cancel({"kind": "user"})
+    await handle.agent.when_idle()
+    messages = events_of(handle.agent, "assistant/message")
+    assert messages[-1]["data"]["message"]["content"] == [{"type": "text", "text": "partial"}]
+    assert messages[-1]["data"]["interrupted"] is True
+    assert frames[-1]["outcome"] == {
+        "kind": "committed",
+        "eventType": "assistant/message",
+        "seq": messages[-1]["seq"],
+    }
     await handle.dispose()
     await ctx.fiber.dispose()
 
@@ -908,6 +958,204 @@ async def run_boom(tools: ToolsService) -> Mapping[str, Any]:
     )
     result: Mapping[str, Any] = batch["results"][0]["result"]
     return result
+
+
+async def run_tool(
+    tools: ToolsService,
+    name: str,
+    *,
+    agent: object = None,
+) -> Mapping[str, Any]:
+    signal = type("Signal", (), {"aborted": False})()
+    batch = await tools.execute(
+        {
+            "calls": [{"id": "c1", "name": name, "arguments": "{}"}],
+            "signal": signal,
+            **({"agent": agent} if agent is not None else {}),
+        }
+    )
+    result: Mapping[str, Any] = batch["results"][0]["result"]
+    return result
+
+
+def register_integer_tool(
+    tools: ToolsService,
+    *,
+    execute: Any,
+    render: Any,
+    presentation_meta: Any = None,
+) -> None:
+    tools.register(
+        define_tool(
+            name="number",
+            description="Number",
+            parameters={},
+            output={
+                "schema": {"type": "integer"},
+                "render": render,
+                **(
+                    {"presentationMeta": presentation_meta} if presentation_meta is not None else {}
+                ),
+            },
+            execute=execute,
+        )
+    )
+
+
+@pytest.mark.asyncio
+@pytest.mark.upstream(
+    "packages/core/tools/tests/tools.spec.ts::ToolRuntime > "
+    "keeps value/meta through content replacement and recomputes both projections "
+    "after value replacement"
+)
+async def test_post_execute_value_replacement_reprojects_the_result() -> None:
+    ctx, tools = await tool_runtime()
+    rendered: list[int] = []
+
+    async def execute(args: Mapping[str, Any], execution: object) -> int:
+        del args, execution
+        return 1
+
+    def render(args: Mapping[str, Any], value: int) -> list[Mapping[str, Any]]:
+        del args
+        rendered.append(value)
+        return [{"type": "text", "text": str(value)}]
+
+    register_integer_tool(
+        tools,
+        execute=execute,
+        render=render,
+        presentation_meta=lambda args, value: {"projected": value},
+    )
+    ctx.on(
+        "tools/post-execute",
+        lambda execution, result, next_: {"kind": "accept", "value": 2},
+    )
+    result = await run_tool(tools, "number")
+    assert result == {
+        "isError": False,
+        "value": 2,
+        "content": [{"type": "text", "text": "2"}],
+        "meta": {"projected": 2},
+    }
+    assert rendered == [1, 2]
+    await ctx.fiber.dispose()
+
+
+@pytest.mark.asyncio
+@pytest.mark.upstream(
+    "packages/core/tools/tests/tools.spec.ts::ToolRuntime > "
+    "preserves tool-deferred, execute-wrapper, and post-execute contexts in order"
+)
+async def test_tool_contexts_survive_each_pipeline_layer_in_order() -> None:
+    ctx, tools = await tool_runtime()
+    body = user("body")
+    wrapper = user("wrapper")
+    policy = user("policy")
+
+    async def execute(args: Mapping[str, Any], execution: Any) -> int:
+        del args
+        execution.defer_context(body)
+        return 1
+
+    register_integer_tool(
+        tools,
+        execute=execute,
+        render=lambda args, value: [{"type": "text", "text": str(value)}],
+    )
+
+    async def around(execution: object, next_: Any) -> Mapping[str, Any]:
+        del execution
+        result = await next_()
+        return {
+            **result,
+            "additionalContexts": [*result.get("additionalContexts", ()), wrapper],
+        }
+
+    ctx.on("tools/execute", around)
+    ctx.on(
+        "tools/post-execute",
+        lambda execution, result, next_: {
+            "kind": "accept",
+            "additionalContexts": [policy],
+        },
+    )
+    result = await run_tool(tools, "number")
+    assert result["additionalContexts"] == [body, wrapper, policy]
+    await ctx.fiber.dispose()
+
+
+@pytest.mark.asyncio
+@pytest.mark.upstream(
+    "packages/core/tools/tests/tools.spec.ts::ToolRuntime > ask routing through ctx.approval > "
+    "dispatches the tool when the answerer grants allowed-once, forwarding the ask fields"
+)
+async def test_ask_uses_the_optional_approval_service() -> None:
+    ctx, tools = await tool_runtime()
+    requests: list[Mapping[str, Any]] = []
+
+    class Approval:
+        async def request(self, request: Mapping[str, Any]) -> str:
+            requests.append(request)
+            return "allowed-once"
+
+    ctx.provide("approval", Approval())
+
+    async def execute(args: Mapping[str, Any], execution: object) -> int:
+        del args, execution
+        return 1
+
+    register_integer_tool(
+        tools,
+        execute=execute,
+        render=lambda args, value: [{"type": "text", "text": str(value)}],
+    )
+    ctx.on(
+        "tools/pre-execute",
+        lambda execution, next_: {
+            "kind": "ask",
+            "reason": "dangerous",
+            "displayReason": {"en": "Run it?"},
+        },
+    )
+    agent = object()
+    result = await run_tool(tools, "number", agent=agent)
+    assert result["isError"] is False
+    assert requests == [
+        {
+            "agent": agent,
+            "toolName": "number",
+            "callId": "c1",
+            "reason": "dangerous",
+            "displayReason": {"en": "Run it?"},
+            "signal": requests[0]["signal"],
+        }
+    ]
+    await ctx.fiber.dispose()
+
+
+@pytest.mark.asyncio
+@pytest.mark.upstream(
+    "packages/core/tools/tests/tools.spec.ts::ToolRuntime > "
+    "an ask decision with no reason degrades to deny with a default message"
+)
+async def test_ask_without_approval_degrades_to_denial() -> None:
+    ctx, tools = await tool_runtime()
+
+    async def execute(args: Mapping[str, Any], execution: object) -> int:
+        del args, execution
+        raise AssertionError("denied tool must not run")
+
+    register_integer_tool(
+        tools,
+        execute=execute,
+        render=lambda args, value: [{"type": "text", "text": str(value)}],
+    )
+    ctx.on("tools/pre-execute", lambda execution, next_: {"kind": "ask"})
+    result = await run_tool(tools, "number", agent=object())
+    assert result["isError"] is True
+    assert result["error"]["message"] == 'tool "number" requires approval (not yet supported)'
+    await ctx.fiber.dispose()
 
 
 @pytest.mark.asyncio

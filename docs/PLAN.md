@@ -48,7 +48,7 @@ migration. This is not a compatibility alias for PepGPT's existing import tree. 
 | Upstream architecture docs | `deepseek-harness/docs/architecture.md`, `docs/capability-seams.md`, `docs/subsystems/*.md` | same |
 | Upstream session format | `deepseek-harness/docs/session-format-status.md`, `docs/persistence-schema.json`, `docs/persistence-changes/finalized/v4.json` | format v4 |
 | Upstream bundles | `deepseek-harness/packages/bundle/sdk-minimal/cordis.patch.yml`, `packages/bundle/base/cordis.patch.yml` | same |
-| deepseek-cordis (plugin runtime) | `/Users/iali/workplace/projects/personal/PyCordis` · <https://github.com/akkefa/deepseek-cordis> · <https://pypi.org/project/deepseek-cordis/> | repo `0.1.2` @ `f804a26`, audited against Harness `f3803c9` and vendored Cordis 4.0.6-alpha.1; PyPI latest `0.1.1` |
+| deepseek-cordis (plugin runtime) | `/Users/iali/workplace/projects/personal/deepseek-cordis` · <https://github.com/akkefa/deepseek-cordis> · <https://pypi.org/project/deepseek-cordis/> | release `0.2.0`, audited against the pinned Harness Cordis requirements and locked here as `>=0.2.0,<0.3` |
 | PepGPT Python harness (head start, migration target) | `/Users/iali/workplace/projects/pep/pepgpt-llm-orchestrator/harness/` | `dev` @ `0cffd1ff`, ported from upstream `21638c5` (2026-09-27) |
 | PepGPT code that uses the harness | `/Users/iali/workplace/projects/pep/pepgpt-llm-orchestrator/app/harness_agent/`, `m365/`, `onereach_profile/` | same |
 | pepgpt-cordis (what PepGPT uses today) | `/Users/iali/workplace/projects/pep/pepgpt-cordis` | `0.1.3`. Same API as deepseek-cordis; only logging and namespace differ. |
@@ -417,8 +417,9 @@ move the pin, and port the changes that are approved.
   checked in Python CI and the generation script is rerun whenever the pin moves.
 - **`import deskagents` clash.** The unrelated PyPI `deskagents` package installs the same
   top-level module. The last cheap time to rename is before 0.1.0.
-- **deepseek-cordis 0.1.2 is not on PyPI** (PyPI has 0.1.1). Phase 1 decides the
-  floor and publishes a release if needed.
+- **Cordis evolution.** deepseek-cordis 0.2.0 closes the core public-API gaps. A future
+  upstream vendored Cordis/Loader move still requires a coordinated Cordis release and
+  harness pin audit.
 - **PepGPT migration cost.** PepGPT will adapt its model providers against the new
   seam and convert stored sessions to v4. The contract suites and migration guide
   reduce this but don't remove it.

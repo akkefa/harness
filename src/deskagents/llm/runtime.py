@@ -192,6 +192,18 @@ class LlmRuntime(Service):
     def _emit_updated(self) -> None:
         emit_contained(self.ctx, "llm/adapters-updated", log=logger)
 
+    def models_updated(self, provider: str) -> None:
+        """Publish that one provider's advertised model catalog changed."""
+        if not isinstance(provider, str) or not provider:
+            raise ValueError("provider must be a non-empty string")
+        emit_contained(
+            self.ctx,
+            "llm/models-updated",
+            provider,
+            describe=f'llm/models-updated observer for provider "{provider}"',
+            log=logger,
+        )
+
     def _prepare_routes(
         self,
         providers: Sequence[str],

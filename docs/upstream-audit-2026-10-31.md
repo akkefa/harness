@@ -66,11 +66,16 @@ upstream-marked tests:
   carries `turn` and `agent/error` carries `turn` and `step`.
 - A seed append failure closes the new write handle, and an owner disposed during
   storage creation or a resume read is rejected.
+- `tools/post-execute` may replace a successful value or presentation and append
+  contexts; `ask` uses an optional approval service and safely degrades to denial.
+- Agent initiator boundaries preserve async attribution and drain at teardown.
+  Cancellation commits visible partial text as an interrupted assistant message.
+- Model-provider plugins can publish contained `llm/models-updated` notifications.
 
 The three packages are now `in-progress` in `upstream.json`, with notes naming what
-remains: post-execute replacement values, `ask` routing through an approval service,
-initiator tracking, interrupted assistant blocks on abort, and porting the rest of their
-upstream suites.
+remains: cataloguing and porting the rest of their large upstream suites. Their public
+headless plugin seams are covered by focused upstream cases and a plugin-fiber lifecycle
+test. The compatibility catalog now contains 808 cases from 93 upstream spec files.
 
 ## Tracking
 
@@ -79,11 +84,12 @@ upstream packages that 0.1 packages import. `.github/workflows/upstream.yml` run
 change report daily and keeps one tracking issue current; `.github/dependabot.yml`
 proposes new `deepseek-cordis` releases.
 
-## Deferred to core Phases 4–6
+## Core Phases 4–6
 
-- Full LLM seam, retry and token metering.
-- Agent spine, tools, prompt assembly and minimal bundle.
-- DeepSeek and OpenAI-compatible model adapters.
+The LLM seam, retry and token metering, agent spine, tools, prompt assembly, minimal
+bundle, and DeepSeek/OpenAI-compatible adapters are now implemented. The three
+agent-spine packages remain labelled `in-progress` until their upstream suites have the
+same catalog depth as session and persistence.
 
 ## External plugin inventory
 

@@ -628,11 +628,17 @@ class ReactLoopAgent:
             "sessionId": self.id,
             "signal": signal,
         }
-        stream = prepared.stream(request) if prepared else llm.stream(request)
         live = _LiveAttempt(self, turn, step)
-        live.start()
+        started = False
         try:
+            stream = prepared.stream(request) if prepared else llm.stream(request)
+            if signal.aborted:
+                raise asyncio.CancelledError
+            live.start()
+            started = True
             async for chunk in stream:
+                if signal.aborted:
+                    raise asyncio.CancelledError
                 live.push(chunk)
             if signal.aborted:
                 raise asyncio.CancelledError
@@ -674,8 +680,57 @@ class ReactLoopAgent:
                         surface_op="append",
                     ),
                 )
-        except BaseException:
-            live.abandon()
+        except BaseException as error:
+            if not started:
+                raise
+            if live.ended:
+                raise
+            try:
+                assembler = live.assembler
+                stream_record = list(live.accumulator.snapshot())
+                interrupted = assembler.interrupted_blocks() if signal.aborted else []
+                if interrupted:
+                    message = create_assistant_message(
+                        content=interrupted,
+                        source={
+                            "provider": config["provider"],
+                            "model": config["model"],
+                            **(
+                                {"replayState": assembler.replay_state}
+                                if assembler.replay_state is not None
+                                else {}
+                            ),
+                        },
+                    )
+                    live.settle(
+                        "assistant/message",
+                        lambda: self.session.append(
+                            "assistant/message",
+                            {
+                                "turn": turn,
+                                "step": step,
+                                "message": message,
+                                "interrupted": True,
+                                **({"usage": assembler.usage} if assembler.usage else {}),
+                                "stream": stream_record,
+                            },
+                            surface_op="append",
+                        ),
+                    )
+                else:
+                    live.settle(
+                        "assistant/attempt",
+                        lambda: self.session.append(
+                            "assistant/attempt",
+                            {"turn": turn, "step": step, "stream": stream_record},
+                        ),
+                    )
+            except BaseException as settlement_error:
+                failure = RuntimeError(
+                    "Assistant stream failed and its durable settlement was rejected"
+                )
+                failure.add_note(f"original stream failure: {error!r}")
+                raise failure from settlement_error
             raise
         if finish["kind"] in ("error", "aborted"):
             action = self.dispatch.waterfall(

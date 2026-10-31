@@ -39,11 +39,20 @@ from .persistence_contract import (
     run_persistence_contract,
     second_turn,
 )
+from .plugin_contract import (
+    PLUGIN_CONTRACT_SUITE,
+    PluginContractBackend,
+    PluginContractFactory,
+    PluginContractResult,
+    plugin_contract_cases,
+    run_plugin_contract,
+)
 
 __all__ = [
     "LIVE_WRITE_PATH_CONTRACT_SUITE",
     "LLM_ADAPTER_CONTRACT_SUITE",
     "PERSISTENCE_CONTRACT_SUITE",
+    "PLUGIN_CONTRACT_SUITE",
     "AdapterContractBackend",
     "AdapterContractFactory",
     "AdapterContractResult",
@@ -56,14 +65,19 @@ __all__ = [
     "LiveWriteBackend",
     "LiveWriteBackendFactory",
     "LiveWriteCheck",
+    "PluginContractBackend",
+    "PluginContractFactory",
+    "PluginContractResult",
     "ScriptedAdapter",
     "live_write_path_contract_cases",
     "llm_adapter_contract_cases",
     "meta",
     "one_turn_log",
     "persistence_contract_cases",
+    "plugin_contract_cases",
     "run_live_write_path_contract",
     "run_llm_adapter_contract",
     "run_persistence_contract",
+    "run_plugin_contract",
     "second_turn",
 ]
