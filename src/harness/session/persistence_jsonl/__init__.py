@@ -15,9 +15,6 @@ Python differences:
   reported as unsupported (upstream migrates it to a new v4 generation); ``stat`` raises
   ``SessionFormatUnsupportedError`` for it and ``list`` skips it, as upstream skips
   unreadable artifacts.
-- ``compression`` defaults to ``"none"``; upstream defaults to ``"zstd"``. Zstandard
-  frames are not ported yet, so ``"zstd"`` is refused at construction. Sessions written
-  by ``dsh`` with its default compression need ``compression="zstd"`` once it lands.
 - The service registers as ``sessionPersistence`` (deepseek-cordis registers a service
   under its class ``name``); upstream's diagnostic name is :attr:`backend_name`.
 - Blocking file I/O runs in worker threads; there is no ``AbortSignal`` (cancel the task).
@@ -71,6 +68,7 @@ from harness.util.values import parse_json, stringify_json
 
 from .format import (
     JsonlCompression,
+    SessionLogScanner,
     assert_no_retired_header_fields,
     encode_segment,
     event_lines,
@@ -91,6 +89,13 @@ from .storage import (
     JsonlBackendTracker,
     JsonlSessionHandle,
     StorageHandleState,
+)
+from .zstd import (
+    compress_zstd_frame,
+    decode_zstd_frames,
+    decompress_zstd_frame,
+    decompress_zstd_prefix,
+    scan_zstd_frames,
 )
 
 __all__ = [
@@ -123,7 +128,7 @@ class JsonlConfig(BaseModel):
     model_config = ConfigDict(frozen=True, populate_by_name=True, extra="forbid")
 
     root: str
-    compression: Literal["zstd", "none"] = "none"
+    compression: Literal["zstd", "none"] = "zstd"
     list_concurrency: int = Field(default=_DEFAULT_LIST_CONCURRENCY, ge=1, alias="listConcurrency")
 
 
@@ -250,6 +255,36 @@ def _read_first_line(path: str) -> str | None:
             chunks += block
 
 
+def _assert_zstd_header_frame(plaintext: bytes) -> None:
+    if not plaintext or plaintext.find(b"\n") != len(plaintext) - 1:
+        raise ValueError(
+            "corrupt Zstandard session log: first frame is not exactly one header line"
+        )
+
+
+def _read_first_zstd_line(path: str) -> str | None:
+    content = bytearray()
+    with open(path, "rb") as handle:
+        while True:
+            block = handle.read(8192)
+            if not block:
+                return None
+            content += block
+            scan = scan_zstd_frames(bytes(content), 1)
+            if not scan.frames:
+                continue
+            first = scan.frames[0]
+            try:
+                plaintext = decompress_zstd_frame(bytes(content[first.start : first.end]))
+                _assert_zstd_header_frame(plaintext)
+            except Exception as error:
+                raise SessionPersistenceCorruptionError(
+                    "corrupt Zstandard session log: header frame failed validation: "
+                    f"{error} (raw log: {path})"
+                ) from error
+            return plaintext[:-1].decode("utf-8", errors="replace")
+
+
 async def _gather_limited(
     limit: asyncio.Semaphore, items: Sequence[Any], task: Callable[[Any], Awaitable[T]]
 ) -> list[T]:
@@ -276,10 +311,6 @@ class JsonlSessionPersistence(SessionPersistence):
             raise RuntimeError(
                 f"{NAME}: format catalog v{session_format_catalog.current_version} does not "
                 f"match Session v{SESSION_FORMAT_VERSION}"
-            )
-        if config.compression == "zstd":
-            raise ValueError(
-                f'{NAME}: compression "zstd" is not available in this build yet; use "none"'
             )
         self._root = os.path.abspath(config.root)
         self._compression: JsonlCompression = config.compression
@@ -490,7 +521,8 @@ class JsonlSessionPersistence(SessionPersistence):
         await self._ensure_root_encoding()
         if is_materialized:
             path = log_path(self._root, header.get("cwd"), header["id"], self._compression)
-            content = (event_lines(events) + "\n").encode("utf-8", "surrogatepass")
+            plaintext = (event_lines(events) + "\n").encode("utf-8", "surrogatepass")
+            content = compress_zstd_frame(plaintext) if self._compression == "zstd" else plaintext
             await asyncio.to_thread(_append_synced, path, content)
         else:
             await self._materialize(header, inherited_event_count, events)
@@ -559,7 +591,23 @@ class JsonlSessionPersistence(SessionPersistence):
         self, path: str, expected_id: SessionId, buffer: bytes, revision: SessionPersistenceRevision
     ) -> _StoredLog:
         try:
-            scan = scan_log(buffer)
+            if self._compression == "zstd":
+                (
+                    meta,
+                    inherited_event_count,
+                    decoded_events,
+                    torn_truncate_to,
+                    recovered_tail,
+                ) = self._decode_zstd_prefix(buffer)
+            else:
+                scan = scan_log(buffer)
+                meta = scan.meta
+                inherited_event_count = scan.inherited_event_count
+                decoded_events = scan.events
+                torn_truncate_to = (
+                    scan.committed_bytes if scan.committed_bytes < len(buffer) else None
+                )
+                recovered_tail = ()
         except SessionFormatUnsupportedError as error:
             raise SessionFormatUnsupportedError(
                 f"{error} (raw log: {path})", SessionLocation("jsonl", path)
@@ -568,22 +616,63 @@ class JsonlSessionPersistence(SessionPersistence):
             raise SessionPersistenceCorruptionError(
                 f'session "{expected_id}": stored log is corrupt: {error} (raw log: {path})'
             ) from error
-        await self._assert_stored_identity(path, SESSION_FORMAT_VERSION, scan.meta, expected_id)
-        assert_stored_id(expected_id, scan.meta)
-        events = validate_stored_events(
-            scan.meta, builtins.list(scan.events), self._locate(scan.meta)
-        )
+        await self._assert_stored_identity(path, SESSION_FORMAT_VERSION, meta, expected_id)
+        assert_stored_id(expected_id, meta)
+        events = validate_stored_events(meta, builtins.list(decoded_events), self._locate(meta))
         stored = _StoredLog(
             event_state="shared-frozen",
             events=tuple(events),
-            meta=scan.meta,
-            torn_truncate_to=scan.committed_bytes if scan.committed_bytes < len(buffer) else None,
-            recovered_tail=(),
-            inherited_event_count=scan.inherited_event_count,
+            meta=meta,
+            torn_truncate_to=torn_truncate_to,
+            recovered_tail=tuple(recovered_tail),
+            inherited_event_count=inherited_event_count,
             revision=revision,
         )
         self._memoize(expected_id, stored)
         return stored
+
+    @staticmethod
+    def _decode_zstd_prefix(
+        buffer: bytes,
+    ) -> tuple[
+        SessionHeader,
+        SessionLogOffset,
+        builtins.list[SessionEvent],
+        int | None,
+        tuple[SessionEvent, ...],
+    ]:
+        scan = scan_zstd_frames(buffer)
+        if not scan.frames:
+            raise ValueError("empty or header-less Zstandard session log")
+        decoded = iter(decode_zstd_frames(buffer, scan.frames))
+        header_frame = next(decoded)
+        _assert_zstd_header_frame(header_frame)
+        scanner = SessionLogScanner(header_frame)
+        for plaintext in decoded:
+            scanner.write(plaintext)
+        complete = scanner.checkpoint()
+        if complete.committed_bytes != complete.input_bytes:
+            raise ValueError(
+                "corrupt Zstandard session log: complete frame contains a torn JSONL record"
+            )
+        if scan.torn_start is None:
+            prefix = scanner.finish()
+            return (
+                prefix.meta,
+                prefix.inherited_event_count,
+                prefix.events,
+                None,
+                (),
+            )
+        scanner.write(decompress_zstd_prefix(buffer[scan.torn_start :]))
+        prefix = scanner.finish()
+        return (
+            prefix.meta,
+            prefix.inherited_event_count,
+            prefix.events,
+            scan.torn_start,
+            tuple(prefix.events[complete.event_count :]),
+        )
 
     def _memoize(self, session_id: SessionId, stored: _StoredLog) -> None:
         self._cold_log_memo.pop(session_id, None)
@@ -595,7 +684,8 @@ class JsonlSessionPersistence(SessionPersistence):
         self, selected: _ResolvedGeneration, expected_id: SessionId | None = None
     ) -> _GenerationHeader | None:
         try:
-            first = await asyncio.to_thread(_read_first_line, selected.source_path)
+            reader = _read_first_zstd_line if self._compression == "zstd" else _read_first_line
+            first = await asyncio.to_thread(reader, selected.source_path)
         except FileNotFoundError:
             return None
         if first is None:
@@ -906,7 +996,12 @@ class JsonlSessionPersistence(SessionPersistence):
             + "\n"
         )
         body = event_lines(events) + "\n" if events else ""
-        content = (header + body).encode("utf-8", "surrogatepass")
+        if self._compression == "zstd":
+            content = compress_zstd_frame(header)
+            if body:
+                content += compress_zstd_frame(body)
+        else:
+            content = (header + body).encode("utf-8", "surrogatepass")
         root = self._root
         project = project_dir(root, cwd)
         directory = session_dir(root, cwd, meta["id"])

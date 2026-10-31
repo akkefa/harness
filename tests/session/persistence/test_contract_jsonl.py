@@ -31,19 +31,22 @@ from harness.testing import (
 CASES = persistence_contract_cases()
 
 
-def append_text(path: Path, text: str) -> None:
-    with path.open("a") as stream:
-        stream.write(text)
+def append_bytes(path: Path, content: bytes) -> None:
+    with path.open("ab") as stream:
+        stream.write(content)
 
 
 ContractFactory = Callable[[], Awaitable[ContractBackend]]
 
 
-@pytest_asyncio.fixture
-async def make_backend(tmp_path: Path) -> AsyncIterator[ContractFactory]:
-    """The ``jsonl-none`` factory: each call gets its own empty root under ``tmp_path``."""
+@pytest_asyncio.fixture(params=["none", "zstd"])
+async def make_backend(
+    tmp_path: Path, request: pytest.FixtureRequest
+) -> AsyncIterator[ContractFactory]:
+    """Each encoding gets a fresh backend root for every contract case."""
     contexts: list[Context] = []
     counter = 0
+    compression = str(request.param)
 
     async def make() -> ContractBackend:
         nonlocal counter
@@ -54,16 +57,18 @@ async def make_backend(tmp_path: Path) -> AsyncIterator[ContractFactory]:
         async def instance() -> ContractBackendInstance:
             ctx = Context()
             contexts.append(ctx)
-            await ctx.plugin(persistence_jsonl, {"root": str(root), "compression": "none"})
+            await ctx.plugin(persistence_jsonl, {"root": str(root), "compression": compression})
             service = ctx.get("sessionPersistence")
             assert isinstance(service, SessionPersistence)
             return ContractBackendInstance(service, ctx.fiber.dispose)
 
         async def corrupt_tail(session_id: SessionId, cwd: str | None) -> None:
-            # A half-written record with no trailing newline: an uncommitted crash
-            # fragment, so the write path sees a torn tail to truncate.
-            path = Path(log_path(str(root), cwd, session_id, "none"))
-            await asyncio.to_thread(append_text, path, '{"type":"assistant/chunk","seq":8,"ti')
+            # An uncommitted crash fragment which the write path must truncate.
+            path = Path(log_path(str(root), cwd, session_id, compression))  # type: ignore[arg-type]
+            content = (
+                b"\x28\xb5" if compression == "zstd" else b'{"type":"assistant/chunk","seq":8,"ti'
+            )
+            await asyncio.to_thread(append_bytes, path, content)
 
         primary = await instance()
         return ContractBackend(

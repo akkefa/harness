@@ -17,9 +17,10 @@ version locked here); the PyCordis repo at `0.1.2` (`f804a26`) has the same API.
 
 ## Result
 
-deepseek-cordis covers almost everything the in-scope packages use. **Three small gaps
-block 0.1** (G1–G3). They are all additive to deepseek-cordis. Everything else is
-either already there, a deliberate Python difference, or not needed before 0.5.
+deepseek-cordis covers almost everything the core distribution uses. G1 and G2 are
+isolated behind the tested `harness._cordis` compatibility adapter. G3 is not
+monkey-patched: the Phase 5 agent uses explicit owner effects for teardown and records
+that lifecycle adaptation in the compatibility catalog.
 
 ### Covered
 
@@ -45,7 +46,7 @@ either already there, a deliberate Python difference, or not needed before 0.5.
 |---|---|---|---|---|---|
 | **G1** | `ctx.events.dispatch(mode, args)`: the snapshot of listener callables, which the caller invokes itself to contain listener failures | `core/session`, `core/agent`, `core/agent-loop`, `core/tools`, `credentials/credentials` +5 | **0.1, Phase 2** (`core/session`) | private `Events._dispatch(mode, name, args, filter_)` | make it public as `Events.dispatch`, with the same snapshot and filter rules |
 | **G2** | `fiber.assertActive()`: raise if the owning fiber has been disposed | `core/agent-loop`, `session/session-projection`, `session/working-directory`, `context/time-context`, `subagent/tool-subagent` | **0.1, Phase 3** (`session-projection`) | missing | add `Fiber.assert_active()`: raise `CordisError` when `uid is None`, as upstream does |
-| **G3** | lifecycle events `internal/status(fiber, old_state)` on every state change, and `internal/plugin(fiber)` when a fiber is published or disposed | `core/agent` (`internal/status`); `mcp/mcp-client` (`internal/plugin`) | **0.1, Phase 5** (`core/agent`); 0.4 | only `internal/dispatch` is emitted | emit both from the fiber state machine, global to every context |
+| **G3** | lifecycle events `internal/status(fiber, old_state)` on every state change, and `internal/plugin(fiber)` when a fiber is published or disposed | `core/agent` (`internal/status`); external MCP plugin (`internal/plugin`) | **0.1, Phase 5** (`core/agent`) | only `internal/dispatch` is emitted | core agent teardown uses explicit Cordis-owned effects; an external MCP plugin must either avoid this event or require a future Cordis release |
 | G4 | `fiber.entry`: the loader row that created a fiber | `core/agent-default-model`, `llm/llm-deepseek-api-key`, `preset/agent-preset-registry` | 0.5 | missing | have `Loader` record the row id on the fibers it creates. Upstream code always falls back when `entry` is missing, so 0.1 does not need it. |
 | G5 | Config access: `fiber.effectiveConfig`, `resolveConfig(candidate)`, raw config replacement | `settings/settings` | 0.5 | deferred in the 2026-10-28 PyCordis audit | follow upstream's Cordis rc.11 PR 1, which is defining this API now |
 | G6 | Loader features: entry trees and groups, `include`, `interpolate`, JS expressions, `ctx.root.loader`, `ctx.reflect.store` | `preset/agent-preset`, `preset/agent-preset-registry`, `settings/settings` | 0.5 | deterministic flat-row loader only | revisit with presets in 0.5, after upstream's Loader rc.8 upgrade |
@@ -73,19 +74,15 @@ Cordis and don't depend on rc.11. The `ce7073d` vendored Cordis (`4.0.6-alpha.1`
 one deepseek-cordis was last audited against (Harness `f3803c9`), so there's no other
 known drift.
 
-## Recommendation
+## Core 0.1 compatibility policy
 
-1. Add G1, G2 and G3 to deepseek-cordis, with tests ported from the vendored Cordis
-   specs, and release it as `0.1.3` on PyPI.
-2. Raise this package's floor to `deepseek-cordis>=0.1.3,<0.2` and remove the three
-   xfail markers in `tests/test_cordis_contract.py`.
-3. G1 is needed first (Phase 2), so the deepseek-cordis release should come before
-   Phase 2 starts. If it can't, Phase 2 can call the private `_dispatch` behind one
-   wrapper function and switch over when 0.1.3 lands.
-4. Leave G4–G6 for 0.5 and re-check them against upstream's rc.11 work then.
-
-None of these deepseek-cordis changes has been made. They touch the PyCordis repo and
-wait for the maintainer's approval.
+1. G1 and G2 stay in `harness._cordis`; no other module may access the corresponding
+   Cordis private attributes. Passing harness tests cover the adapter while strict
+   xfails continue to report whether the public Cordis APIs have landed.
+2. G3 is adapted in Phase 5 with explicit effects owned by the Agent lifecycle. The
+   harness does not monkey-patch `Fiber._change_state`.
+3. G4–G6 belong to external product/preset plugins and are not core 0.1 blockers.
+4. Re-evaluate and remove each shim when a compatible public deepseek-cordis API ships.
 
 ## Dependencies on deepseek-cordis internals
 

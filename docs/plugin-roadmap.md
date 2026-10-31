@@ -1,0 +1,53 @@
+# Plugin roadmap
+
+`cordis-harness` owns the standalone agent runtime: the public capability seams,
+session model and persistence, model interface, tool registry and executor, agent
+loop, bundle loader, and the DeepSeek/OpenAI-compatible adapters needed for a useful
+0.1 release.
+
+Everything below is intentionally outside the core distribution. Each capability is
+expected to live in an independently versioned package and repository which depends on
+the public `cordis-harness` seams and validates its providers with the contract suites
+published by `harness.testing`.
+
+## Planned plugin families
+
+| Family | Candidate distribution | Upstream groups or product code |
+|---|---|---|
+| Local execution | `cordis-harness-execution` | subprocess, sandbox, filesystem, shell, working directory, attachment, spill, timeout policy |
+| Azure execution | `cordis-harness-azure` | PepGPT Azure Container Apps filesystem and subprocess providers |
+| Context and control | `cordis-harness-control` | compaction, instructions, time context, approvals, user questions, todo and plan mode |
+| Web | `cordis-harness-web` | web fetch, search providers and model-facing web tools |
+| MCP | `cordis-harness-mcp` | MCP client and resources |
+| Skills | `cordis-harness-skills` | skill seam, filesystem provider and model-facing skill tool |
+| Subagents | `cordis-harness-subagents` | in-process subagent providers and control tools |
+| Product foundation | `cordis-harness-product` | telemetry, settings, credentials, storage and presets |
+| PepGPT compatibility | `cordis-harness-pepgpt` or PepGPT-owned plugins | memory/Postgres persistence, model providers, SSE/UI integration and migration helpers |
+
+These names are placeholders, not reserved package names. Repositories should be
+created only when work on that family starts.
+
+## Boundary rules
+
+1. Plugins depend on service definitions and event contracts exported by
+   `cordis-harness`, never on a concrete provider or a private module.
+2. Plugins may depend directly on `deepseek-cordis` for plugin lifecycle APIs, but
+   may not use its private attributes. The core's temporary Cordis compatibility
+   shims are not public plugin APIs.
+3. Provider packages run the applicable suites from `harness.testing`.
+4. Optional dependencies required by a plugin stay in that plugin's distribution.
+5. Durable event and model-visible names remain compatible with the pinned DeepSeek
+   Harness version.
+6. A plugin may be composed through YAML rows or the equivalent Python row builder;
+   installing it must not mutate the core bundle implicitly.
+
+## PepGPT
+
+PepGPT replacement is a consumer migration, not part of the core release train. Its
+in-memory and Postgres persistence backends, Bedrock/Gemini/LangChain adapters, UI/SSE
+host, telemetry listeners, memory, auto-skills and durable-tool behavior remain
+PepGPT-owned plugins until they are useful to another consumer.
+
+The core repository keeps the migration inventory because it exercises the stability
+of the public seams. It does not provide compatibility aliases for PepGPT's old import
+tree.

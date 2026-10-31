@@ -228,6 +228,14 @@
       "sha256": "aca0a096d32312f6c296febee1f4c107b60f47309536ab8c94454446db5ee6a6"
     },
     {
+      "path": "packages/session/session-persistence-jsonl/tests/zstd.compat.spec.ts",
+      "sha256": "6fe718b3eed1c314a30dc934c7c3bec210afd1318c10bd1d54df0dd65ec4230d"
+    },
+    {
+      "path": "packages/session/session-persistence-jsonl/tests/zstd.spec.ts",
+      "sha256": "a14b91009b72b47463487a515b4c43b2343750e28d554f03a9e2f0a4081772c7"
+    },
+    {
       "path": "packages/session/session-persistence/tests/contract.ts",
       "sha256": "03a87ca65d0f3fab6c73c78b2c36c7e246dc18d8ccff9d483edc5cd9753e4788"
     },
@@ -5836,6 +5844,60 @@
       "classification": "ported",
       "python_tests": [
         "tests/session/persistence_jsonl/test_win32.py::test_release_restores_the_lease"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-persistence-jsonl::jsonl-zstandard-compatibility-round-trips-concatenated-checksummed-frames-through-the-built-in-node-api",
+      "source": "packages/session/session-persistence-jsonl/tests/zstd.compat.spec.ts::JSONL Zstandard compatibility > round-trips concatenated checksummed frames through the built-in Node API",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/persistence_jsonl/test_zstd.py::test_round_trips_concatenated_frames"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-persistence-jsonl::jsonlsessionpersistence-default-zstandard-encoding-appends-one-frame-per-durable-batch-without-rewriting-prior-bytes",
+      "source": "packages/session/session-persistence-jsonl/tests/zstd.spec.ts::JsonlSessionPersistence: default Zstandard encoding > appends one frame per durable batch without rewriting prior bytes",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/persistence_jsonl/test_zstd.py::test_append_adds_one_frame_without_rewriting_prefix"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-persistence-jsonl::jsonlsessionpersistence-default-zstandard-encoding-rejects-a-complete-frame-containing-a-torn-jsonl-record",
+      "source": "packages/session/session-persistence-jsonl/tests/zstd.spec.ts::JsonlSessionPersistence: default Zstandard encoding > rejects a complete frame containing a torn JSONL record",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/persistence_jsonl/test_zstd.py::test_rejects_complete_frame_with_torn_json_record"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-persistence-jsonl::jsonlsessionpersistence-default-zstandard-encoding-writes-jsonl-zstd-by-default-with-one-header-frame-and-one-first-batch-frame",
+      "source": "packages/session/session-persistence-jsonl/tests/zstd.spec.ts::JsonlSessionPersistence: default Zstandard encoding > writes .jsonl.zstd by default with one header frame and one first-batch frame",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/persistence_jsonl/test_zstd.py::test_default_backend_writes_header_and_batch_frames"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-persistence-jsonl::zstandard-frame-structure-distinguishes-incomplete-frame-regions-from-invalid-complete-structure",
+      "source": "packages/session/session-persistence-jsonl/tests/zstd.spec.ts::Zstandard frame structure > distinguishes incomplete frame regions from invalid complete structure",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/persistence_jsonl/test_zstd.py::test_distinguishes_torn_frames_from_invalid_structure"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-persistence-jsonl::zstandard-frame-structure-scans-concatenated-checksummed-frames-and-honors-a-frame-limit",
+      "source": "packages/session/session-persistence-jsonl/tests/zstd.spec.ts::Zstandard frame structure > scans concatenated checksummed frames and honors a frame limit",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/persistence_jsonl/test_zstd.py::test_scans_concatenated_checksummed_frames"
       ],
       "notes": ""
     },

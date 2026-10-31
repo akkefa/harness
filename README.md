@@ -5,8 +5,9 @@ agent runtime, built on [deepseek-cordis](https://github.com/akkefa/deepseek-cor
 
 PyPI distribution: `cordis-harness`. Python import: `harness`. Python 3.11+.
 
-> **Status: pre-alpha.** Only the repository tooling exists. Nothing is usable yet.
-> See [the plan](docs/PLAN.md) for what lands in each release.
+> **Status: pre-alpha.** Scope, Session v4, JSONL persistence and session projections
+> are implemented. The model seam and agent loop are still under development, so the
+> package is not yet a runnable agent runtime. See [the plan](docs/PLAN.md).
 
 ## What it is
 
@@ -15,8 +16,8 @@ adapter, the tool registry, the session log, the agent loop) is a Cordis plugin.
 This package follows the same design in Python:
 
 - one Python module per upstream package, mapped in [docs/upstream.json](docs/upstream.json)
-- the same event names, tool schemas and JSONL session format (v4), so sessions are
-  interchangeable with `dsh`
+- the same event names, tool schemas and JSONL session format (v4); committed
+  cross-runtime fixtures verify interoperability with the pinned `dsh` implementation
 - agents composed from YAML bundles of plugin rows, loaded through the deepseek-cordis
   `Loader`
 
@@ -24,15 +25,14 @@ It is an independent implementation, not an official DeepSeek product. Upstream'
 Python SDK (`deepseek_harness`) drives the Node `dsh` binary over JSON-RPC; this
 package runs the harness in-process in Python instead.
 
-## Planned releases
+## Core release
 
-| Release | Contents |
-|---|---|
-| 0.1 | Core runtime: session log and persistence, prompts, tools, agent loop, DeepSeek and OpenAI-compatible model adapters |
-| 0.2 | Execution: local subprocess, filesystem and shell with sandboxing; Azure Container Apps sessions backend |
-| 0.3 | Context and control: compaction, instructions, approvals, user questions, todo, plan mode |
-| 0.4 | Reach: web search and fetch, MCP, skills, subagents |
-| 0.5 | Product foundation: telemetry, settings, credentials, storage, presets, base bundle |
+Release 0.1 is the complete scope of this distribution: session log and persistence,
+prompts, tools, the agent loop, bundle composition, and DeepSeek/OpenAI-compatible
+model adapters.
+
+Execution, skills, web, MCP, Azure, telemetry and product integrations are separate
+plugin families. See the [plugin roadmap](docs/plugin-roadmap.md).
 
 ## Name clash
 

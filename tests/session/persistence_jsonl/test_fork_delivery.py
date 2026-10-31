@@ -1,7 +1,7 @@
 """Ported from packages/session/session-persistence-jsonl/tests/fork-delivery.spec.ts.
 
-Only the ``compression: 'none'`` rows of the ``describe.each`` are ported; the ``zstd``
-rows need Zstandard frames, which are not in Python yet.
+Only the ``compression: 'none'`` rows of this upstream matrix are ported here.
+Zstandard framing and delivery are covered by the backend and contract suites.
 """
 
 from __future__ import annotations

@@ -111,6 +111,22 @@ async def test_bare_session_dispatches_subject_less(ctx: Context) -> None:
 
 
 @pytest.mark.asyncio
+async def test_fork_forwards_explicit_caller_context(ctx: Context) -> None:
+    """Python service calls need ``ctx=`` where upstream Cordis binds ``this.ctx``."""
+    owner = await mint_scope(ctx, "owner")
+    store = sessions(ctx)
+    source = store.create("fork-source")
+    source.append("turn/start", {"turn": 1})
+
+    child = store.fork(source, child_session_id="fork-child", ctx=owner.ctx)
+    assert store.get("fork-child") is child
+
+    await owner.dispose()
+    assert store.get("fork-child") is None
+    assert store.get("fork-source") is source
+
+
+@pytest.mark.asyncio
 @pytest.mark.upstream(
     f"{SPEC}::{CARRIERS} > reuses the captured owner carrier for the paired disposal notification"
 )

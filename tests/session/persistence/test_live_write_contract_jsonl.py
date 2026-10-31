@@ -26,11 +26,14 @@ CASES = live_write_path_contract_cases()
 LiveWriteFactory = Callable[[], Awaitable[LiveWriteBackend]]
 
 
-@pytest_asyncio.fixture
-async def make_backend(tmp_path: Path) -> AsyncIterator[LiveWriteFactory]:
+@pytest_asyncio.fixture(params=["none", "zstd"])
+async def make_backend(
+    tmp_path: Path, request: pytest.FixtureRequest
+) -> AsyncIterator[LiveWriteFactory]:
     """Each call mounts SessionStore and the JSONL backend over its own empty root."""
     contexts: list[Context] = []
     counter = 0
+    compression = str(request.param)
 
     async def make() -> LiveWriteBackend:
         nonlocal counter
@@ -42,7 +45,7 @@ async def make_backend(tmp_path: Path) -> AsyncIterator[LiveWriteFactory]:
             ctx = Context()
             contexts.append(ctx)
             await ctx.plugin(SessionStore)
-            await ctx.plugin(persistence_jsonl, {"root": str(root), "compression": "none"})
+            await ctx.plugin(persistence_jsonl, {"root": str(root), "compression": compression})
             return ctx
 
         return LiveWriteBackend(await mount(), mount)

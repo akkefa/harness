@@ -1,7 +1,7 @@
 """Ported from packages/session/session-persistence-jsonl/tests/native-developer-admission.spec.ts.
 
-Only the ``compression: 'none'`` rows of each ``describe.each`` mode are ported; the
-``zstd`` rows need Zstandard frames, which are not in Python yet.
+Only the ``compression: 'none'`` rows of this upstream matrix are ported here.
+Zstandard framing and admission are covered by the backend and contract suites.
 """
 
 from __future__ import annotations

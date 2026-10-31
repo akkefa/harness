@@ -973,11 +973,14 @@ class SessionStore(Service):
         source: Session | SessionId | str,
         boundary: int | None = None,
         child_session_id: SessionId | str | None = None,
+        *,
+        ctx: Context | None = None,
     ) -> Session:
         """Create an independent live session from an exact prefix of a live source.
 
         ``boundary`` is an inclusive source seq (default: the last event). An open tail
         receives synthetic tool results and step/turn closers with the forked cause.
+        The child belongs to the calling fiber resolved by :meth:`caller`.
         """
         if child_session_id is not None and self.get(child_session_id) is not None:
             raise SessionForkError(
@@ -994,6 +997,7 @@ class SessionStore(Service):
                 inherited_event_count=SessionLogOffset(0 if resolved is None else resolved + 1),
                 meta=CreateSessionMeta(cwd=live.header.get("cwd"), is_seeded=True),
             ),
+            ctx=ctx,
         )
 
     def _fork_boundary(

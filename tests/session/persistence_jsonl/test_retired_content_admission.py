@@ -1,8 +1,8 @@
 """Ported from packages/session/session-persistence-jsonl/tests/retired-content-admission.spec.ts.
 
-Only native V4 rows with ``compression: 'none'`` are ported. The V3 rows check the v3->v4
-migration's diagnostics (Python refuses every v3 generation without migrating it) and the
-``zstd`` rows need Zstandard frames, which are not in Python yet.
+Only native V4 rows with ``compression: 'none'`` are ported here. The V3 rows check the
+v3->v4 migration's diagnostics; Python refuses every v3 generation without migrating it.
+Zstandard framing and admission are covered by the backend and contract suites.
 """
 
 from __future__ import annotations

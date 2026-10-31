@@ -87,4 +87,4 @@ def test_extras_are_registered_for_every_declared_extra() -> None:
 
 
 def test_core_dependency_import_names() -> None:
-    assert core_imports() == {"deepseek_cordis", "pydantic", "yaml"}
+    assert core_imports() == {"deepseek_cordis", "pydantic", "yaml", "zstandard"}

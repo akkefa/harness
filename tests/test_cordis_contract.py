@@ -11,7 +11,9 @@ import asyncio
 from collections.abc import Callable, Iterator
 
 import pytest
-from deepseek_cordis import Context, Fiber, FiberState, Service
+from deepseek_cordis import Context, CordisError, Fiber, FiberState, Service
+
+from harness._cordis import assert_active, dispatch
 
 pytestmark = pytest.mark.asyncio
 
@@ -83,6 +85,29 @@ async def test_listener_options_prepend_and_global() -> None:
 async def test_fiber_states_match_upstream() -> None:
     names = {state.name for state in FiberState}
     assert {"PENDING", "LOADING", "ACTIVE", "FAILED", "UNLOADING", "DISPOSED"} <= names
+
+
+async def test_harness_dispatch_shim_returns_uninvoked_listener_snapshot() -> None:
+    root = Context()
+    seen: list[int] = []
+    root.on("probe/shim", seen.append)
+
+    callbacks = dispatch(root, "emit", "probe/shim", (1,), None)
+    assert seen == []
+    for callback in callbacks:
+        callback(1)
+    assert seen == [1]
+    await root.fiber.dispose()
+
+
+async def test_harness_assert_active_shim_rejects_a_disposed_fiber() -> None:
+    root = Context()
+    child = await root.plugin(lambda _ctx, _config: None)
+    assert_active(child)
+    await child.dispose()
+    with pytest.raises(CordisError, match="INACTIVE_EFFECT"):
+        assert_active(child)
+    await root.fiber.dispose()
 
 
 # Gaps (docs/cordis-alignment.md). Remove a marker when its feature lands.

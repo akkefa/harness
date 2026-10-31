@@ -9,6 +9,10 @@ maps every upstream package in scope to its Python module, release milestone and
 porting status (`planned`, `in-progress`, `ported`). It also lists the modules that
 have no upstream package (`new_modules`).
 
+Only milestone `0.1` belongs to the `cordis-harness` distribution. Later mapped
+packages are retained as the source inventory for the external plugin families in
+[plugin-roadmap.md](plugin-roadmap.md).
+
 Current pin: [`ce7073d`](https://github.com/deepseek-ai/deepseek-harness/tree/ce7073d51254c26cd63b22a60835b8f948deb447)
 (2026-10-30).
 
@@ -46,6 +50,12 @@ changed digests since v4 was finalized (including `user/message` and
 
 `MANIFEST.json` records each file's upstream path, the commit and its checksum.
 
+`tests/fixtures/dsh_v4/` contains plaintext and Zstandard Session v4 artifacts written
+by the pinned TypeScript implementation. Its manifest records the pin and artifact
+checksums. Regenerate them with `scripts/dsh_session_fixtures.ts`; use
+`scripts/write_interop_session.py` plus that script's `verify` command for the reverse
+Python-to-`dsh` check.
+
 ## Moving the pin
 
 At the start of each milestone:
@@ -59,7 +69,7 @@ At the start of each milestone:
    the assets and `MANIFEST.json`, and update spec checksums in `compatibility-cases.json`.
 4. Run `uv run python scripts/upstream_changes.py --check`.
 
-## Not ported yet (Phase 3)
+## Intentional Phase 3 omissions
 
 Upstream tests left out of the Phase 3 port, by reason. Individual cases skipped inside
 ported spec files follow the same reasons.
@@ -67,7 +77,6 @@ ported spec files follow the same reasons.
 | Reason | Upstream spec files |
 |---|---|
 | v0–v3 decoding and migration (Python reads v4 only) | `session-format-v1-to-v2/tests/migration.spec.ts` and 13 of 15 `validation.spec.ts` cases; `session-format-v3-to-v4/tests/{migration,interrupted-turn,catalog-completion,corpus}.spec.ts` and the migration cases of `tool-role`, `sources`, `content`, `canonical`, `message-sources`, `retired-content`; `session-format-catalog/tests/{children,preset-migration}.spec.ts` and 12 of 14 `catalog.spec.ts` cases; `session-persistence-jsonl/tests/{catalog-migration,migration-refusal,migration-verifier,migration-verifier-real,multi-edge-publication,v2-ptc-migration,v2-system-migration,v3-restart-migration,content-admission,generation}.spec.ts` and 20 `jsonl.spec.ts` generation cases |
-| zstd compression | `session-persistence-jsonl/tests/{zstd,zstd.compat}.spec.ts` and zstd rows elsewhere |
 | `AbortSignal` (Python cancels tasks instead) | 3 `jsonl.spec.ts` durability cases |
 | Node-only runtime (worker threads, Loader e2e, koffi bindings, `.e2e.ts`/`.perf.ts`) | `built-migration-worker.e2e.ts`, `teardown-loader.e2e.ts`, 8 `win32.spec.ts` cases; `session-projection/tests/loader-compatibility.e2e.ts`. `lease.two-process.e2e.ts` is replaced by a Python two-process test. |
 | JavaScript-only semantics (thenable adoption, non-Error throws, type-level tests) | 2 `session-projection/tests/compatibility.spec.ts` cases, `registration.type-test.ts`, 1 live-write contract case, 1 `developer-history.spec.ts` case |

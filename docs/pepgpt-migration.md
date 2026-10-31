@@ -1,6 +1,6 @@
 # PepGPT migration inventory
 
-Status: **seeded 2026-10-30**. Every phase updates the rows it covers.
+Status: **in progress, updated 2026-10-31**. Every core phase updates the rows it covers.
 
 This lists every symbol PepGPT imports from its in-tree `harness` package today
 (129 symbols, from `app/`, `m365/` and `onereach_profile/` at PepGPT `dev` @
@@ -9,9 +9,13 @@ This lists every symbol PepGPT imports from its in-tree `harness` package today
 Targets marked *proposed* follow the upstream package that owns the concept. They
 are confirmed, with exact names, in the phase that ports that package.
 
+This inventory describes a bounded migration to the core package plus external
+providers. It does not promise compatibility aliases for PepGPT's current import tree.
+
 ## Status values
 
 - **package**: provided by this package. The target column gives the module.
+- **external-plugin**: provided by a separately versioned plugin family.
 - **pepgpt-plugin**: stays in PepGPT as its own plugin on a public seam.
 - **pepgpt-app**: stays in PepGPT's application code. It is not a harness concern.
 - **dropped**: replaced by upstream behaviour; PepGPT changes its call site.
@@ -33,10 +37,10 @@ are confirmed, with exact names, in the phase that ports that package.
 | `harness.core.session.Session` | package | `harness.core.session` | 0.1 |
 | `harness.core.session.SessionEvent` | package | `harness.core.session` (v4 event types) | 0.1 |
 | `harness.core.session.CoreEventType` | package | `harness.core.session` event type names | 0.1 |
-| `harness.core.session.ModelMessage` | package | `harness.llm.llm` message vocabulary | 0.1 |
-| `harness.core.session.thaw_json` | package | `harness.session.format` JSON helpers | 0.1 |
+| `harness.core.session.ModelMessage` | package | `harness.llm.Message` | 0.1 |
+| `harness.core.session.thaw_json` | package | `harness.util.values.thaw_json` | 0.1 |
 | `harness.persistence.SessionStore` | package | `harness.session.persistence` (`SessionPersistence`) | 0.1 |
-| `harness.persistence.MemorySessionStore` | package | in-memory store in `harness.core.session` | 0.1 |
+| `harness.persistence.MemorySessionStore` | pepgpt-plugin | PepGPT-owned in-memory `SessionPersistence` backend, checked with `harness.testing.persistence_contract` | 0.1 |
 | `harness.persistence.DatabaseSessionStore` | pepgpt-plugin | PepGPT Postgres `SessionPersistence` backend (`harness.session.persistence`), checked with `harness.testing.run_persistence_contract` and `run_live_write_path_contract` | 0.1 |
 
 ## System prompt and tools
@@ -67,30 +71,30 @@ are confirmed, with exact names, in the phase that ports that package.
 | `harness.core.agent.UserInput` | package | `harness.core.agent` | 0.1 |
 | `harness.core.agent.api.UserInput` | package | `harness.core.agent` | 0.1 |
 | `harness.core.agent_loop.RecursiveToolAgentLoop` | package | `harness.core.agent_loop` (`AgentLoop`) | 0.1 |
-| `harness.core.agent_loop.MODEL_REQUEST_ERROR` | package | `harness.llm.llm_retry` / agent request events | 0.1 |
-| `harness.core.agent_loop.ModelRequestErrorAction` | package | `harness.llm.llm_retry` | 0.1 |
-| `harness.core.agent_loop.ModelRequestFailed` | package | `harness.llm.llm_retry` | 0.1 |
+| `harness.core.agent_loop.MODEL_REQUEST_ERROR` | package | `harness.llm.retry` / agent request events | 0.1 |
+| `harness.core.agent_loop.ModelRequestErrorAction` | package | `harness.llm.retry` | 0.1 |
+| `harness.core.agent_loop.ModelRequestFailed` | package | `harness.llm.retry` | 0.1 |
 | `harness.core.agent_loop.ask_more_tool` | pepgpt-plugin | PepGPT tool on `ctx.tools` | — |
 | `harness.core.agent_loop.handoff_tool` | pepgpt-plugin | PepGPT tool on `ctx.tools` | — |
-| `harness.core.agent_loop.human_wait.current_turn_clock` | pepgpt-plugin | PepGPT turn-time accounting via `harness.interaction.user_questions` events | 0.3 |
-| `harness.config.AgentBudgets` | package | agent-loop config + `harness.guard.timeout_policy` | 0.1 / 0.2 |
+| `harness.core.agent_loop.human_wait.current_turn_clock` | pepgpt-plugin | PepGPT turn-time accounting via the control plugin's user-question events | external |
+| `harness.config.AgentBudgets` | package | agent-loop config; optional wall-clock enforcement comes from `cordis-harness-execution` | 0.1 |
 
 ## Model adapters
 
 | PepGPT import | Status | Target (proposed) | Milestone |
 |---|---|---|---|
-| `harness.llm.LLMAdapter` | package | `harness.llm.llm` adapter seam | 0.1 |
-| `harness.llm.LLMRegistry` | package | `harness.llm.llm` (`ctx.llm`) | 0.1 |
-| `harness.llm.AdapterCapabilities` | package | `harness.llm.llm` | 0.1 |
-| `harness.llm.ModelCapacity` | package | `harness.llm.llm` / `harness.llm.token_meter` | 0.1 |
-| `harness.llm.ModelRequest` | package | `harness.llm.llm` prepared call | 0.1 |
-| `harness.llm.ModelResponse` | package | `harness.llm.llm` | 0.1 |
-| `harness.llm.ModelStreamDelta` | package | `harness.llm.llm` stream chunks | 0.1 |
-| `harness.llm.ModelStreamEvent` | package | `harness.llm.llm` stream chunks | 0.1 |
-| `harness.llm.FinishReason` | package | `harness.llm.llm` | 0.1 |
-| `harness.llm.LLMAdapterError` | package | `harness.llm.llm` | 0.1 |
-| `harness.llm.ContextOverflowError` | package | `harness.llm.llm` | 0.1 |
-| `harness.llm.is_context_overflow_error` | package | `harness.llm.llm` | 0.1 |
+| `harness.llm.LLMAdapter` | package | `harness.llm` adapter seam | 0.1 |
+| `harness.llm.LLMRegistry` | package | `harness.llm` (`ctx.llm`) | 0.1 |
+| `harness.llm.AdapterCapabilities` | package | `harness.llm` | 0.1 |
+| `harness.llm.ModelCapacity` | package | `harness.llm` / `harness.llm.token_meter` | 0.1 |
+| `harness.llm.ModelRequest` | package | `harness.llm` prepared call | 0.1 |
+| `harness.llm.ModelResponse` | package | `harness.llm` | 0.1 |
+| `harness.llm.ModelStreamDelta` | package | `harness.llm` stream chunks | 0.1 |
+| `harness.llm.ModelStreamEvent` | package | `harness.llm` stream chunks | 0.1 |
+| `harness.llm.FinishReason` | package | `harness.llm` | 0.1 |
+| `harness.llm.LLMAdapterError` | package | `harness.llm` | 0.1 |
+| `harness.llm.ContextOverflowError` | package | `harness.llm` | 0.1 |
+| `harness.llm.is_context_overflow_error` | package | `harness.llm` | 0.1 |
 | `harness.llm.LangChainChatModelAdapter` | pepgpt-plugin | PepGPT adapter on the `ctx.llm` seam, checked with `harness.testing.llm_adapter_contract` | 0.1 |
 
 PepGPT's `BedrockClaudeAdapter` and `PepGenXGeminiAdapter` (in
@@ -101,10 +105,10 @@ contract suite.
 
 | PepGPT import | Status | Target (proposed) | Milestone |
 |---|---|---|---|
-| `harness.context_management.CompactionPlugin` | package | `harness.compaction.compaction_basic` | 0.3 |
-| `harness.context_management.CompactionPolicy` | package | `harness.compaction.compaction_basic` config | 0.3 |
-| `harness.context_management.ModelContextSummarizer` | package | `harness.compaction.compaction_basic` | 0.3 |
-| `harness.context_management.ToolResultPruner` | package | `harness.compaction.tool_result_pruner` | 0.3 |
+| `harness.context_management.CompactionPlugin` | external-plugin | `cordis-harness-control`: `harness.compaction.compaction_basic` | external |
+| `harness.context_management.CompactionPolicy` | external-plugin | `cordis-harness-control`: compaction config | external |
+| `harness.context_management.ModelContextSummarizer` | external-plugin | `cordis-harness-control`: `harness.compaction.compaction_basic` | external |
+| `harness.context_management.ToolResultPruner` | external-plugin | `cordis-harness-control`: `harness.compaction.tool_result_pruner` | external |
 | `harness.context_management.CharacterTokenEstimator` | package | `harness.llm.token_meter` | 0.1 |
 | `harness.context_management.measure.estimate_request_usage` | package | `harness.llm.token_meter` | 0.1 |
 
@@ -112,55 +116,55 @@ contract suite.
 
 | PepGPT import | Status | Target (proposed) | Milestone |
 |---|---|---|---|
-| `harness.plugins.FilesystemPlugin` | package | `harness.fs.tool_fs` | 0.2 |
-| `harness.shell.BashToolPlugin` | package | `harness.shell.tool_bash` | 0.2 |
-| `harness.attachments.Attachment` | package | `harness.attachment.attachment` | 0.2 |
-| `harness.attachments.AttachmentError` | package | `harness.attachment.attachment` | 0.2 |
-| `harness.attachments.AttachmentsPlugin` | package | `harness.attachment.attachment_local` | 0.2 |
-| `harness.attachments.SandboxFiles` | package | `harness.fs.fs` seam | 0.2 |
-| `harness.attachments.SharedFile` | pepgpt-plugin | PepGPT file sharing over `harness.attachment` | 0.2 |
-| `harness.attachments.shared_file_result` | pepgpt-plugin | same | 0.2 |
-| `harness.attachments.safe_filename` | package | `harness.attachment.attachment` | 0.2 |
-| `harness.code_interpreter.PythonToolPlugin` | pepgpt-plugin | PepGPT tool over `harness.subprocess` | 0.2 |
-| `harness.integrations.azure_sessions.AzureSessionPool` | package | `harness.azure_sessions` | 0.2 |
-| `harness.integrations.azure_sessions.AzureSessionPoolError` | package | `harness.azure_sessions` | 0.2 |
-| `harness.integrations.azure_sessions.AzureShellSession` | package | `harness.azure_sessions` | 0.2 |
-| `harness.integrations.azure_sessions.AzureShellExecutor` | package | `harness.azure_sessions` subprocess provider | 0.2 |
-| `harness.integrations.azure_sessions.AzureShellFilesystem` | package | `harness.azure_sessions` fs provider | 0.2 |
-| `harness.integrations.azure_sessions.AzureSandboxFiles` | package | `harness.azure_sessions` fs provider | 0.2 |
-| `harness.integrations.azure_sessions.AzurePythonInterpreter` | pepgpt-plugin | PepGPT code interpreter on the Azure subprocess provider | 0.2 |
+| `harness.plugins.FilesystemPlugin` | external-plugin | `cordis-harness-execution`: `harness.fs.tool_fs` | external |
+| `harness.shell.BashToolPlugin` | external-plugin | `cordis-harness-execution`: `harness.shell.tool_bash` | external |
+| `harness.attachments.Attachment` | external-plugin | `cordis-harness-execution`: `harness.attachment.attachment` | external |
+| `harness.attachments.AttachmentError` | external-plugin | `cordis-harness-execution`: `harness.attachment.attachment` | external |
+| `harness.attachments.AttachmentsPlugin` | external-plugin | `cordis-harness-execution`: `harness.attachment.attachment_local` | external |
+| `harness.attachments.SandboxFiles` | external-plugin | `cordis-harness-execution`: `harness.fs.fs` seam | external |
+| `harness.attachments.SharedFile` | pepgpt-plugin | PepGPT file sharing over the execution plugin | external |
+| `harness.attachments.shared_file_result` | pepgpt-plugin | same | external |
+| `harness.attachments.safe_filename` | external-plugin | `cordis-harness-execution`: attachment utilities | external |
+| `harness.code_interpreter.PythonToolPlugin` | pepgpt-plugin | PepGPT tool over the execution plugin's subprocess seam | external |
+| `harness.integrations.azure_sessions.AzureSessionPool` | external-plugin | `cordis-harness-azure` | external |
+| `harness.integrations.azure_sessions.AzureSessionPoolError` | external-plugin | `cordis-harness-azure` | external |
+| `harness.integrations.azure_sessions.AzureShellSession` | external-plugin | `cordis-harness-azure` | external |
+| `harness.integrations.azure_sessions.AzureShellExecutor` | external-plugin | `cordis-harness-azure` subprocess provider | external |
+| `harness.integrations.azure_sessions.AzureShellFilesystem` | external-plugin | `cordis-harness-azure` filesystem provider | external |
+| `harness.integrations.azure_sessions.AzureSandboxFiles` | external-plugin | `cordis-harness-azure` filesystem provider | external |
+| `harness.integrations.azure_sessions.AzurePythonInterpreter` | pepgpt-plugin | PepGPT code interpreter on `cordis-harness-azure` | external |
 
 ## Web
 
 | PepGPT import | Status | Target (proposed) | Milestone |
 |---|---|---|---|
-| `harness.web.WebRuntime` | package | `harness.web.web` (`ctx.web`) | 0.4 |
-| `harness.web.WebToolsPlugin` | package | `harness.web.tool_web` | 0.4 |
-| `harness.web.SafeHttpFetchProvider` | package | `harness.web.web_fetch_http` | 0.4 |
-| `harness.web.GoogleCustomSearchProvider` | pepgpt-plugin | PepGPT search provider on `ctx.web`, checked with the search provider contract | 0.4 |
-| `harness.web.GoogleSearchPlugin` | pepgpt-plugin | same | 0.4 |
+| `harness.web.WebRuntime` | external-plugin | `cordis-harness-web`: `harness.web.web` (`ctx.web`) | external |
+| `harness.web.WebToolsPlugin` | external-plugin | `cordis-harness-web`: `harness.web.tool_web` | external |
+| `harness.web.SafeHttpFetchProvider` | external-plugin | `cordis-harness-web`: `harness.web.web_fetch_http` | external |
+| `harness.web.GoogleCustomSearchProvider` | pepgpt-plugin | PepGPT search provider on the web plugin's `ctx.web` seam | external |
+| `harness.web.GoogleSearchPlugin` | pepgpt-plugin | same | external |
 
 ## Skills
 
 | PepGPT import | Status | Target (proposed) | Milestone |
 |---|---|---|---|
-| `harness.skills.SkillDefinition` | package | `harness.skill.skill` | 0.4 |
-| `harness.skills.SkillRuntime` | package | `harness.skill.skill` (`ctx.skills`) | 0.4 |
-| `harness.skills.StaticSkillProvider` | package | `harness.skill.skill` provider registry | 0.4 |
-| `harness.skills.render_skill_content` | package | `harness.skill.tool_skill` | 0.4 |
-| `harness.skills.strip_skill_content` | pepgpt-plugin | PepGPT search-budget helper | 0.4 |
-| `harness.plugins.AutoSkillsPlugin` | pepgpt-plugin | PepGPT plugin over `ctx.skills` | 0.4 |
+| `harness.skills.SkillDefinition` | external-plugin | `cordis-harness-skills`: `harness.skill.skill` | external |
+| `harness.skills.SkillRuntime` | external-plugin | `cordis-harness-skills`: `harness.skill.skill` (`ctx.skills`) | external |
+| `harness.skills.StaticSkillProvider` | external-plugin | `cordis-harness-skills`: provider registry | external |
+| `harness.skills.render_skill_content` | external-plugin | `cordis-harness-skills`: `harness.skill.tool_skill` | external |
+| `harness.skills.strip_skill_content` | pepgpt-plugin | PepGPT search-budget helper | external |
+| `harness.plugins.AutoSkillsPlugin` | pepgpt-plugin | PepGPT plugin over the skills plugin's `ctx.skills` seam | external |
 
 ## Telemetry and durable tools
 
 | PepGPT import | Status | Target (proposed) | Milestone |
 |---|---|---|---|
-| `harness.plugins.TelemetryPlugin` | package | `harness.telemetry.otel` + `harness.session.telemetry_otel` | 0.5 |
-| `harness.plugins.ToolTelemetryPlugin` | package | same | 0.5 |
-| `harness.plugins.TelemetryContext` | package | `harness.telemetry` | 0.5 |
-| `harness.plugins.bind_telemetry_context` | package | `harness.telemetry` | 0.5 |
-| `harness.plugins.telemetry.TelemetryContext` | package | `harness.telemetry` | 0.5 |
-| `harness.plugins.telemetry.bind_telemetry_context` | package | `harness.telemetry` | 0.5 |
+| `harness.plugins.TelemetryPlugin` | external-plugin | `cordis-harness-product`: telemetry providers | external |
+| `harness.plugins.ToolTelemetryPlugin` | external-plugin | same | external |
+| `harness.plugins.TelemetryContext` | external-plugin | `cordis-harness-product`: telemetry context | external |
+| `harness.plugins.bind_telemetry_context` | external-plugin | same | external |
+| `harness.plugins.telemetry.TelemetryContext` | external-plugin | `cordis-harness-product`: telemetry context | external |
+| `harness.plugins.telemetry.bind_telemetry_context` | external-plugin | same | external |
 | `harness.plugins.DurableToolCallsPlugin` | pepgpt-plugin | PepGPT plugin on `tools/*` events | 0.1 |
 
 ## Memory (no upstream counterpart)

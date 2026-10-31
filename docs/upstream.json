@@ -5,6 +5,11 @@
     "commit": "ce7073d51254c26cd63b22a60835b8f948deb447",
     "date": "2026-10-30"
   },
+  "distribution_scope": {
+    "core_milestone": "0.1",
+    "policy": "Only milestone 0.1 modules belong to cordis-harness. Later milestones are retained as an extension-package source inventory and are not planned modules of this distribution.",
+    "roadmap": "docs/plugin-roadmap.md"
+  },
   "packages": [
     {
       "upstream": "packages/core/scope",
@@ -158,7 +163,8 @@
       "npm": "@deepseek-ai/dsh-session-persistence-jsonl",
       "module": "harness.session.persistence_jsonl",
       "milestone": "0.1",
-      "status": "in-progress"
+      "status": "ported",
+      "note": "Current-format v4 persistence including plaintext and Zstandard; v0-v3 migration is intentionally out of scope"
     },
     {
       "upstream": "packages/session/session-projection",
