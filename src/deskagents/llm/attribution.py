@@ -32,7 +32,7 @@ class AppIdentity:
 APP_IDENTITY = AppIdentity(
     product="deskagents",
     version=_version(),
-    url="https://github.com/akkefa/harness",
+    url="https://github.com/akkefa/deskagents",
 )
 
 

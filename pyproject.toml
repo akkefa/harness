@@ -31,11 +31,11 @@ openai = ["httpx>=0.27,<1"]
 all = ["httpx>=0.27,<1"]
 
 [project.urls]
-Homepage = "https://github.com/akkefa/harness"
-Repository = "https://github.com/akkefa/harness"
-Issues = "https://github.com/akkefa/harness/issues"
-Documentation = "https://github.com/akkefa/harness/tree/main/docs"
-Changelog = "https://github.com/akkefa/harness/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/akkefa/deskagents"
+Repository = "https://github.com/akkefa/deskagents"
+Issues = "https://github.com/akkefa/deskagents/issues"
+Documentation = "https://github.com/akkefa/deskagents/tree/main/docs"
+Changelog = "https://github.com/akkefa/deskagents/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["hatchling>=1.27,<2"]

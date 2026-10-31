@@ -43,7 +43,7 @@ migration. This is not a compatibility alias for PepGPT's existing import tree. 
 
 | What | Path or URL | Pinned at |
 |---|---|---|
-| **This package (target)** | `/Users/iali/workplace/projects/personal/harness` · <https://github.com/akkefa/harness> | `main` @ `397471b` (uv scaffold only) |
+| **This package (target)** | `/Users/iali/workplace/projects/personal/harness` · <https://github.com/akkefa/deskagents> | `main` @ `397471b` (uv scaffold only) |
 | **Upstream DeepSeek Harness (source of truth)** | `/Users/iali/workplace/projects/personal/deepseek-harness` · <https://github.com/deepseek-ai/deepseek-harness> | `master` @ `ce7073d` (2026-10-30) |
 | Upstream architecture docs | `deepseek-harness/docs/architecture.md`, `docs/capability-seams.md`, `docs/subsystems/*.md` | same |
 | Upstream session format | `deepseek-harness/docs/session-format-status.md`, `docs/persistence-schema.json`, `docs/persistence-changes/finalized/v4.json` | format v4 |
