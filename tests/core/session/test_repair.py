@@ -11,16 +11,16 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import (
+from deskagents.core.session import (
     TOOL_NOT_STARTED,
     TOOL_OUTCOME_UNKNOWN,
     SessionEvent,
     ToolCallRecovery,
     session_seq,
 )
-from harness.core.session import interrupted_turn_closers as repair_interrupted_turn
-from harness.core.session import open_turn_closers as close_open_turn
-from harness.llm import ToolCallId, create_message, create_tool_result_message
+from deskagents.core.session import interrupted_turn_closers as repair_interrupted_turn
+from deskagents.core.session import open_turn_closers as close_open_turn
+from deskagents.llm import ToolCallId, create_message, create_tool_result_message
 
 SPEC = "packages/core/session/tests/repair.spec.ts"
 

@@ -316,64 +316,6 @@ wheels = [
 ]
 
 [[package]]
-name = "cordis-harness"
-version = "0.1.0.dev0"
-source = { editable = "." }
-dependencies = [
-    { name = "deepseek-cordis" },
-    { name = "pydantic" },
-    { name = "pyyaml" },
-    { name = "typing-extensions" },
-    { name = "zstandard" },
-]
-
-[package.optional-dependencies]
-all = [
-    { name = "httpx" },
-]
-deepseek = [
-    { name = "httpx" },
-]
-openai = [
-    { name = "httpx" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "mypy" },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "ruff" },
-    { name = "types-pyyaml" },
-]
-packaging = [
-    { name = "twine" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "deepseek-cordis", specifier = ">=0.1.1,<0.2" },
-    { name = "httpx", marker = "extra == 'all'", specifier = ">=0.27,<1" },
-    { name = "httpx", marker = "extra == 'deepseek'", specifier = ">=0.27,<1" },
-    { name = "httpx", marker = "extra == 'openai'", specifier = ">=0.27,<1" },
-    { name = "pydantic", specifier = ">=2.7,<3" },
-    { name = "pyyaml", specifier = ">=6,<7" },
-    { name = "typing-extensions", specifier = ">=4.12,<5" },
-    { name = "zstandard", specifier = ">=0.23,<1" },
-]
-provides-extras = ["deepseek", "openai", "all"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "mypy", specifier = ">=2.4.0" },
-    { name = "pytest", specifier = ">=9.1.1" },
-    { name = "pytest-asyncio", specifier = ">=1.4.0" },
-    { name = "ruff", specifier = ">=0.16.10" },
-    { name = "types-pyyaml", specifier = ">=6" },
-]
-packaging = [{ name = "twine", specifier = ">=6.2,<7" }]
-
-[[package]]
 name = "cryptography"
 version = "50.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -432,6 +374,64 @@ sdist = { url = "https://files.pythonhosted.org/packages/fa/ec/019178d28755dad7a
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c6/1f/58b810da07e4275178f73a8cdc71d1bcd343f274a55be275e13d258b329f/deepseek_cordis-0.1.1-py3-none-any.whl", hash = "sha256:76f66cd33f549468b83367c31cc3cc8b8270fb62585036cdf94ca5e97078bfbd", size = 31006, upload-time = "2026-10-16T05:21:14.938Z" },
 ]
+
+[[package]]
+name = "deskagents"
+version = "0.1.0.dev0"
+source = { editable = "." }
+dependencies = [
+    { name = "deepseek-cordis" },
+    { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "typing-extensions" },
+    { name = "zstandard" },
+]
+
+[package.optional-dependencies]
+all = [
+    { name = "httpx" },
+]
+deepseek = [
+    { name = "httpx" },
+]
+openai = [
+    { name = "httpx" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "ruff" },
+    { name = "types-pyyaml" },
+]
+packaging = [
+    { name = "twine" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "deepseek-cordis", specifier = ">=0.1.1,<0.2" },
+    { name = "httpx", marker = "extra == 'all'", specifier = ">=0.27,<1" },
+    { name = "httpx", marker = "extra == 'deepseek'", specifier = ">=0.27,<1" },
+    { name = "httpx", marker = "extra == 'openai'", specifier = ">=0.27,<1" },
+    { name = "pydantic", specifier = ">=2.7,<3" },
+    { name = "pyyaml", specifier = ">=6,<7" },
+    { name = "typing-extensions", specifier = ">=4.12,<5" },
+    { name = "zstandard", specifier = ">=0.23,<1" },
+]
+provides-extras = ["deepseek", "openai", "all"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "mypy", specifier = ">=2.4.0" },
+    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "pytest-asyncio", specifier = ">=1.4.0" },
+    { name = "ruff", specifier = ">=0.16.10" },
+    { name = "types-pyyaml", specifier = ">=6" },
+]
+packaging = [{ name = "twine", specifier = ">=6.2,<7" }]
 
 [[package]]
 name = "docutils"

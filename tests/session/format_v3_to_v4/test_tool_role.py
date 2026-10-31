@@ -12,17 +12,17 @@ from typing import Any, cast
 
 import pytest
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatEvent,
     SessionFormatEventCollector,
 )
-from harness.session.format_v3_to_v4 import (
+from deskagents.session.format_v3_to_v4 import (
     released_v4_session_format_codec,
     restore_released_v4_artifact,
 )
-from harness.session.format_v3_to_v4.tool_role import assert_v4_tool_result_message
+from deskagents.session.format_v3_to_v4.tool_role import assert_v4_tool_result_message
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/tool-role.spec.ts"
 CODEC = "released V4 codec with native tool-role rows"

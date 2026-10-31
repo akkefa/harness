@@ -6,7 +6,7 @@ from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, field
 from typing import Any
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatEvent,
     SessionFormatEventRun,
     SessionFormatHeader,

@@ -7,7 +7,7 @@ from collections.abc import Mapping
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     MESSAGE_PROJECTION_EVENT_TYPES,
     RestoredSessionOptions,
     Session,
@@ -23,8 +23,8 @@ from harness.core.session import (
     session_log_offset,
     session_seq,
 )
-from harness.llm import Message, create_user_message
-from harness.util.values import deep_freeze
+from deskagents.llm import Message, create_user_message
+from deskagents.util.values import deep_freeze
 
 SPEC = "packages/core/session/tests/message-projections.spec.ts"
 GROUP = "plugin-owned message projections"

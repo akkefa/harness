@@ -11,7 +11,7 @@ import pytest
 from deepseek_cordis import inspect_plugin
 from deepseek_cordis.loader import resolve_plugin
 
-from harness.session import persistence_jsonl
+from deskagents.session import persistence_jsonl
 
 SPEC = "packages/session/session-persistence-jsonl/tests/load-path.spec.ts"
 
@@ -19,7 +19,7 @@ SPEC = "packages/session/session-persistence-jsonl/tests/load-path.spec.ts"
 @pytest.mark.upstream(f"{SPEC}::retains the JSONL namespace and configuration through the Loader")
 def test_retains_the_namespace_and_configuration_through_the_loader() -> None:
     assert not hasattr(persistence_jsonl, "default")
-    plugin = resolve_plugin("harness.session.persistence_jsonl")
+    plugin = resolve_plugin("deskagents.session.persistence_jsonl")
     assert plugin is persistence_jsonl
     assert callable(persistence_jsonl.apply)
     meta = inspect_plugin(plugin)

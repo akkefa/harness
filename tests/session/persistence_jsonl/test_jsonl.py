@@ -20,23 +20,23 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     SessionEvent,
     SessionHeader,
     SessionId,
     SessionLogOffset,
 )
-from harness.session import persistence_jsonl as jsonl
-from harness.session.format import SessionFormatError
-from harness.session.persistence import (
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.format import SessionFormatError
+from deskagents.session.persistence import (
     SessionAlreadyExistsError,
     SessionFormatUnsupportedError,
     SessionPersistence,
     SessionPersistenceCorruptionError,
 )
-from harness.session.persistence_jsonl import JsonlSessionPersistence
-from harness.session.persistence_jsonl.format import (
+from deskagents.session.persistence_jsonl import JsonlSessionPersistence
+from deskagents.session.persistence_jsonl.format import (
     assert_no_retired_header_fields,
     encode_segment,
     generation_log_filename,
@@ -48,7 +48,7 @@ from harness.session.persistence_jsonl.format import (
     session_dir,
     to_header_line,
 )
-from harness.util.values import FrozenJsonArray, FrozenJsonObject
+from deskagents.util.values import FrozenJsonArray, FrozenJsonObject
 
 SPEC = "packages/session/session-persistence-jsonl/tests/jsonl.spec.ts"
 FORMAT = "JsonlSessionPersistence: format helpers"

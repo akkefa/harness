@@ -6,13 +6,13 @@ from collections.abc import Sequence
 
 import pytest
 
-from harness.core.session import (
+from deskagents.core.session import (
     SessionSeq,
     decode_seq_ranges,
     encode_seq_ranges,
     session_seq,
 )
-from harness.util.values import MAX_SAFE_INTEGER
+from deskagents.util.values import MAX_SAFE_INTEGER
 
 SPEC = "packages/core/session/tests/seq-ranges.spec.ts"
 GROUP = "sourceEventSeqs ranges"

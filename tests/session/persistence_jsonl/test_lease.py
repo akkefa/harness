@@ -3,7 +3,7 @@
 Cross-process write-lock behaviour through fresh backend instances over one shared root
 (``flock`` locks conflict between two descriptors even inside one process). Upstream's
 ``node:fs/promises`` and flock-addon mocks become monkeypatches of ``open``, ``os.stat``
-and ``fcntl.flock`` as seen by ``harness.session.persistence_jsonl.lease``.
+and ``fcntl.flock`` as seen by ``deskagents.session.persistence_jsonl.lease``.
 
 The last test replaces ``lease.two-process.e2e.ts``: a child Python process holds the
 lease and the parent's write open is refused.
@@ -24,18 +24,18 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import SESSION_FORMAT_VERSION, SessionHeader, SessionId
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import (
+from deskagents.core.session import SESSION_FORMAT_VERSION, SessionHeader, SessionId
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import (
     SessionAlreadyExistsError,
     SessionAlreadyOwnedError,
     SessionPersistence,
     SessionPersistenceNotFoundError,
 )
-from harness.session.persistence_jsonl import lease as lease_module
-from harness.session.persistence_jsonl.format import session_dir
-from harness.session.persistence_jsonl.lease import LEASE_FILENAME, SessionWriteLease
-from harness.session.persistence_jsonl.storage import JsonlSessionHandle
+from deskagents.session.persistence_jsonl import lease as lease_module
+from deskagents.session.persistence_jsonl.format import session_dir
+from deskagents.session.persistence_jsonl.lease import LEASE_FILENAME, SessionWriteLease
+from deskagents.session.persistence_jsonl.storage import JsonlSessionHandle
 
 SPEC = "packages/session/session-persistence-jsonl/tests/lease.spec.ts"
 DESCRIBE = "cross-process write lock"
@@ -520,8 +520,8 @@ async def test_keeps_distinct_sessions_independently_lockable(root: str, mount: 
 _CHILD = textwrap.dedent(
     """
     import asyncio, sys
-    from harness.core.session import SessionId
-    from harness.session.persistence_jsonl.lease import SessionWriteLease
+    from deskagents.core.session import SessionId
+    from deskagents.session.persistence_jsonl.lease import SessionWriteLease
 
     async def main():
         lease = await SessionWriteLease.acquire(sys.argv[1], SessionId(sys.argv[2]))

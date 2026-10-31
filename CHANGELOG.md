@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Repository tooling (plan Phase 0): `cordis-harness` packaging on hatchling and uv,
+- Repository tooling (plan Phase 0): `deskagents` packaging on hatchling and uv,
   CI on Python 3.11–3.13 (Linux) and 3.11 (macOS), tag-triggered PyPI release through
   trusted publishing, wheel and source-archive audits, and a core-only installation
   check.
@@ -19,34 +19,34 @@
   `Events.dispatch`, `Fiber.assert_active`, `internal/status` and `internal/plugin`
   events); they are tracked as strict xfails until deepseek-cordis adds them.
 - Phase 2, scope and session log:
-  - `harness.core.scope` (upstream `core/scope`).
-  - `harness.session.format` (upstream `session/session-format`): JSON coordinates,
+  - `deskagents.core.scope` (upstream `core/scope`).
+  - `deskagents.session.format` (upstream `session/session-format`): JSON coordinates,
     header snapshots, log filenames, the migration chain and the codec catalog.
-  - `harness.core.session` (upstream `core/session`): the append-only Session log, the
+  - `deskagents.core.session` (upstream `core/session`): the append-only Session log, the
     `sessions` store, the model-visible surface and message projections, request headers,
     tool history, repair, fork and plugin records. Store operations act for the calling
     fiber through `SessionStore.caller`.
-  - `harness.util.values`: frozen JSON values and a `JSON.stringify`/`JSON.parse`
+  - `deskagents.util.values`: frozen JSON values and a `JSON.stringify`/`JSON.parse`
     compatible encoder and parser.
-  - `harness.llm`: the message and call-config vocabulary the session log needs; the
+  - `deskagents.llm`: the message and call-config vocabulary the session log needs; the
     adapter seam follows in Phase 4.
   - 325 upstream test cases from 26 spec files are ported, 35 of them adapted with notes;
     42 cannot apply in Python and 2 wait on Phase 4.
   - A conformance check validates Python-written events and headers against upstream's
     pinned v4 type inventory.
 - Phase 3, session persistence:
-  - `harness.session.persistence` (upstream `session/session-persistence`): the
+  - `deskagents.session.persistence` (upstream `session/session-persistence`): the
     `sessionPersistence` service definition, handles, errors and shared storage checks.
-  - `harness.session.persistence_jsonl` (upstream `session/session-persistence-jsonl`):
+  - `deskagents.session.persistence_jsonl` (upstream `session/session-persistence-jsonl`):
     the JSONL backend with upstream's directory layout, single-writer lease, durable
     publication, live write batching and torn-tail repair. Plaintext and checksummed,
     concatenated Zstandard frames are supported; Zstandard is the upstream-compatible
     default. Format v0–v3 migration is not ported.
-  - The v4 codec stack: `harness.session.format_v1_to_v2` (the v2 row framing v4 reuses),
-    `harness.session.format_v3_to_v4` (v4 admission and relationship checks) and
-    `harness.session.format_catalog` (v4 current; v0–v3 reported unsupported).
-  - `harness.session.projection` (upstream `session/session-projection`).
-  - `harness.testing`: the upstream persistence and live-write contract suites as a
+  - The v4 codec stack: `deskagents.session.format_v1_to_v2` (the v2 row framing v4 reuses),
+    `deskagents.session.format_v3_to_v4` (v4 admission and relationship checks) and
+    `deskagents.session.format_catalog` (v4 current; v0–v3 reported unsupported).
+  - `deskagents.session.projection` (upstream `session/session-projection`).
+  - `deskagents.testing`: the upstream persistence and live-write contract suites as a
     pytest-free public API, so any `SessionPersistence` backend can run them.
   - 740 catalogued upstream cases from 63 files (629 ported, 35 adapted, 31 run through
     the contract suites). Intentional omissions (migrations, Node-only and
@@ -60,14 +60,14 @@
   Execution, skills, web/MCP, Azure, telemetry and product providers move to
   independently versioned plugin families documented in `docs/plugin-roadmap.md`.
 - Phase 4, model seam:
-  - `harness.llm`: Cordis-owned adapter registration, exact-model resolution,
+  - `deskagents.llm`: Cordis-owned adapter registration, exact-model resolution,
     registration-bound prepared calls, stream assembly, compact durable stream helpers,
     normalized failures, API-key checks and provider retry-policy resolution.
-  - `harness.llm.retry`: durable provider-routed retry scheduling, bounded jittered
+  - `deskagents.llm.retry`: durable provider-routed retry scheduling, bounded jittered
     backoff, projection-backed retry continuation and cancellation on plugin disposal.
-  - `harness.llm.token_meter`: fixed token estimation, replay-aware measurement,
+  - `deskagents.llm.token_meter`: fixed token estimation, replay-aware measurement,
     usage/context-pressure/context-breakdown projections and complete-turn accounting.
-  - `harness.testing.ScriptedAdapter` and a pytest-independent LLM adapter contract.
+  - `deskagents.testing.ScriptedAdapter` and a pytest-independent LLM adapter contract.
 - Phase 5, agent spine and bundles:
   - Ordered system-prompt sections, runtime-context snapshots, scoped tool registration,
     native bounded execution, model selection and agent lifecycle services.
@@ -77,11 +77,11 @@
     scripted `examples/minimal_agent.py`.
   - Session durability checkpoints and deterministic fallback/user session titles.
 - Phase 6, model adapters:
-  - `harness.llm.deepseek`: DeepSeek Messages serialization, SSE translation, native
+  - `deskagents.llm.deepseek`: DeepSeek Messages serialization, SSE translation, native
     reasoning replay, tool calls, usage, API-key provider and request extensions.
-  - `harness.session.log_deepseek`: bounded incremental session-log delivery with
+  - `deskagents.session.log_deepseek`: bounded incremental session-log delivery with
     acceptance watermarks.
-  - `harness.llm.openai`: OpenAI-compatible Chat Completions streaming with reasoning,
+  - `deskagents.llm.openai`: OpenAI-compatible Chat Completions streaming with reasoning,
     tools, usage, custom endpoints/headers and Azure OpenAI deployment mode.
   - Both adapters run the public LLM adapter contract against committed HTTP/SSE
     response fixtures; tests make no network calls.

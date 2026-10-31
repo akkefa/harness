@@ -1,4 +1,4 @@
-"""Runs the reusable live-write-path contract (harness.testing) against the JSONL backend.
+"""Runs the reusable live-write-path contract (deskagents.testing) against the JSONL backend.
 
 Upstream: packages/session/session-persistence-jsonl/tests/jsonl.spec.ts invokes
 ``runLiveWritePathContract('jsonl', LIVE_WRITE_BATCH_MAX_DELAY_MS, …)`` from
@@ -16,10 +16,10 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import SessionStore
-from harness.session import persistence_jsonl
-from harness.session.persistence_jsonl.storage import LIVE_WRITE_BATCH_MAX_DELAY_S
-from harness.testing import LiveWriteBackend, LiveWriteCheck, live_write_path_contract_cases
+from deskagents.core.session import SessionStore
+from deskagents.session import persistence_jsonl
+from deskagents.session.persistence_jsonl.storage import LIVE_WRITE_BATCH_MAX_DELAY_S
+from deskagents.testing import LiveWriteBackend, LiveWriteCheck, live_write_path_contract_cases
 
 CASES = live_write_path_contract_cases()
 

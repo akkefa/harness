@@ -16,8 +16,8 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import SESSION_FORMAT_VERSION, SessionEvent, SessionId
-from harness.session.persistence import (
+from deskagents.core.session import SESSION_FORMAT_VERSION, SessionEvent, SessionId
+from deskagents.session.persistence import (
     SessionAlreadyExistsError,
     SessionAlreadyOwnedError,
     SessionFormatUnsupportedError,
@@ -35,8 +35,8 @@ from harness.session.persistence import (
     session_format_version_refusal,
     validate_stored_events,
 )
-from harness.testing import meta
-from harness.util.values import MAX_SAFE_INTEGER, FrozenJsonObject
+from deskagents.testing import meta
+from deskagents.util.values import MAX_SAFE_INTEGER, FrozenJsonObject
 
 SPEC = "packages/session/session-persistence/tests/storage-contract.spec.ts"
 LOCATION = SessionLocation("jsonl", "/store/session.jsonl")

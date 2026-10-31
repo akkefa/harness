@@ -12,22 +12,22 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import Session, SessionSeq, build_fork_seed
-from harness.llm import ToolCallId, create_message
-from harness.session.format import (
+from deskagents.core.session import Session, SessionSeq, build_fork_seed
+from deskagents.llm import ToolCallId, create_message
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatEventCollector,
 )
-from harness.session.format_v3_to_v4 import (
+from deskagents.session.format_v3_to_v4 import (
     assert_v4_row_admission,
     restore_released_v4_artifact,
 )
-from harness.session.format_v3_to_v4 import (
+from deskagents.session.format_v3_to_v4 import (
     released_v4_session_format_codec as codec,
 )
-from harness.session.format_v3_to_v4.fork_result import assert_v4_fork_result
-from harness.util.values import parse_json, stringify_json
+from deskagents.session.format_v3_to_v4.fork_result import assert_v4_fork_result
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/fork.spec.ts"
 GROUP = "V4 fork results"

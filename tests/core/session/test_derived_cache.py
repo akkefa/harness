@@ -11,9 +11,9 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import Session, session_id
-from harness.llm import Message, create_message, create_user_message
-from harness.util.values import FrozenJsonArray, FrozenJsonObject
+from deskagents.core.session import Session, session_id
+from deskagents.llm import Message, create_message, create_user_message
+from deskagents.util.values import FrozenJsonArray, FrozenJsonObject
 
 SPEC = "packages/core/session/tests/derived-cache.spec.ts"
 CACHE = "derived-message cache"

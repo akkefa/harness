@@ -8,13 +8,13 @@ from typing import Any
 
 import pytest
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatHeader,
 )
-from harness.session.format_v3_to_v4 import restore_released_v4_artifact
-from harness.util.values import stringify_json
+from deskagents.session.format_v3_to_v4 import restore_released_v4_artifact
+from deskagents.util.values import stringify_json
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/open-vocabulary.spec.ts"
 GROUP = "known V4 event interpretation"

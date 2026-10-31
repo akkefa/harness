@@ -15,7 +15,7 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     TOOL_NOT_STARTED,
     TOOL_OUTCOME_UNKNOWN,
     CreateSessionMeta,
@@ -29,8 +29,8 @@ from harness.core.session import (
     session_log_offset,
     session_seq,
 )
-from harness.llm import ToolCallId, create_message, create_user_message
-from harness.util.values import MAX_SAFE_INTEGER
+from deskagents.llm import ToolCallId, create_message, create_user_message
+from deskagents.util.values import MAX_SAFE_INTEGER
 
 SPEC = "packages/core/session/tests/fork.spec.ts"
 MOCK_SOURCE = {"kind": "model", "provider": "mock", "model": "mock"}

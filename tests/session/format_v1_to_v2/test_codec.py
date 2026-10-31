@@ -11,14 +11,14 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import decode_seq_ranges
-from harness.session.format import (
+from deskagents.core.session import decode_seq_ranges
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatEventCollector,
     SessionFormatRecovery,
 )
-from harness.session.format_v1_to_v2 import released_v2_session_format_codec as codec
+from deskagents.session.format_v1_to_v2 import released_v2_session_format_codec as codec
 
 SPEC = "packages/session/session-format-v1-to-v2/tests/codec.spec.ts"
 HEADERS = "releasedV2SessionFormatCodec headers"

@@ -11,8 +11,12 @@ from typing import Any, cast
 
 import pytest
 
-from harness.session.format import SessionFormatError, SessionFormatEvent, SessionFormatJsonObject
-from harness.session.format_v3_to_v4.sources import map_event_messages
+from deskagents.session.format import (
+    SessionFormatError,
+    SessionFormatEvent,
+    SessionFormatJsonObject,
+)
+from deskagents.session.format_v3_to_v4.sources import map_event_messages
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/sources.spec.ts"
 GROUP = "mapEventMessages"

@@ -14,7 +14,7 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     CreateSessionMeta,
     CreateSessionOptions,
     Session,
@@ -22,9 +22,9 @@ from harness.core.session import (
     SessionLogOffset,
     SessionStore,
 )
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import SessionPersistence
-from harness.session.persistence_jsonl.format import generation_log_path
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import SessionPersistence
+from deskagents.session.persistence_jsonl.format import generation_log_path
 
 SPEC = "packages/session/session-persistence-jsonl/tests/fork-delivery.spec.ts"
 DESCRIBE = "fork delivery persistence (%s)"

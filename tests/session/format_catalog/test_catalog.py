@@ -21,14 +21,14 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import SESSION_FORMAT_VERSION
-from harness.session.format import (
+from deskagents.core.session import SESSION_FORMAT_VERSION
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatRestoreOptions,
     SessionFormatUnsupportedMigrationError,
 )
-from harness.session.format_catalog import session_format_catalog
-from harness.util.values import parse_json, stringify_json
+from deskagents.session.format_catalog import session_format_catalog
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-format-catalog/tests/catalog.spec.ts"
 GROUP = "first-party Session format catalog"

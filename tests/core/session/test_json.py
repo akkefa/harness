@@ -8,7 +8,7 @@ from typing import Any
 
 import pytest
 
-from harness.util.values import MAX_SAFE_INTEGER, JsonValue, is_json_value, snapshot_json_value
+from deskagents.util.values import MAX_SAFE_INTEGER, JsonValue, is_json_value, snapshot_json_value
 
 SPEC = "packages/core/session/tests/json.spec.ts"
 BOTH = "snapshotJsonValue and isJsonValue"

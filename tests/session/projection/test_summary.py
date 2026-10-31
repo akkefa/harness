@@ -11,7 +11,7 @@ from deepseek_cordis import Context
 from pydantic import Field, TypeAdapter
 from typing_extensions import TypedDict
 
-from harness.core.session import (
+from deskagents.core.session import (
     CreateSessionMeta,
     CreateSessionOptions,
     SessionEvent,
@@ -19,7 +19,7 @@ from harness.core.session import (
     SessionSeq,
     SessionStore,
 )
-from harness.session.projection import (
+from deskagents.session.projection import (
     ProjectionCheckpoint,
     ProjectionDefinition,
     ProjectionWire,

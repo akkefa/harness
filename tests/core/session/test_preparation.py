@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from harness.core.session import Session, SessionPreparation, session_id
+from deskagents.core.session import Session, SessionPreparation, session_id
 
 SPEC = "packages/core/session/tests/preparation.spec.ts"
 GROUP = "SessionPreparation"

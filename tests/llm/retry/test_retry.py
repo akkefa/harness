@@ -10,9 +10,9 @@ from typing import Any
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import SessionStore
-from harness.llm.retry import RetryInternals, apply, local_delay, retry_policy_key
-from harness.session.projection import SessionProjectionRegistry
+from deskagents.core.session import SessionStore
+from deskagents.llm.retry import RetryInternals, apply, local_delay, retry_policy_key
+from deskagents.session.projection import SessionProjectionRegistry
 
 RETRY_SPEC = "packages/llm/llm-retry/tests/retry.spec.ts"
 

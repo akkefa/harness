@@ -7,7 +7,7 @@ from collections.abc import Callable
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.scope import (
+from deskagents.core.scope import (
     AnonymousEntries,
     NamedEntries,
     Scope,

@@ -10,7 +10,7 @@ from typing import Any
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     CreateSessionOptions,
     RestoredSessionOptions,
@@ -24,14 +24,14 @@ from harness.core.session import (
     session_seq,
     snapshot_session_event,
 )
-from harness.llm import (
+from deskagents.llm import (
     ToolCallId,
     create_message,
     create_system_message,
     create_tool_result_message,
     create_user_message,
 )
-from harness.util.values import FrozenJsonArray, FrozenJsonObject, deep_freeze
+from deskagents.util.values import FrozenJsonArray, FrozenJsonObject, deep_freeze
 
 SPEC = "packages/core/session/tests/canonical-envelopes.spec.ts"
 PAYLOAD = "canonical event payload acceptance"

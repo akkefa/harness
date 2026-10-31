@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import (
+from deskagents.core.session import (
     Session,
     SessionEvent,
     SurfaceFoldReplacement,
@@ -22,7 +22,7 @@ from harness.core.session import (
     session_seq,
     snapshot_session_event,
 )
-from harness.llm import (
+from deskagents.llm import (
     Message,
     MessageId,
     ToolCallId,

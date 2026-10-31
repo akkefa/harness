@@ -8,17 +8,17 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import Session
-from harness.session.format import (
+from deskagents.core.session import Session
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatEventCollector,
 )
-from harness.session.format_v3_to_v4 import (
+from deskagents.session.format_v3_to_v4 import (
     assert_v4_row_admission,
     restore_released_v4_artifact,
 )
-from harness.session.format_v3_to_v4 import (
+from deskagents.session.format_v3_to_v4 import (
     released_v4_session_format_codec as codec,
 )
 

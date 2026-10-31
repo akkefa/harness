@@ -18,7 +18,7 @@ version locked here); the PyCordis repo at `0.1.2` (`f804a26`) has the same API.
 ## Result
 
 deepseek-cordis covers almost everything the core distribution uses. G1 and G2 are
-isolated behind the tested `harness._cordis` compatibility adapter. G3 is not
+isolated behind the tested `deskagents._cordis` compatibility adapter. G3 is not
 monkey-patched: the Phase 5 agent uses explicit owner effects for teardown and records
 that lifecycle adaptation in the compatibility catalog.
 
@@ -76,7 +76,7 @@ known drift.
 
 ## Core 0.1 compatibility policy
 
-1. G1 and G2 stay in `harness._cordis`; no other module may access the corresponding
+1. G1 and G2 stay in `deskagents._cordis`; no other module may access the corresponding
    Cordis private attributes. Passing harness tests cover the adapter while strict
    xfails continue to report whether the public Cordis APIs have landed.
 2. G3 is adapted in Phase 5 with explicit effects owned by the Agent lifecycle. The
@@ -88,9 +88,9 @@ known drift.
 
 Added in Phase 3. Recheck these whenever the deepseek-cordis pin moves:
 
-- `harness.session.projection` subclasses `deepseek_cordis.Effect`, through its public
+- `deskagents.session.projection` subclasses `deepseek_cordis.Effect`, through its public
   constructor `(owner, setup, label)`, so that a registration is both its handle and its
   disposer, as upstream's is. A change to that constructor or to how effects adopt
   returned values would break it; `tests/session/projection/test_compatibility.py`
   covers the adoption cases.
-- `harness._cordis` holds the G1/G2 shims (`Events._dispatch`, `Fiber.uid`).
+- `deskagents._cordis` holds the G1/G2 shims (`Events._dispatch`, `Fiber.uid`).

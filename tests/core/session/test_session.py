@@ -11,8 +11,8 @@ from typing import Any, cast, overload
 import pytest
 from deepseek_cordis import Context
 
-import harness.core.session.surface as surface_module
-from harness.core.session import (
+import deskagents.core.session.surface as surface_module
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     CreateSessionMeta,
     CreateSessionOptions,
@@ -26,7 +26,7 @@ from harness.core.session import (
     session_seq,
     snapshot_session_event,
 )
-from harness.llm import (
+from deskagents.llm import (
     Message,
     MessageId,
     ReasoningEffortId,
@@ -37,10 +37,10 @@ from harness.llm import (
     create_tool_result_message,
     create_user_message,
 )
-from harness.util.values import MAX_SAFE_INTEGER, FrozenJsonArray, FrozenJsonObject, thaw_json
+from deskagents.util.values import MAX_SAFE_INTEGER, FrozenJsonArray, FrozenJsonObject, thaw_json
 
 SPEC = "packages/core/session/tests/session.spec.ts"
-LOGGER = "harness.core.session.session"
+LOGGER = "deskagents.core.session.session"
 
 BIG = 2**64
 """Python's analog of a JavaScript ``bigint``: an int that is not lossless JSON."""

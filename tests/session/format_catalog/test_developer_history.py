@@ -12,16 +12,16 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import Session, build_fork_seed
-from harness.llm import create_developer_message
-from harness.session.format import (
+from deskagents.core.session import Session, build_fork_seed
+from deskagents.llm import create_developer_message
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatRestoreOptions,
     create_session_format_catalog,
 )
-from harness.session.format_catalog import session_format_catalog, session_format_catalog_options
-from harness.session.format_v3_to_v4 import restore_released_v4_artifact
+from deskagents.session.format_catalog import session_format_catalog, session_format_catalog_options
+from deskagents.session.format_v3_to_v4 import restore_released_v4_artifact
 
 SPEC = "packages/session/session-format-catalog/tests/developer-history.spec.ts"
 GROUP = "developer tool history"

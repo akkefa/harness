@@ -8,12 +8,12 @@ from typing import Any
 import pytest
 from deepseek_cordis import Context
 
-from harness.core import AgentLoop, AgentRegistry, SystemPrompt, ToolsService, define_tool
-from harness.core.session import SessionStore
-from harness.core.tools import NativeToolExecutor
-from harness.llm import LlmAdapter, LlmRuntime, create_user_message
-from harness.session import SessionTitleService, persistence_jsonl
-from harness.testing import ScriptedAdapter
+from deskagents.core import AgentLoop, AgentRegistry, SystemPrompt, ToolsService, define_tool
+from deskagents.core.session import SessionStore
+from deskagents.core.tools import NativeToolExecutor
+from deskagents.llm import LlmAdapter, LlmRuntime, create_user_message
+from deskagents.session import SessionTitleService, persistence_jsonl
+from deskagents.testing import ScriptedAdapter
 
 
 async def runtime(

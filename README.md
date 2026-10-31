@@ -1,9 +1,9 @@
-# cordis-harness
+# deskagents
 
 A Python implementation of the [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
 agent runtime, built on [deepseek-cordis](https://github.com/akkefa/deepseek-cordis).
 
-PyPI distribution: `cordis-harness`. Python import: `harness`. Python 3.11+.
+PyPI distribution: `deskagents`. Python import: `deskagents`. Python 3.11+.
 
 > **Status: pre-alpha.** The standalone core runtime is runnable: Scope, Session v4,
 > JSONL persistence, projections, prompts, tools, the model seam, retry policy, token
@@ -39,17 +39,17 @@ plugin families. See the [plugin roadmap](docs/plugin-roadmap.md).
 Install the core with the provider extra you need:
 
 ```bash
-pip install "cordis-harness[deepseek]"
-# or: pip install "cordis-harness[openai]"
+pip install "deskagents[deepseek]"
+# or: pip install "deskagents[openai]"
 ```
 
 Create the minimal standalone runtime and register a provider adapter:
 
 ```python
 from deepseek_cordis import Context
-from harness.bundle import MINIMAL_BUNDLE, BundleLoader
-from harness.llm import LlmRuntime
-from harness.llm.deepseek import DeepSeekAdapter
+from deskagents.bundle import MINIMAL_BUNDLE, BundleLoader
+from deskagents.llm import LlmRuntime
+from deskagents.llm.deepseek import DeepSeekAdapter
 
 ctx = Context()
 await BundleLoader(ctx).load_file(MINIMAL_BUNDLE)
@@ -61,14 +61,14 @@ llm.register_adapter(
 )
 ```
 
-`harness.llm.openai.OpenAIAdapter` uses the same seam and supports custom compatible
+`deskagents.llm.openai.OpenAIAdapter` uses the same seam and supports custom compatible
 base URLs plus Azure OpenAI deployment URLs. See `examples/minimal_agent.py` for a
 network-free complete turn.
 
 ## Name clash
 
-The unrelated PyPI package [`harness`](https://pypi.org/project/harness/) also installs a
-top-level `harness` module. Don't install both in one environment.
+The unrelated PyPI package [`deskagents`](https://pypi.org/project/harness/) also installs a
+top-level `deskagents` module. Don't install both in one environment.
 
 ## Development
 

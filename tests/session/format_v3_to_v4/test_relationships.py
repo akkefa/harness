@@ -7,16 +7,16 @@ from typing import Any, cast
 
 import pytest
 
-from harness.core.session import Session, SessionEvent, SessionHeader
-from harness.llm import Message
-from harness.session.format import (
+from deskagents.core.session import Session, SessionEvent, SessionHeader
+from deskagents.llm import Message
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatEvent,
     SessionFormatRestoreOptions,
 )
-from harness.session.format_catalog import session_format_catalog
-from harness.util.values import parse_json, stringify_json
+from deskagents.session.format_catalog import session_format_catalog
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/relationships.spec.ts"
 LIFECYCLE = "mandatory V4 lifecycle restoration"

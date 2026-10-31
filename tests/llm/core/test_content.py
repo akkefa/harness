@@ -5,7 +5,7 @@ from typing import Any
 
 import pytest
 
-from harness.llm import (
+from deskagents.llm import (
     ContentBlock,
     Message,
     ToolSchema,

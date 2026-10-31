@@ -9,8 +9,8 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.scope import Scope, ScopeKey, create_scope, scope_of
-from harness.core.session import Session, SessionEvent, SessionStore
+from deskagents.core.scope import Scope, ScopeKey, create_scope, scope_of
+from deskagents.core.session import Session, SessionEvent, SessionStore
 
 SPEC = "packages/core/session/tests/scoped.spec.ts"
 CARRIERS = "session dispatch carriers"

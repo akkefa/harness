@@ -9,16 +9,22 @@ from typing import Any, Literal
 
 import pytest
 
-from harness.core.session import Session, SessionEvent, SessionSeq, session_id, session_log_offset
-from harness.core.session.tool_history import ToolHistoryProjection
-from harness.llm import (
+from deskagents.core.session import (
+    Session,
+    SessionEvent,
+    SessionSeq,
+    session_id,
+    session_log_offset,
+)
+from deskagents.core.session.tool_history import ToolHistoryProjection
+from deskagents.llm import (
     ContentBlock,
     Message,
     ToolSchema,
     create_developer_message,
     project_tool_updates,
 )
-from harness.util.values import FrozenJsonArray, FrozenJsonObject
+from deskagents.util.values import FrozenJsonArray, FrozenJsonObject
 
 SPEC = "packages/core/session/tests/tool-history.spec.ts"
 GROUP = "Session.toolHistory"

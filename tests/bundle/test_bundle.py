@@ -3,14 +3,14 @@ from __future__ import annotations
 import pytest
 from deepseek_cordis import Context
 
-from harness.bundle import (
+from deskagents.bundle import (
     MINIMAL_BUNDLE,
     BundleBuilder,
     BundleLoader,
     apply_row_patches,
     load_bundle_rows,
 )
-from harness.session import SessionTitleService
+from deskagents.session import SessionTitleService
 
 
 def test_row_patches_preserve_unmentioned_fields() -> None:

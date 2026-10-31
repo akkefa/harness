@@ -66,7 +66,7 @@ jobs:
       - name: Validate package-index description
         run: uv run --locked --group packaging twine check --strict dist/*.whl dist/*.tar.gz
 
-      # Only the core runtime dependencies: proves `import harness` needs no extra.
+      # Only the core runtime dependencies: proves `import deskagents` needs no extra.
       - name: Install wheel with core dependencies only
         run: |
           uv venv --no-project --python "${{ matrix.python-version }}" "${RUNNER_TEMP}/harness-wheel"

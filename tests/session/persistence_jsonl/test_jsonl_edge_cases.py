@@ -22,22 +22,22 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-import harness.session.persistence_jsonl as jsonl_module
-from harness.core.session import (
+import deskagents.session.persistence_jsonl as jsonl_module
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     SessionEvent,
     SessionHeader,
     SessionId,
     SessionStore,
 )
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import (
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import (
     SessionAlreadyExistsError,
     SessionHandleClosedError,
     SessionPersistence,
 )
-from harness.session.persistence_jsonl import JsonlConfig, JsonlSessionPersistence
-from harness.session.persistence_jsonl.format import (
+from deskagents.session.persistence_jsonl import JsonlConfig, JsonlSessionPersistence
+from deskagents.session.persistence_jsonl.format import (
     encode_segment,
     generation_log_filename,
     log_path,
@@ -46,7 +46,7 @@ from harness.session.persistence_jsonl.format import (
     session_dir,
     to_header_line,
 )
-from harness.util.values import parse_json, stringify_json
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-persistence-jsonl/tests/jsonl.spec.ts"
 EDGE = f"{SPEC}::JsonlSessionPersistence: edge cases"

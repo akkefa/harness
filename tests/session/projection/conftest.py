@@ -7,8 +7,8 @@ from collections.abc import AsyncIterator
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import SessionStore
-from harness.session.projection import SessionProjectionRegistry
+from deskagents.core.session import SessionStore
+from deskagents.session.projection import SessionProjectionRegistry
 
 
 @pytest_asyncio.fixture

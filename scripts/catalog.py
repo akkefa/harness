@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "docs" / "compatibility-cases.json"
 UPSTREAM_MAP = ROOT / "docs" / "upstream.json"
 # "contract": a case from an upstream shared contract module (e.g. contract.ts), run through
-# harness.testing by a parametrized test; its id is the upstream title, so it carries no mark.
+# deskagents.testing by a parametrized test; its id is the upstream title, so it carries no mark.
 CLASSIFICATIONS = {"ported", "adapted", "not-applicable", "deferred", "contract"}
 SOURCE = re.compile(r"(?P<path>packages/[a-z0-9-]+/[a-z0-9-]+/\S+\.ts)::(?P<title>.+)")
 

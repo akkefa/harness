@@ -7,14 +7,14 @@ import asyncio
 
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     SessionEvent,
     SessionHeader,
     SessionId,
 )
-from harness.session import persistence_jsonl
-from harness.session.persistence import SessionPersistence
+from deskagents.session import persistence_jsonl
+from deskagents.session.persistence import SessionPersistence
 
 
 async def write(root: str, compression: str, session_id: str) -> None:

@@ -18,10 +18,10 @@ from pathlib import Path
 
 import pytest
 
-from harness.core.session import SessionId
-from harness.session.persistence import SessionAlreadyOwnedError
-from harness.session.persistence_jsonl import _publish_new
-from harness.session.persistence_jsonl.lease import SessionWriteLease
+from deskagents.core.session import SessionId
+from deskagents.session.persistence import SessionAlreadyOwnedError
+from deskagents.session.persistence_jsonl import _publish_new
+from deskagents.session.persistence_jsonl.lease import SessionWriteLease
 
 SPEC = "packages/session/session-persistence-jsonl/tests/win32.spec.ts"
 

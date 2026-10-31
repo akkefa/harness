@@ -11,8 +11,8 @@ from typing import Any
 
 import pytest
 
-from harness.session.format import SessionFormatError
-from harness.session.format_v1_to_v2 import assert_released_v2_header
+from deskagents.session.format import SessionFormatError
+from deskagents.session.format_v1_to_v2 import assert_released_v2_header
 
 SPEC = "packages/session/session-format-v1-to-v2/tests/validation.spec.ts"
 GROUP = "released v2 header validation"

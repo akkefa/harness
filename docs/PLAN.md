@@ -33,8 +33,8 @@ migration. This is not a compatibility alias for PepGPT's existing import tree. 
 | Composition | Upstream-style config rows. Bundles are YAML row lists loaded through the deepseek-cordis `Loader`, plus a Python API that builds the same rows. |
 | Model adapters | Port upstream's DeepSeek adapter (`[deepseek]`) and add a generic OpenAI-compatible adapter (`[openai]`). |
 | Extension model | Core capability seams and contract suites live here. Execution, skills, web, MCP, Azure and product providers ship as separate distributions; see [plugin-roadmap.md](plugin-roadmap.md). |
-| Distribution name | `cordis-harness` on PyPI. `harness` and `deepseek-harness` are taken by unrelated projects. |
-| Import name | `import harness`. Upstream's own Python SDK uses `deepseek_harness`; it drives the Node `dsh` binary over JSON-RPC and is a different thing. |
+| Distribution name | `deskagents` on PyPI. `deskagents` and `deepseek-harness` are taken by unrelated projects. |
+| Import name | `import deskagents`. Upstream's own Python SDK uses `deepseek_harness`; it drives the Node `dsh` binary over JSON-RPC and is a different thing. |
 | Python | `>=3.11`, same as deepseek-cordis. CI runs 3.11, 3.12, 3.13. |
 | License | Apache-2.0 (already in the repo). MIT notices for DeepSeek Harness and Cordis in `THIRD_PARTY_NOTICES.md`. |
 | Tooling | Copied from PyCordis: hatchling, uv, ruff, mypy, pytest, GitHub Actions CI, tag-triggered PyPI release. |
@@ -83,10 +83,10 @@ Facts this plan is built on, from upstream `ce7073d`:
 
 ## Scope
 
-### In scope for `cordis-harness` 0.1
+### In scope for `deskagents` 0.1
 
 Each upstream package becomes one Python module directory named after it
-(`@deepseek-ai/dsh-session-persistence-jsonl` → `harness.session.persistence_jsonl`).
+(`@deepseek-ai/dsh-session-persistence-jsonl` → `deskagents.session.persistence_jsonl`).
 
 | Area | Upstream packages |
 |---|---|
@@ -121,7 +121,7 @@ repositories following [plugin-roadmap.md](plugin-roadmap.md).
 
 ```
 harness/                              repo root
-  src/harness/
+  src/deskagents/
     __init__.py  py.typed
     core/
       scope/  session/  system_prompt/  tools/  tool_executor_native/
@@ -149,11 +149,11 @@ harness/                              repo root
 
 The exact naming rule is in [upstream.md](upstream.md#module-names): a group's own
 package (its Service Definition) is the group module itself, so `fs/fs` is
-`harness.fs` and `fs/fs-local` is `harness.fs.local`.
+`deskagents.fs` and `fs/fs-local` is `deskagents.fs.local`.
 
 Each module directory exposes Cordis plugin metadata (`name`, `inject`,
 `Config`) and an `apply(ctx, config)` or a `Service` subclass, so a YAML row can
-reference it as `harness.fs.tool_fs`. Each module's docstring names the upstream
+reference it as `deskagents.fs.tool_fs`. Each module's docstring names the upstream
 package and commit it follows.
 
 ## Python translation rules
@@ -205,7 +205,7 @@ and registered in `tests/boundary/test_import_boundaries.py`.
    pin that touch any mapped package. It is run at the start of every milestone and
    the result goes in `docs/upstream-audit-<date>.md`, as PyCordis does.
 5. **Cordis compatibility is isolated.** Missing public runtime operations are either
-   adapted behind `harness._cordis` with contract tests or scheduled upstream before
+   adapted behind `deskagents._cordis` with contract tests or scheduled upstream before
    another harness module may rely on them.
 
 ## PepGPT replacement
@@ -217,19 +217,19 @@ Built in from the start so the later switch is mostly wiring, not rewriting.
    Bedrock, Gemini and LangChain model adapters, a Bing search provider, Arize
    telemetry listeners, the agent UI and SSE layer over `ctx.agents` and
    `session/event`. Nothing PepGPT-specific goes into this package.
-2. **Contract suites.** `harness.testing` ships reusable test suites for every seam
+2. **Contract suites.** `deskagents.testing` ships reusable test suites for every seam
    PepGPT implements: session persistence backend, LLM adapter, filesystem and
    subprocess providers, search and fetch providers. The core ships its own contracts;
    plugin families ship contracts for their seams. PepGPT runs them against its providers.
 3. **Providers remain separate.** Azure execution, web/search, skills and product
    integrations live in independently versioned plugins.
 4. **Migration inventory.** [pepgpt-migration.md](pepgpt-migration.md) lists all 129
-   symbols PepGPT imports from `harness` today, with their upstream counterpart and
+   symbols PepGPT imports from `deskagents` today, with their upstream counterpart and
    the core or plugin family that provides it. Every phase updates the rows it covers.
 5. **PepGPT-only features stay in PepGPT.** Memory, auto-skills, the Python code
    interpreter, durable tool calls, hand-off tools and the canary have no upstream
    counterpart. PepGPT keeps them as its own plugins on the public seams. Any of them
-   can move into a `harness.contrib` module later if another team needs it.
+   can move into a `deskagents.contrib` module later if another team needs it.
 6. **Session data.** PepGPT's stored sessions use its own event vocabulary. The
    migration doc maps each PepGPT event type to its v4 equivalent so PepGPT can write
    a one-time converter.
@@ -244,7 +244,7 @@ owner's go-ahead.
 
 ### Phase 0 — Repo and upstream tooling
 
-- Replace the uv scaffold: `pyproject.toml` (hatchling, `cordis-harness`,
+- Replace the uv scaffold: `pyproject.toml` (hatchling, `deskagents`,
   `>=3.11`, extras), remove the `harness:main` script, add `py.typed`.
 - Copy and adapt from PyCordis: CI and release workflows, distribution and
   installation check scripts, ruff/mypy/pytest config, the compatibility-case
@@ -253,7 +253,7 @@ owner's go-ahead.
 - `scripts/upstream_changes.py`.
 - Copy pinned upstream assets into `tests/upstream_assets/`.
 - Boundary tests: no imports of PepGPT, LangChain or other non-declared
-  dependencies; `import harness` works with only the core dependencies.
+  dependencies; `import deskagents` works with only the core dependencies.
 - `THIRD_PARTY_NOTICES.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, README skeleton,
   `docs/pepgpt-migration.md`.
 
@@ -265,13 +265,13 @@ owner's go-ahead.
   services, effects, waterfall/serial/parallel events, scope labels, isolate
   realms, the timer plugin, loader rows and patches).
 - Check each against deepseek-cordis and write the gaps down.
-- Isolate G1/G2 behind the private compatibility adapter in `harness._cordis`, with
+- Isolate G1/G2 behind the private compatibility adapter in `deskagents._cordis`, with
   harness-level tests. G3 is an intentional Python adaptation: Phase 5 uses explicit
   Cordis-owned cleanup effects instead of monkey-patching Fiber lifecycle internals.
   Upstream is planning a Cordis rc.11 upgrade; the audit notes future exposure.
 
 **Exit:** every needed behavior is either covered by deepseek-cordis or by the tested,
-isolated compatibility adapter; no private API is used outside `harness._cordis`.
+isolated compatibility adapter; no private API is used outside `deskagents._cordis`.
 
 ### Phase 2 — Scope and session log
 
@@ -301,7 +301,7 @@ upstream test cases.
   (fallback titles only).
 - Generate v4 session fixtures with `dsh` at the pin (needs Node 24 and a local
   upstream build; done once and committed).
-- Add `harness.testing.persistence_contract` for third-party backends.
+- Add `deskagents.testing.persistence_contract` for third-party backends.
 
 **Exit:** Python opens, projects and replays committed plaintext and Zstandard
 `dsh`-written fixtures; Python-written sessions open in the pinned `dsh`; the contract
@@ -322,21 +322,21 @@ Implemented so far, with these scope notes:
 
 - Port `llm/llm` (message and stream vocabulary, adapter seam, `ctx.llm`),
   `llm-retry` and `token-meter`.
-- Add `harness.testing.ScriptedAdapter` and `harness.testing.llm_adapter_contract`.
+- Add `deskagents.testing.ScriptedAdapter` and `deskagents.testing.llm_adapter_contract`.
 
 **Exit:** the scripted adapter passes the adapter contract; retry and token metering
 pass their ported specs.
 
 Implemented (Phase 4):
 
-- `harness.llm` now provides the provider registry, exact-model preparation, retry-policy
+- `deskagents.llm` now provides the provider registry, exact-model preparation, retry-policy
   resolution, stream/failure vocabulary, compact assistant streams and block assembly.
-- `harness.llm.retry` records retry scheduling before cancellable waits and resumes retry
+- `deskagents.llm.retry` records retry scheduling before cancellable waits and resumes retry
   state from the durable projection; its structural `agent/request-error` listener is
   consumed by the Phase 5 agent package.
-- `harness.llm.token_meter` provides replay-aware estimates, usage/pressure/breakdown
+- `deskagents.llm.token_meter` provides replay-aware estimates, usage/pressure/breakdown
   projections and exact complete-turn accounting.
-- `harness.testing.ScriptedAdapter` and `llm_adapter_contract` are public. Attachment
+- `deskagents.testing.ScriptedAdapter` and `llm_adapter_contract` are public. Attachment
   occurrences retain structural heuristic pricing until the external attachment plugin
   supplies request-time projections.
 
@@ -387,7 +387,7 @@ move the pin, and port the changes that are approved.
   their upstream source. Cases that depend on Node-only behaviour are recorded as
   intentional differences rather than silently dropped.
 - **Format conformance:** schema validation plus two-way `dsh` fixtures (Phase 3).
-- **Contract suites:** shipped in `harness.testing` and run here against every
+- **Contract suites:** shipped in `deskagents.testing` and run here against every
   in-package provider.
 - **Boundary:** dependency and import rules; a core-only install job in CI.
 - **Platforms:** Linux on 3.11–3.13 and macOS on 3.11 in CI. Windows core coverage is
@@ -410,7 +410,7 @@ move the pin, and port the changes that are approved.
 - **Fixtures need a Node build.** Generating `dsh` fixtures needs Node ≥ 24.9 and a
   pnpm build of the upstream checkout. It is a one-off per pin; committed fixtures are
   checked in Python CI and the generation script is rerun whenever the pin moves.
-- **`import harness` clash.** The unrelated PyPI `harness` package installs the same
+- **`import deskagents` clash.** The unrelated PyPI `deskagents` package installs the same
   top-level module. The last cheap time to rename is before 0.1.0.
 - **deepseek-cordis 0.1.2 is not on PyPI** (PyPI has 0.1.1). Phase 1 decides the
   floor and publishes a release if needed.

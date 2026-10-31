@@ -4,9 +4,9 @@ import asyncio
 
 from deepseek_cordis import Context
 
-from harness.bundle import MINIMAL_BUNDLE, BundleLoader
-from harness.llm import LlmRuntime, create_user_message
-from harness.testing import ScriptedAdapter
+from deskagents.bundle import MINIMAL_BUNDLE, BundleLoader
+from deskagents.llm import LlmRuntime, create_user_message
+from deskagents.testing import ScriptedAdapter
 
 
 async def main() -> None:
@@ -19,7 +19,7 @@ async def main() -> None:
         ScriptedAdapter(
             [
                 [
-                    {"type": "text-delta", "index": 0, "text": "Hello from the harness."},
+                    {"type": "text-delta", "index": 0, "text": "Hello from the deskagents."},
                     {"type": "finish", "reason": {"kind": "stop"}},
                 ]
             ]

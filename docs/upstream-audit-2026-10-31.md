@@ -11,7 +11,7 @@ the package inventory and pinned persistence assets against the checkout.
 
 ## Distribution scope decision
 
-`cordis-harness` now owns only the standalone core runtime represented by milestone
+`deskagents` now owns only the standalone core runtime represented by milestone
 0.1 in `docs/upstream.json`. Entries from later milestones remain in the source
 inventory so external plugin repositories can reuse the package mapping, but they are
 not planned modules of this distribution. The boundary is documented in
@@ -30,7 +30,7 @@ not planned modules of this distribution. The boundary is documented in
 
 ## Intentional Python adaptations
 
-- G1/G2 remain isolated in `harness._cordis` until deepseek-cordis exposes equivalent
+- G1/G2 remain isolated in `deskagents._cordis` until deepseek-cordis exposes equivalent
   public APIs.
 - G3 is not implemented by monkey-patching Cordis internals. Phase 5 agent teardown
   will use explicit Cordis-owned effects.

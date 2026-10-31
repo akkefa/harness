@@ -9,17 +9,17 @@ import httpx
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import SessionStore
-from harness.llm import LlmError, LlmRuntime, create_user_message
-from harness.llm.deepseek import (
+from deskagents.core.session import SessionStore
+from deskagents.llm import LlmError, LlmRuntime, create_user_message
+from deskagents.llm.deepseek import (
     DeepSeekAdapter,
     parse_sse,
     serialize_request,
     translate_events,
 )
-from harness.llm.deepseek_llm_api_extensions import DeepSeekLlmApiExtensionRegistry
-from harness.session.log_deepseek import SessionLogDeepSeekService, accepted_through
-from harness.testing import AdapterContractBackend, llm_adapter_contract_cases
+from deskagents.llm.deepseek_llm_api_extensions import DeepSeekLlmApiExtensionRegistry
+from deskagents.session.log_deepseek import SessionLogDeepSeekService, accepted_through
+from deskagents.testing import AdapterContractBackend, llm_adapter_contract_cases
 
 FIXTURE = Path(__file__).parents[1] / "fixtures" / "deepseek-messages.sse"
 
@@ -27,7 +27,7 @@ FIXTURE = Path(__file__).parents[1] / "fixtures" / "deepseek-messages.sse"
 def _transport(request: httpx.Request) -> httpx.Response:
     assert request.url.path == "/anthropic/v1/messages"
     assert request.headers["x-api-key"] == "test-key"
-    assert request.headers["user-agent"].startswith("cordis-harness/")
+    assert request.headers["user-agent"].startswith("deskagents/")
     body = json.loads(request.content)
     assert body["thinking"]["type"] == "enabled"
     return httpx.Response(

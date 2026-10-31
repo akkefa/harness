@@ -12,8 +12,8 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.session import persistence_jsonl
-from harness.session.persistence import SessionPersistence
+from deskagents.session import persistence_jsonl
+from deskagents.session.persistence import SessionPersistence
 
 FIXTURES = Path(__file__).resolve().parents[2] / "fixtures" / "dsh_v4"
 MANIFEST: dict[str, Any] = json.loads((FIXTURES / "MANIFEST.json").read_text())

@@ -4,8 +4,8 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import SessionEvent
-from harness.llm.token_meter import derive_turn_token_usage
+from deskagents.core.session import SessionEvent
+from deskagents.llm.token_meter import derive_turn_token_usage
 
 SPEC = "packages/llm/token-meter/tests/turn-usage.spec.ts"
 

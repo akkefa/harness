@@ -5,9 +5,9 @@ import os
 
 from deepseek_cordis import Context
 
-from harness.bundle import MINIMAL_BUNDLE, BundleLoader
-from harness.llm import LlmRuntime, create_user_message
-from harness.llm.openai import OpenAIAdapter
+from deskagents.bundle import MINIMAL_BUNDLE, BundleLoader
+from deskagents.llm import LlmRuntime, create_user_message
+from deskagents.llm.openai import OpenAIAdapter
 
 
 async def main() -> None:

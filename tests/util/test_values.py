@@ -1,4 +1,4 @@
-"""harness.util.values: lossless JSON rules and JSON.stringify/JSON.parse parity.
+"""deskagents.util.values: lossless JSON rules and JSON.stringify/JSON.parse parity.
 
 tests/fixtures/js_json_numbers.json was produced by Node's JSON.stringify, so number
 formatting is checked against JavaScript without needing Node in CI.
@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from harness.util.values import (
+from deskagents.util.values import (
     MAX_SAFE_INTEGER,
     FrozenJsonArray,
     FrozenJsonObject,

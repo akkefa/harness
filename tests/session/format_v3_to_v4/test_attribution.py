@@ -9,14 +9,14 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import Session
-from harness.session.format import (
+from deskagents.core.session import Session
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatEventCollector,
 )
-from harness.session.format_v3_to_v4 import released_v4_session_format_codec as codec
-from harness.session.format_v3_to_v4 import restore_released_v4_artifact
-from harness.util.values import parse_json, stringify_json
+from deskagents.session.format_v3_to_v4 import released_v4_session_format_codec as codec
+from deskagents.session.format_v3_to_v4 import restore_released_v4_artifact
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/attribution.spec.ts"
 GROUP = "uninstalled producer attribution"

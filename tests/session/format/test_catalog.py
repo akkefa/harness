@@ -9,7 +9,7 @@ from typing import Any
 import pytest
 from support.session_format import Recorder, Run, identity_stage, migration, raise_
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatCatalog,
     SessionFormatCatalogOptions,

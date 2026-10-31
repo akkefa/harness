@@ -29,21 +29,21 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     SessionEvent,
     SessionHeader,
     SessionId,
     SessionLogOffset,
 )
-from harness.llm import create_message
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import SessionPersistence
-from harness.session.persistence_jsonl import JsonlSessionPersistence
-from harness.session.persistence_jsonl import generation as generation_module
-from harness.session.persistence_jsonl.format import log_path, session_dir, to_header_line
-from harness.session.persistence_jsonl.storage import JsonlSessionHandle
-from harness.util.values import parse_json, stringify_json
+from deskagents.llm import create_message
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import SessionPersistence
+from deskagents.session.persistence_jsonl import JsonlSessionPersistence
+from deskagents.session.persistence_jsonl import generation as generation_module
+from deskagents.session.persistence_jsonl.format import log_path, session_dir, to_header_line
+from deskagents.session.persistence_jsonl.storage import JsonlSessionHandle
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-persistence-jsonl/tests/jsonl.spec.ts"
 DESCRIBE = "JsonlSessionPersistence: durability and crash semantics"

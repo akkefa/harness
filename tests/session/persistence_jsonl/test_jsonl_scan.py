@@ -17,7 +17,7 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     SessionEvent,
     SessionHeader,
@@ -25,17 +25,17 @@ from harness.core.session import (
     SessionLogOffset,
     SessionStore,
 )
-from harness.llm import create_message
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import SessionPersistence
-from harness.session.persistence_jsonl.format import (
+from deskagents.llm import create_message
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import SessionPersistence
+from deskagents.session.persistence_jsonl.format import (
     SessionLogScanner,
     event_lines,
     log_path,
     scan_log,
     to_header_line,
 )
-from harness.util.values import MAX_SAFE_INTEGER, parse_json, stringify_json
+from deskagents.util.values import MAX_SAFE_INTEGER, parse_json, stringify_json
 
 SPEC = "packages/session/session-persistence-jsonl/tests/jsonl.spec.ts"
 SCAN = f"{SPEC}::JsonlSessionPersistence: scanLog unit"

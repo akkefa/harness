@@ -10,7 +10,7 @@ from typing import Any
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     PluginRecord,
     Session,
     SessionEvent,
@@ -22,12 +22,12 @@ from harness.core.session import (
     session_log_offset,
     session_seq,
 )
-from harness.llm import create_user_message
-from harness.util.values import FrozenJsonObject
+from deskagents.llm import create_user_message
+from deskagents.util.values import FrozenJsonObject
 
 SPEC = "packages/core/session/tests/plugin-records.spec.ts"
 GROUP = "plugin records"
-SESSION_LOGGER = "harness.core.session.session"
+SESSION_LOGGER = "deskagents.core.session.session"
 
 
 def open_turn(session: Session) -> None:

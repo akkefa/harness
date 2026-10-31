@@ -6,9 +6,9 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import SESSION_FORMAT_VERSION
-from harness.session.format import SessionFormatArtifact
-from harness.session.format_catalog import (
+from deskagents.core.session import SESSION_FORMAT_VERSION
+from deskagents.session.format import SessionFormatArtifact
+from deskagents.session.format_catalog import (
     validate_installed_current_session_artifact,
     validate_installed_current_session_header,
 )

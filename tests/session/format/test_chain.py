@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 from support.session_format import Discard, Recorder, Run, Stage, identity_stage, migration, raise_
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatChainOptions,
     SessionFormatError,
     SessionFormatEvent,

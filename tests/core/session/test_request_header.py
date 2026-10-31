@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import (
+from deskagents.core.session import (
     EpochHeader,
     Session,
     SessionEvent,
@@ -17,8 +17,8 @@ from harness.core.session import (
     session_id,
     session_seq,
 )
-from harness.llm import ReasoningEffortId, ToolSchema, create_user_message
-from harness.util.values import FrozenJsonObject
+from deskagents.llm import ReasoningEffortId, ToolSchema, create_user_message
+from deskagents.util.values import FrozenJsonObject
 
 SPEC = "packages/core/session/tests/request-header.spec.ts"
 

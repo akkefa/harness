@@ -6342,182 +6342,182 @@
       "source": "packages/session/session-persistence/tests/contract.ts::a created-but-unappended session is visible to this instance and invisible to a fresh one",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-fresh-instance-continues-the-stored-log-at-the-committed-next-seq",
       "source": "packages/session/session-persistence/tests/contract.ts::a fresh instance continues the stored log at the committed next-seq",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-read-handle-refuses-append-and-flush-with-sessionreadonlyerror",
       "source": "packages/session/session-persistence/tests/contract.ts::a read handle refuses append and flush with SessionReadOnlyError",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-torn-physical-tail-is-never-served-and-is-durably-truncated-by-the-write-path",
       "source": "packages/session/session-persistence/tests/contract.ts::a torn physical tail is never served and is durably truncated by the write path",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::append-rejects-a-batch-that-does-not-contiguously-continue-the-log-naming-the-expected-seq",
       "source": "packages/session/session-persistence/tests/contract.ts::append rejects a batch that does not contiguously continue the log, naming the expected seq",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::append-rejects-non-json-serializable-event-data-without-storing-anything",
       "source": "packages/session/session-persistence/tests/contract.ts::append rejects non-JSON-serializable event data without storing anything",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::close-without-an-append-erases-the-created-session-from-this-instance",
       "source": "packages/session/session-persistence/tests/contract.ts::close without an append erases the created session from this instance",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::concurrent-duplicate-creates-one-wins-the-loser-rejects-sessionalreadyexistserror",
       "source": "packages/session/session-persistence/tests/contract.ts::concurrent duplicate creates: one wins, the loser rejects SessionAlreadyExistsError",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::duplicate-create-rejects-against-a-live-pending-session-and-allows-the-id-after-an-erasing-close",
       "source": "packages/session/session-persistence/tests/contract.ts::duplicate create rejects against a live pending session and allows the id after an erasing close",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::duplicate-create-rejects-against-a-materialized-artifact-seen-by-a-fresh-instance",
       "source": "packages/session/session-persistence/tests/contract.ts::duplicate create rejects against a materialized artifact seen by a fresh instance",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::flush-materializes-an-empty-session-durably-for-a-fresh-instance",
       "source": "packages/session/session-persistence/tests/contract.ts::flush materializes an empty session durably for a fresh instance",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::freshness-reads-started-after-an-append-resolves-observe-that-prefix-on-any-handle",
       "source": "packages/session/session-persistence/tests/contract.ts::freshness: reads started after an append resolves observe that prefix on any handle",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::open-of-an-absent-session-rejects-with-sessionpersistencenotfounderror-for-both-accesses",
       "source": "packages/session/session-persistence/tests/contract.ts::open of an absent session rejects with SessionPersistenceNotFoundError for both accesses",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::operations-on-a-closed-handle-reject-close-is-idempotent-asyncdispose-releases-ownership",
       "source": "packages/session/session-persistence/tests/contract.ts::operations on a closed handle reject; close is idempotent; asyncDispose releases ownership",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::read-rejects-negative-or-fractional-offsets-and-lengths",
       "source": "packages/session/session-persistence/tests/contract.ts::read rejects negative or fractional offsets and lengths",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::round-trips-through-one-write-handle-append-self-read-offset-length-defaults",
       "source": "packages/session/session-persistence/tests/contract.ts::round-trips through one write handle: append, self-read, offset/length defaults",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::service-level-flush-materializes-every-active-write-handle-and-counts-a-closing-one-as-flushed",
       "source": "packages/session/session-persistence/tests/contract.ts::service-level flush materializes every active write handle and counts a closing one as flushed",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::stat-and-list-agree-on-stable-revisions-that-change-after-an-append",
       "source": "packages/session/session-persistence/tests/contract.ts::stat and list agree on stable revisions that change after an append",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::vocabulary-fail-closed-an-unknown-stored-event-type-refuses-reads-and-write-opens",
       "source": "packages/session/session-persistence/tests/contract.ts::vocabulary fail-closed: an unknown stored event type refuses reads and write opens",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::write-ownership-is-single-holder-per-instance-and-released-by-close",
       "source": "packages/session/session-persistence/tests/contract.ts::write ownership is single-holder per instance and released by close",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through harness.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_contract_jsonl.py through deskagents.testing (runPersistenceContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-failed-drain-retains-order-quiets-the-timer-and-recovers-exactly-once",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::a failed drain retains order, quiets the timer, and recovers exactly once",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-failing-final-drain-on-disposal-is-warned-not-thrown",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::a failing final drain on disposal is warned, not thrown",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-second-write-handle-after-close-routes-subsequent-events",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::a second write handle after close routes subsequent events",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::a-session-without-an-active-write-handle-persists-nothing",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::a session without an active write handle persists nothing",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::backend-teardown-drains-buffered-events-through-the-close-sweep",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::backend teardown drains buffered events through the close sweep",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::close-itself-surfaces-a-failing-drain-and-still-releases-write-ownership",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::close itself surfaces a failing drain and still releases write ownership",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::close-normalizes-a-non-error-drain-failure",
@@ -6531,35 +6531,35 @@
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::persists a plugin record that a restarted process reads back",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::routes-published-events-into-the-active-write-handle-within-one-batching-window",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::routes published events into the active write handle within one batching window",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::service-level-flush-drains-every-active-handle-and-aggregates-the-failures",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::service-level flush drains every active handle and aggregates the failures",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::session-disposed-drains-buffered-events-and-closes-the-handle",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::session/disposed drains buffered events and closes the handle",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::session-flush-drains-immediately-and-surfaces-a-retained-background-failure",
       "source": "packages/session/session-persistence/tests/live-write-contract.ts::session/flush drains immediately and surfaces a retained background failure",
       "classification": "contract",
       "python_tests": [],
-      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through harness.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
+      "notes": "Run against JSONL by tests/session/persistence/test_live_write_contract_jsonl.py through deskagents.testing (runLiveWritePathContract upstream, invoked from session-persistence-jsonl/tests/jsonl.spec.ts); test ids are the upstream titles."
     },
     {
       "id": "session/session-persistence::assertcontiguous-accepts-a-batch-continuing-exactly-at-the-cursor",

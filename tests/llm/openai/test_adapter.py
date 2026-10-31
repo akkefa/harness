@@ -9,9 +9,9 @@ import httpx
 import pytest
 from deepseek_cordis import Context
 
-from harness.llm import LlmRuntime, create_user_message
-from harness.llm.openai import OpenAIAdapter, serialize_request, translate_sse
-from harness.testing import AdapterContractBackend, llm_adapter_contract_cases
+from deskagents.llm import LlmRuntime, create_user_message
+from deskagents.llm.openai import OpenAIAdapter, serialize_request, translate_sse
+from deskagents.testing import AdapterContractBackend, llm_adapter_contract_cases
 
 FIXTURE = Path(__file__).parents[1] / "fixtures" / "openai-chat.sse"
 
@@ -19,7 +19,7 @@ FIXTURE = Path(__file__).parents[1] / "fixtures" / "openai-chat.sse"
 def _transport(request: httpx.Request) -> httpx.Response:
     assert request.url.path == "/v1/chat/completions"
     assert request.headers["authorization"] == "Bearer test-key"
-    assert request.headers["user-agent"].startswith("cordis-harness/")
+    assert request.headers["user-agent"].startswith("deskagents/")
     return httpx.Response(
         200,
         headers={"content-type": "text/event-stream"},

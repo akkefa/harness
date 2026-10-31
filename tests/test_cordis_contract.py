@@ -13,7 +13,7 @@ from collections.abc import Callable, Iterator
 import pytest
 from deepseek_cordis import Context, CordisError, Fiber, FiberState, Service
 
-from harness._cordis import assert_active, dispatch
+from deskagents._cordis import assert_active, dispatch
 
 pytestmark = pytest.mark.asyncio
 

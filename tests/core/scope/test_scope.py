@@ -8,7 +8,7 @@ from collections.abc import Callable, Iterator
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.scope import (
+from deskagents.core.scope import (
     Scope,
     ScopeCarrier,
     bind_scope_parent,

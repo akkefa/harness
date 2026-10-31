@@ -7,8 +7,8 @@ from collections.abc import Awaitable, Callable
 import pytest
 from deepseek_cordis import Context
 
-from harness.llm import LlmRuntime
-from harness.testing import (
+from deskagents.llm import LlmRuntime
+from deskagents.testing import (
     AdapterContractBackend,
     AdapterContractFactory,
     ScriptedAdapter,

@@ -10,7 +10,7 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import (
+from deskagents.core.session import (
     Session,
     SessionEvent,
     SessionSeq,
@@ -20,7 +20,7 @@ from harness.core.session import (
     session_log_offset,
     session_seq,
 )
-from harness.llm import Message, ToolSchema, create_developer_message
+from deskagents.llm import Message, ToolSchema, create_developer_message
 
 SPEC = "packages/core/session/tests/developer-header.spec.ts"
 GROUP = "developer request-header references"

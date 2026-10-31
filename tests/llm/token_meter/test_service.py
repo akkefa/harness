@@ -3,10 +3,10 @@ from __future__ import annotations
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import Session
-from harness.llm import create_assistant_message, create_user_message
-from harness.llm.token_meter import TokenMeter
-from harness.session.projection import SessionProjectionRegistry
+from deskagents.core.session import Session
+from deskagents.llm import create_assistant_message, create_user_message
+from deskagents.llm.token_meter import TokenMeter
+from deskagents.session.projection import SessionProjectionRegistry
 
 SPEC = "packages/llm/token-meter/tests/token-meter.spec.ts"
 

@@ -1,5 +1,5 @@
 [project]
-name = "cordis-harness"
+name = "deskagents"
 version = "0.1.0.dev0"
 description = "Python implementation of the DeepSeek Harness agent runtime, built on deepseek-cordis"
 readme = "README.md"
@@ -44,7 +44,7 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 # Twine 6.2 validates through core metadata 2.4; retain PEP 639 license fields.
 core-metadata-version = "2.4"
-packages = ["src/harness"]
+packages = ["src/deskagents"]
 
 [tool.hatch.build.targets.sdist]
 core-metadata-version = "2.4"

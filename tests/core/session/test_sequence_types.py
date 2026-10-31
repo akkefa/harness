@@ -11,7 +11,7 @@ from typing import Any
 
 import pytest
 
-from harness.core.session import (
+from deskagents.core.session import (
     SESSION_FORMAT_VERSION,
     Session,
     SessionEvent,
@@ -20,7 +20,7 @@ from harness.core.session import (
     session_log_offset,
     session_seq,
 )
-from harness.util.values import MAX_SAFE_INTEGER
+from deskagents.util.values import MAX_SAFE_INTEGER
 
 SPEC = "packages/core/session/tests/sequence-types.spec.ts"
 GROUP = "Session log positions"

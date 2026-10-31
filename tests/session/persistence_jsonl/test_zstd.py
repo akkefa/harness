@@ -13,19 +13,19 @@ from typing import Any
 import pytest
 from deepseek_cordis import Context
 
-from harness.core.session import SESSION_FORMAT_VERSION, SessionHeader, SessionId
-from harness.session import persistence_jsonl
-from harness.session.persistence import SessionPersistence
-from harness.session.persistence_jsonl import log_path
-from harness.session.persistence_jsonl.zstd import (
+from deskagents.core.session import SESSION_FORMAT_VERSION, SessionHeader, SessionId
+from deskagents.session import persistence_jsonl
+from deskagents.session.persistence import SessionPersistence
+from deskagents.session.persistence_jsonl import log_path
+from deskagents.session.persistence_jsonl.zstd import (
     ZstdFrameRange,
     compress_zstd_frame,
     decode_zstd_frames,
     decompress_zstd_frame,
     scan_zstd_frames,
 )
-from harness.testing.persistence_contract import one_turn_log, second_turn
-from harness.util.values import stringify_json
+from deskagents.testing.persistence_contract import one_turn_log, second_turn
+from deskagents.util.values import stringify_json
 
 SPEC = "packages/session/session-persistence-jsonl/tests/zstd.spec.ts"
 COMPAT_SPEC = "packages/session/session-persistence-jsonl/tests/zstd.compat.spec.ts"

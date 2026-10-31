@@ -13,7 +13,7 @@ import pytest
 from deepseek_cordis import Context
 from support.persistence_schema import conformance_problems, event_problems, root_keys
 
-from harness.core.session import (
+from deskagents.core.session import (
     CreateSessionMeta,
     CreateSessionOptions,
     Session,
@@ -23,7 +23,7 @@ from harness.core.session import (
     interrupted_turn_closers,
     session_seq,
 )
-from harness.llm import (
+from deskagents.llm import (
     ToolCallId,
     create_assistant_message,
     create_developer_message,

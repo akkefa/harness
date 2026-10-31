@@ -6,7 +6,7 @@ from typing import Any
 import pytest
 from deepseek_cordis import Context
 
-from harness.llm import (
+from deskagents.llm import (
     AppIdentity,
     AssistantStreamAccumulator,
     BlockAssembler,

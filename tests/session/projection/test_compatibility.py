@@ -26,8 +26,8 @@ import pytest
 from deepseek_cordis import Context, CordisError, FiberState
 from pydantic import TypeAdapter
 
-from harness.core.session import SessionStore
-from harness.session.projection import (
+from deskagents.core.session import SessionStore
+from deskagents.session.projection import (
     ProjectionDefinition,
     ProjectionRegistration,
     ProjectionSnapshot,
@@ -37,7 +37,7 @@ from harness.session.projection import (
 
 SPEC = "packages/session/session-projection/tests/compatibility.spec.ts"
 COMPAT = "projection registration compatibility"
-LOGGER = "harness.session.projection.registry"
+LOGGER = "deskagents.session.projection.registry"
 DEPRECATED = (
     "sessionProjections.stateOf(session, {}) is deprecated; read handle.stateOf(session) from "
     "an awaited registration, or use the owning domain service"

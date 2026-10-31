@@ -1,4 +1,4 @@
-"""Import rules for src/harness.
+"""Import rules for src/deskagents.
 
 1. Product code (PepGPT and friends) and libraries we decided against never appear.
 2. Every other third-party import is a declared core dependency, or belongs to an
@@ -13,7 +13,7 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "src" / "harness"
+SOURCE = ROOT / "src" / "deskagents"
 
 FORBIDDEN_PREFIXES = ("app", "m365", "onereach_profile", "pepgpt", "langchain", "sqlalchemy")
 
@@ -22,10 +22,10 @@ IMPORT_NAMES = {"deepseek-cordis": "deepseek_cordis", "pyyaml": "yaml"}
 
 # Extra name -> (import names it provides, modules allowed to import them).
 # Each phase that adds an extra registers it here, e.g.
-#   "openai": ({"httpx"}, {"harness.llm.openai"}),
+#   "openai": ({"httpx"}, {"deskagents.llm.openai"}),
 EXTRA_IMPORTS: dict[str, tuple[set[str], set[str]]] = {
-    "deepseek": ({"httpx"}, {"harness.llm.deepseek"}),
-    "openai": ({"httpx"}, {"harness.llm.openai"}),
+    "deepseek": ({"httpx"}, {"deskagents.llm.deepseek"}),
+    "openai": ({"httpx"}, {"deskagents.llm.openai"}),
 }
 
 
@@ -60,7 +60,7 @@ def core_imports() -> set[str]:
 
 
 def boundary_problems() -> list[str]:
-    allowed = set(sys.stdlib_module_names) | {"harness"} | core_imports()
+    allowed = set(sys.stdlib_module_names) | {"deskagents"} | core_imports()
     problems: list[str] = []
     for path in sorted(SOURCE.rglob("*.py")):
         module = module_name(path)

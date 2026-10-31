@@ -1,4 +1,4 @@
-"""Runs the reusable handle contract (harness.testing) against the JSONL backend.
+"""Runs the reusable handle contract (deskagents.testing) against the JSONL backend.
 
 Upstream: packages/session/session-persistence-jsonl/tests/jsonl.spec.ts invokes
 ``runPersistenceContract('jsonl-none', …)`` from session-persistence/tests/contract.ts.
@@ -16,11 +16,11 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import SessionId
-from harness.session import persistence_jsonl
-from harness.session.persistence import SessionPersistence
-from harness.session.persistence_jsonl import log_path
-from harness.testing import (
+from deskagents.core.session import SessionId
+from deskagents.session import persistence_jsonl
+from deskagents.session.persistence import SessionPersistence
+from deskagents.session.persistence_jsonl import log_path
+from deskagents.testing import (
     ContractBackend,
     ContractBackendInstance,
     ContractCheck,

@@ -11,11 +11,11 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import SESSION_FORMAT_VERSION, SessionId, SessionStore
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import SessionPersistence
-from harness.session.persistence_jsonl.format import generation_log_path, scan_log
-from harness.util.values import stringify_json
+from deskagents.core.session import SESSION_FORMAT_VERSION, SessionId, SessionStore
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import SessionPersistence
+from deskagents.session.persistence_jsonl.format import generation_log_path, scan_log
+from deskagents.util.values import stringify_json
 
 SPEC = "packages/session/session-persistence-jsonl/tests/current-event-admission.spec.ts"
 DESCRIBE = "current event admission at EOF"

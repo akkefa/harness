@@ -10,7 +10,7 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import (
+from deskagents.core.session import (
     RestoredSessionOptions,
     Session,
     SessionEvent,
@@ -21,13 +21,13 @@ from harness.core.session import (
     session_log_offset,
     session_seq,
 )
-from harness.util.values import FrozenJsonObject, deep_freeze
+from deskagents.util.values import FrozenJsonObject, deep_freeze
 
 SPEC = "packages/core/session/tests/store-membership.spec.ts"
 GROUP = "Session store membership"
 RECORD = "plugin:test/store-membership"
 
-session_module = importlib.import_module("harness.core.session.session")
+session_module = importlib.import_module("deskagents.core.session.session")
 
 Append = Callable[[Session], object]
 Kind = Literal["events", "plugin records"]

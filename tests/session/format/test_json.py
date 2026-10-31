@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatError,
     inspect_session_format_version,
     session_format_count,
@@ -12,7 +12,7 @@ from harness.session.format import (
     snapshot_session_format_header,
     snapshot_session_format_json,
 )
-from harness.util.values import FrozenJsonArray, FrozenJsonObject
+from deskagents.util.values import FrozenJsonArray, FrozenJsonObject
 
 SPEC = "packages/session/session-format/tests/json.spec.ts"
 GROUP = "lossless Session format JSON snapshots"

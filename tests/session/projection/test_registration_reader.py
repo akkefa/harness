@@ -15,8 +15,8 @@ from deepseek_cordis import Context, CordisError, Fiber
 from pydantic import TypeAdapter
 from typing_extensions import TypedDict
 
-from harness.core.session import Session, SessionEvent, SessionStore
-from harness.session.projection import (
+from deskagents.core.session import Session, SessionEvent, SessionStore
+from deskagents.session.projection import (
     ProjectionDefinition,
     ProjectionWire,
     SessionProjectionRegistry,

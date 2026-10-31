@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatError,
     parse_session_format_log_filename,
     session_format_log_filename,

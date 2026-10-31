@@ -9,7 +9,7 @@ maps every upstream package in scope to its Python module, release milestone and
 porting status (`planned`, `in-progress`, `ported`). It also lists the modules that
 have no upstream package (`new_modules`).
 
-Only milestone `0.1` belongs to the `cordis-harness` distribution. Later mapped
+Only milestone `0.1` belongs to the `deskagents` distribution. Later mapped
 packages are retained as the source inventory for the external plugin families in
 [plugin-roadmap.md](plugin-roadmap.md).
 
@@ -25,10 +25,10 @@ Each upstream package becomes one Python module:
 
 | Upstream package | Rule | Example |
 |---|---|---|
-| `packages/core/<pkg>` | `harness.core.<pkg>` | `core/agent-loop` → `harness.core.agent_loop` |
-| `packages/<group>/<group>` (the Service Definition) | `harness.<group>` | `fs/fs` → `harness.fs` |
-| `packages/<group>/<group>-<rest>` | `harness.<group>.<rest>` | `fs/fs-local` → `harness.fs.local` |
-| any other `packages/<group>/<pkg>` | `harness.<group>.<pkg>` | `fs/tool-fs` → `harness.fs.tool_fs` |
+| `packages/core/<pkg>` | `deskagents.core.<pkg>` | `core/agent-loop` → `deskagents.core.agent_loop` |
+| `packages/<group>/<group>` (the Service Definition) | `deskagents.<group>` | `fs/fs` → `deskagents.fs` |
+| `packages/<group>/<group>-<rest>` | `deskagents.<group>.<rest>` | `fs/fs-local` → `deskagents.fs.local` |
+| any other `packages/<group>/<pkg>` | `deskagents.<group>.<pkg>` | `fs/tool-fs` → `deskagents.fs.tool_fs` |
 
 Dashes become underscores. Seams keep upstream's three roles: the group's package
 holds the Service Definition, provider modules sit beside it, and consumers (usually

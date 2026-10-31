@@ -13,19 +13,19 @@ from typing import Any
 
 import pytest
 
-from harness.session.format import (
+from deskagents.session.format import (
     SessionFormatArtifact,
     SessionFormatError,
     SessionFormatEventCollector,
     SessionFormatRestoreOptions,
 )
-from harness.session.format_catalog import session_format_catalog
-from harness.session.format_v3_to_v4 import released_v4_session_format_codec
-from harness.session.format_v3_to_v4.message_sources import (
+from deskagents.session.format_catalog import session_format_catalog
+from deskagents.session.format_v3_to_v4 import released_v4_session_format_codec
+from deskagents.session.format_v3_to_v4.message_sources import (
     assert_v4_message_sources,
     assert_v4_source_row_admission,
 )
-from harness.util.values import parse_json, stringify_json
+from deskagents.util.values import parse_json, stringify_json
 
 SPEC = "packages/session/session-format-v3-to-v4/tests/message-sources.spec.ts"
 GROUP = "V4 source admission"

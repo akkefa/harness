@@ -16,15 +16,15 @@ import pytest
 import pytest_asyncio
 from deepseek_cordis import Context
 
-from harness.core.session import SESSION_FORMAT_VERSION, SessionId, SessionStore
-from harness.session import persistence_jsonl as jsonl
-from harness.session.persistence import (
+from deskagents.core.session import SESSION_FORMAT_VERSION, SessionId, SessionStore
+from deskagents.session import persistence_jsonl as jsonl
+from deskagents.session.persistence import (
     SessionAccess,
     SessionPersistence,
     SessionPersistenceCorruptionError,
 )
-from harness.session.persistence_jsonl.format import generation_log_path
-from harness.util.values import stringify_json
+from deskagents.session.persistence_jsonl.format import generation_log_path
+from deskagents.util.values import stringify_json
 
 SPEC = "packages/session/session-persistence-jsonl/tests/native-developer-admission.spec.ts"
 DESCRIBE = "native developer admission ($compression, $access)"

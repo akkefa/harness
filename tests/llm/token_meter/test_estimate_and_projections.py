@@ -4,9 +4,9 @@ from typing import Any, cast
 
 import pytest
 
-from harness.core.session import SessionEvent, SessionLogOffset
-from harness.llm import create_system_message, create_user_message
-from harness.llm.token_meter import (
+from deskagents.core.session import SessionEvent, SessionLogOffset
+from deskagents.llm import create_system_message, create_user_message
+from deskagents.llm.token_meter import (
     BREAKDOWN_STATE_SCHEMA,
     context_breakdown_projection_definition,
     context_pressure_projection_definition,

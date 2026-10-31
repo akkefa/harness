@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA: dict[str, Any] = json.loads((ROOT / "docs" / "upstream.json").read_text())
 MILESTONES = {"0.1", "0.2", "0.3", "0.4", "0.5"}
 STATUSES = {"planned", "in-progress", "ported"}
-MODULE = re.compile(r"harness(\.[a-z][a-z0-9_]*)+$|harness$")
+MODULE = re.compile(r"deskagents(\.[a-z][a-z0-9_]*)+$|deskagents$")
 ENTRIES = [*DATA["packages"], *DATA["new_modules"]]
 
 
