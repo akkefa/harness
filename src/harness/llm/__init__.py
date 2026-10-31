@@ -2,10 +2,10 @@
 
 Upstream: packages/llm/llm (``@deepseek-ai/dsh-llm``) at ce7073d.
 
-Ported so far (Phase 2, needed by ``harness.core.session``): branded ids, the message
-value types and their immutable constructors (``message.ts``), and call configuration
-equality (``call-config.ts``). The adapter seam, stream assembly, errors and retry
-policy follow in Phase 4.
+Phase 2 supplied branded ids, immutable messages and call-config equality. Phase 4
+adds provider-neutral errors, retry/API-key normalization, stream assembly and compact
+stream records, plus the Cordis-owned adapter runtime. Attachment-specific request
+projection is intentionally deferred to the external attachment plugin.
 
 Python differences:
 
@@ -25,16 +25,67 @@ from typing import Any, NewType
 
 from harness.util.values import snapshot_json_value
 
+from .api_key import ApiKeyCheck, assert_usable_api_key, normalize_api_key
+from .assembler import BlockAssembler
+from .assistant_stream import (
+    AssistantStreamAccumulator,
+    assemble_assistant_stream,
+    assistant_stream_chunks,
+    assistant_stream_first_token_time,
+    assistant_stream_has_visible_content,
+    assistant_stream_has_visible_text,
+    chunk_has_visible_text,
+    expand_assistant_stream,
+    is_token_delta,
+    is_visible_chunk,
+    join_assistant_stream_text,
+    last_assistant_stream_chunk,
+)
+from .attribution import APP_IDENTITY, AppIdentity, attribution_headers, user_agent
+from .content import project_tool_updates
+from .errors import (
+    CONTEXT_WINDOW_EXCEEDED_CODE,
+    EMPTY_RESPONSE_CODE,
+    IMAGE_OFFLOAD_REQUIRED_CODE,
+    INVALID_CREDENTIAL_CODE,
+    QUOTA_EXCEEDED_CODE,
+    HarnessError,
+    LlmError,
+    error_chain,
+    is_context_window_exceeded_error,
+    is_harness_error,
+    is_quota_exceeded_error,
+    normalize_llm_failure,
+)
+from .retry_policy import resolve_retry_policy
+from .runtime import LlmAdapter, LlmRuntime
+
 __all__ = [
     "AssistantMessage",
+    "AssistantStreamAccumulator",
+    "APP_IDENTITY",
+    "AppIdentity",
+    "ApiKeyCheck",
+    "BlockAssembler",
+    "CONTEXT_WINDOW_EXCEEDED_CODE",
     "ContentBlock",
     "DeveloperMessage",
+    "EMPTY_RESPONSE_CODE",
+    "HarnessError",
+    "IMAGE_OFFLOAD_REQUIRED_CODE",
+    "INVALID_CREDENTIAL_CODE",
+    "LlmAdapter",
     "LlmCallConfig",
     "LlmCallConfigAdapterDefaults",
+    "LlmError",
     "LlmFailure",
+    "LlmRuntime",
     "Message",
     "MessageId",
+    "ProviderRequestId",
+    "QUOTA_EXCEEDED_CODE",
     "ReasoningEffortId",
+    "LlmAttemptId",
     "SystemMessage",
     "TokenUsage",
     "ToolCallId",
@@ -43,6 +94,14 @@ __all__ = [
     "ToolSchema",
     "UserMessage",
     "call_config_equals",
+    "assemble_assistant_stream",
+    "assistant_stream_chunks",
+    "assistant_stream_first_token_time",
+    "assistant_stream_has_visible_content",
+    "assistant_stream_has_visible_text",
+    "assert_usable_api_key",
+    "attribution_headers",
+    "chunk_has_visible_text",
     "create_assistant_message",
     "create_developer_message",
     "create_message",
@@ -50,6 +109,20 @@ __all__ = [
     "create_tool_result_message",
     "create_user_message",
     "freeze_message",
+    "error_chain",
+    "expand_assistant_stream",
+    "is_context_window_exceeded_error",
+    "is_harness_error",
+    "is_quota_exceeded_error",
+    "is_token_delta",
+    "is_visible_chunk",
+    "join_assistant_stream_text",
+    "last_assistant_stream_chunk",
+    "normalize_api_key",
+    "normalize_llm_failure",
+    "project_tool_updates",
+    "resolve_retry_policy",
+    "user_agent",
 ]
 
 MessageId = NewType("MessageId", str)

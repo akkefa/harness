@@ -11,7 +11,13 @@ import pytest
 
 from harness.core.session import Session, SessionEvent, SessionSeq, session_id, session_log_offset
 from harness.core.session.tool_history import ToolHistoryProjection
-from harness.llm import ContentBlock, Message, ToolSchema, create_developer_message
+from harness.llm import (
+    ContentBlock,
+    Message,
+    ToolSchema,
+    create_developer_message,
+    project_tool_updates,
+)
 from harness.util.values import FrozenJsonArray, FrozenJsonObject
 
 SPEC = "packages/core/session/tests/tool-history.spec.ts"
@@ -104,6 +110,51 @@ def test_resolves_additions_from_referenced_header() -> None:
     }
     assert initial == {"tools": [SEARCH], "updates": []}
     assert len(after_addition["updates"]) == 1
+
+
+@pytest.mark.parametrize(
+    ("reason", "starts_series"),
+    [("series", False), ("change", True)],
+)
+@pytest.mark.upstream(f"{SPEC}::{GROUP} > restarts declarations at an explicit series start %#")
+def test_restarts_at_explicit_series_start(
+    reason: Literal["change", "series"], starts_series: bool
+) -> None:
+    session = opened([SEARCH])
+    header_seq = header(session, [SEARCH, FETCH])
+    update(session, [add("fetch")], header_seq)
+    restart = header(session, [SEARCH, FETCH], reason, starts_series)
+    assert session.tool_history() == {"tools": [SEARCH, FETCH], "updates": []}
+    added = update(session, [add("fetch")], restart)
+    assert session.tool_history() == {
+        "tools": [SEARCH, FETCH],
+        "updates": [{"messageId": added["id"], "additions": [FETCH]}],
+    }
+    projected = project_tool_updates([added], [SEARCH, FETCH], "in-history", session.tool_history())
+    assert projected["messages"] == []
+
+
+@pytest.mark.parametrize("mode", ["addition-only", "in-history"])
+@pytest.mark.upstream(
+    f"{SPEC}::{GROUP} > activates deferred baseline tools through folded history on %s routes"
+)
+def test_activates_deferred_baseline_tools(mode: str) -> None:
+    deferred = {**FETCH, "deferLoading": True}
+    tools = [SEARCH, deferred]
+    session = opened(tools)
+    baseline = next(
+        event for event in session.snapshot_events() if event["type"] == "request/header"
+    )
+    added = update(session, [add("search"), add("fetch")], baseline["seq"])
+    duplicate = update(session, [add("fetch")], baseline["seq"])
+    history = session.tool_history()
+    assert history["updates"] == [
+        {"messageId": added["id"], "additions": [SEARCH, deferred]},
+        {"messageId": duplicate["id"], "additions": [deferred]},
+    ]
+    projected = project_tool_updates([added, duplicate], tools, mode, history)
+    assert projected["tools"] == tools
+    assert projected["messages"] == [{**added, "content": [add("fetch")]}]
 
 
 @pytest.mark.upstream(

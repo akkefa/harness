@@ -16,6 +16,15 @@ from .live_write_contract import (
     live_write_path_contract_cases,
     run_live_write_path_contract,
 )
+from .llm_adapter_contract import (
+    LLM_ADAPTER_CONTRACT_SUITE,
+    AdapterContractBackend,
+    AdapterContractFactory,
+    AdapterContractResult,
+    ScriptedAdapter,
+    llm_adapter_contract_cases,
+    run_llm_adapter_contract,
+)
 from .persistence_contract import (
     PERSISTENCE_CONTRACT_SUITE,
     ContractBackend,
@@ -33,7 +42,11 @@ from .persistence_contract import (
 
 __all__ = [
     "LIVE_WRITE_PATH_CONTRACT_SUITE",
+    "LLM_ADAPTER_CONTRACT_SUITE",
     "PERSISTENCE_CONTRACT_SUITE",
+    "AdapterContractBackend",
+    "AdapterContractFactory",
+    "AdapterContractResult",
     "ContractBackend",
     "ContractBackendFactory",
     "ContractBackendInstance",
@@ -43,11 +56,14 @@ __all__ = [
     "LiveWriteBackend",
     "LiveWriteBackendFactory",
     "LiveWriteCheck",
+    "ScriptedAdapter",
     "live_write_path_contract_cases",
+    "llm_adapter_contract_cases",
     "meta",
     "one_turn_log",
     "persistence_contract_cases",
     "run_live_write_path_contract",
+    "run_llm_adapter_contract",
     "run_persistence_contract",
     "second_turn",
 ]

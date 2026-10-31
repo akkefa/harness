@@ -92,6 +92,54 @@
       "sha256": "7598fd6f19f42c7da1e2051eeeb52c87f13e3cee076f09943825c1d14b33ee44"
     },
     {
+      "path": "packages/llm/llm-retry/tests/retry.spec.ts",
+      "sha256": "888e3ec0403db42ad4000e308c21c7eed4db1b818b4fefb0c271a8e4fb56040d"
+    },
+    {
+      "path": "packages/llm/llm/tests/api-key.spec.ts",
+      "sha256": "47c20bb7510d71c4808feba3643baa2d2d0dce7550eba21ef42d4b062c7349aa"
+    },
+    {
+      "path": "packages/llm/llm/tests/assembler.spec.ts",
+      "sha256": "03e42874614c8354feb3597d15ce99fd0682dbe09399485706f9dd48135402f6"
+    },
+    {
+      "path": "packages/llm/llm/tests/assistant-stream.spec.ts",
+      "sha256": "64cfb03461bd236c7232968f0dcffb01dccbed95edfdb5265d75cf222da82e0d"
+    },
+    {
+      "path": "packages/llm/llm/tests/attribution.spec.ts",
+      "sha256": "7e533d815b8f8bc5f35b7154a61e0b594e93f0a2b39ef80036834f82bb31941d"
+    },
+    {
+      "path": "packages/llm/llm/tests/content.spec.ts",
+      "sha256": "a77b4a33dc490652988accb173d3df117fcb9b3b3dcc5f7573978f6de4e2655f"
+    },
+    {
+      "path": "packages/llm/llm/tests/retry-policy.spec.ts",
+      "sha256": "d735eb7ea0254d092da8910b298467343ff84d0b3b54df39b4fb46923c152dd2"
+    },
+    {
+      "path": "packages/llm/llm/tests/service.spec.ts",
+      "sha256": "c99349c2c407cceeda2cec653e093166ee0b4ee5f60a695b4c0487944021c1dd"
+    },
+    {
+      "path": "packages/llm/token-meter/tests/context-breakdown-projection.spec.ts",
+      "sha256": "c3cf8d11d677ae2b15c063d0ab8a8ba0ac59137a50e2b9b4e03561aa6606ac89"
+    },
+    {
+      "path": "packages/llm/token-meter/tests/token-meter.spec.ts",
+      "sha256": "793867e1f00996e98c37c581ab6ae838935239b4d94ed37b4f105e73d8ffd3a2"
+    },
+    {
+      "path": "packages/llm/token-meter/tests/token-usage-projection.spec.ts",
+      "sha256": "b0fc3f47223ad64e25979fff64f5c69452ad7058ac4c5ec5f0ee2a8954c7b5de"
+    },
+    {
+      "path": "packages/llm/token-meter/tests/turn-usage.spec.ts",
+      "sha256": "a3239616682d9025d075f68118facb5864eb9294c118a293352950a54efdef9f"
+    },
+    {
       "path": "packages/session/session-format-catalog/tests/catalog.spec.ts",
       "sha256": "96ddca60efc586a258c2f82156bdb38214563763b7499f5370a69afb5f886e28"
     },
@@ -3201,9 +3249,11 @@
     {
       "id": "core/session::session-toolhistory-activates-deferred-baseline-tools-through-folded-history-on-s-routes",
       "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > activates deferred baseline tools through folded history on %s routes",
-      "classification": "deferred",
-      "python_tests": [],
-      "notes": "Needs projectToolUpdates from llm/llm, ported in Phase 4; port this case then."
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_activates_deferred_baseline_tools"
+      ],
+      "notes": ""
     },
     {
       "id": "core/session::session-toolhistory-continues-the-series-when-a-retained-name-is-restored-unchanged",
@@ -3253,9 +3303,11 @@
     {
       "id": "core/session::session-toolhistory-restarts-declarations-at-an-explicit-series-start",
       "source": "packages/core/session/tests/tool-history.spec.ts::Session.toolHistory > restarts declarations at an explicit series start %#",
-      "classification": "deferred",
-      "python_tests": [],
-      "notes": "Needs projectToolUpdates from llm/llm, ported in Phase 4; port this case then."
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/session/test_tool_history.py::test_restarts_at_explicit_series_start"
+      ],
+      "notes": ""
     },
     {
       "id": "core/session::session-toolhistory-restarts-declarations-when-a-retained-name-returns-with-a-changed-definition",
@@ -3281,6 +3333,312 @@
       "classification": "not-applicable",
       "python_tests": [],
       "notes": "Typed-RPC (typert) registration is out of scope for this package."
+    },
+    {
+      "id": "llm/llm-retry::applies-bounded-exponential-jitter-and-stops-after-the-configured-budget",
+      "source": "packages/llm/llm-retry/tests/retry.spec.ts::applies bounded exponential jitter and stops after the configured budget",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/retry/test_retry.py::test_local_delay_is_bounded_and_jittered"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm-retry::delegates-non-transient-failures-without-scheduling-a-timer",
+      "source": "packages/llm/llm-retry/tests/retry.spec.ts::delegates non-transient failures without scheduling a timer",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/retry/test_retry.py::test_non_retryable_failure_delegates"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm-retry::records-the-scheduled-delay-before-retrying-the-request",
+      "source": "packages/llm/llm-retry/tests/retry.spec.ts::records the scheduled delay before retrying the request",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/retry/test_retry.py::test_retry_is_durable_before_delay"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm-retry::rejects-retry-policy-configured-on-the-executor-instead-of-a-provider",
+      "source": "packages/llm/llm-retry/tests/retry.spec.ts::rejects retry policy configured on the executor instead of a provider",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/retry/test_retry.py::test_config_rejects_retry_policy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm-retry::starts-a-fresh-retry-budget-when-the-next-step-selects-another-provider",
+      "source": "packages/llm/llm-retry/tests/retry.spec.ts::starts a fresh retry budget when the next step selects another provider",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/retry/test_retry.py::test_retry_state_advances_and_resets_at_step_start"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm-retry::uses-a-bounded-provider-retry-after-verbatim-and-delegates-an-over-cap-instruction",
+      "source": "packages/llm/llm-retry/tests/retry.spec.ts::uses a bounded provider Retry-After verbatim and delegates an over-cap instruction",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/retry/test_retry.py::test_excessive_provider_delay_delegates"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::normalizeapikey",
+      "source": "packages/llm/llm/tests/api-key.spec.ts::normalizeApiKey",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_api_key_normalization_and_safe_diagnostic"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::assembles-interleaved-text-reasoning-and-tool-call-deltas",
+      "source": "packages/llm/llm/tests/assembler.spec.ts::assembles interleaved text, reasoning, and tool-call deltas",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_block_assembler_and_max_token_tool_drop"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::keeps-delta-boundaries-and-timestamps-while-compacting-one-attempt",
+      "source": "packages/llm/llm/tests/assistant-stream.spec.ts::keeps delta boundaries and timestamps while compacting one attempt",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_assistant_stream_round_trip_and_queries"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::renders-a-custom-identity",
+      "source": "packages/llm/llm/tests/attribution.spec.ts::renders a custom identity",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_provider_attribution_headers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-declares-a-deferred-tool-once-across-removal-and-re-addition",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > declares a deferred tool once across removal and re-addition",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_declares_a_deferred_tool_once_across_removal_and_readdition"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-defers-historical-additions-and-retains-removed-definitions-for-in-history-routes",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > defers historical additions and retains removed definitions for in-history routes",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_defers_additions_and_retains_removed_definitions_in_history"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-omits-removed-definitions-and-removal-blocks-for-addition-only-routes",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > omits removed definitions and removal blocks for addition-only routes",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_omits_removed_definitions_and_blocks_for_addition_only"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-omits-updates-from-an-earlier-declaration-series",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > omits updates from an earlier declaration series",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_omits_updates_from_an_earlier_declaration_series"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-re-offers-an-unchanged-restored-tool-through-its-recorded-blocks",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > re-offers an unchanged restored tool through its recorded blocks",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_reoffers_an_unchanged_restored_tool"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-returns-the-input-history-and-tools-by-identity-when-nothing-is-projected",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > returns the input history and tools by identity when nothing is projected",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_returns_inputs_by_identity_when_nothing_is_projected"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-strips-deferred-loading-and-developer-updates-when-the-route-declares-no-mode",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > strips deferred loading and developer updates when the route declares no mode",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_strips_deferred_loading_and_developer_updates_without_mode"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::projecttoolupdates-uses-current-declarations-without-updates-when-history-is-missing-or-the-prefix-omits-an-update",
+      "source": "packages/llm/llm/tests/content.spec.ts::projectToolUpdates > uses current declarations without updates when history is missing or the prefix omits an update",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_content.py::test_uses_current_declarations_for_missing_or_incomplete_history"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::resolves-immutable-normal-defaults",
+      "source": "packages/llm/llm/tests/retry-policy.spec.ts::resolves immutable normal defaults",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_retry_policy_defaults_and_validation"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::prepares-a-one-shot-registration-bound-call-and-rejects-config-drift",
+      "source": "packages/llm/llm/tests/service.spec.ts::prepares a one-shot registration-bound call and rejects config drift",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_runtime_preparation_waterfall_and_failure_normalization"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/llm::recognizes-structured-and-model-capacity-context-window-overflow-details",
+      "source": "packages/llm/llm/tests/service.spec.ts::recognizes structured and model-capacity context-window overflow details",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/core/test_core.py::test_context_and_quota_classifiers"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::keeps-the-system-node-out-of-the-message-figure-across-appends-and-a-system-replacement",
+      "source": "packages/llm/token-meter/tests/context-breakdown-projection.spec.ts::keeps the system node out of the message figure across appends and a system replacement",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_estimate_and_projections.py::test_context_breakdown_and_type_adapter_checkpoint"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::prices-every-content-block-shape-under-the-fixed-heuristic",
+      "source": "packages/llm/token-meter/tests/context-breakdown-projection.spec.ts::prices every content-block shape under the fixed heuristic",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_estimate_and_projections.py::test_fixed_estimator_prices_builtin_and_extended_blocks"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::prices-the-system-node-without-block-overhead-and-an-empty-prompt-to-zero",
+      "source": "packages/llm/token-meter/tests/context-breakdown-projection.spec.ts::prices the system node without block overhead and an empty prompt to zero",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_estimate_and_projections.py::test_system_and_tool_estimates"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::keeps-an-earlier-unified-snapshot-detached-from-later-replay",
+      "source": "packages/llm/token-meter/tests/token-meter.spec.ts::keeps an earlier unified snapshot detached from later replay",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_service.py::test_measure_replays_surface_and_detaches_results"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::rejects-an-assistant-without-its-step-boundary-transactionally",
+      "source": "packages/llm/token-meter/tests/token-meter.spec.ts::rejects an assistant without its step boundary transactionally",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_service.py::test_measure_repeats_boundary_failure_without_advancing"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::returns-a-detached-deeply-immutable-empty-measurement",
+      "source": "packages/llm/token-meter/tests/token-meter.spec.ts::returns a detached deeply immutable empty measurement",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_service.py::test_empty_measurement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::uses-disjoint-provider-usage-and-signed-durable-output-rewrites",
+      "source": "packages/llm/token-meter/tests/token-meter.spec.ts::uses disjoint provider usage and signed durable-output rewrites",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_service.py::test_measure_anchors_to_provider_usage"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::accumulates-retried-attempts-while-replacing-samples-within-each-attempt",
+      "source": "packages/llm/token-meter/tests/token-usage-projection.spec.ts::accumulates retried attempts while replacing samples within each attempt",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_estimate_and_projections.py::test_usage_projection_replaces_then_accumulates"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::carries-the-sample-forward-over-surface-growth-and-a-compaction",
+      "source": "packages/llm/token-meter/tests/token-usage-projection.spec.ts::carries the sample forward over surface growth and a compaction",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_estimate_and_projections.py::test_context_pressure_projection_tracks_surface_growth"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::counts-an-error-finished-attempt-once-across-its-retry-boundary",
+      "source": "packages/llm/token-meter/tests/turn-usage.spec.ts::counts an error-finished attempt once across its retry boundary",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_turn_usage.py::test_aggregates_retry_attempts"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::derives-an-exact-total-only-when-both-cache-buckets-are-present",
+      "source": "packages/llm/token-meter/tests/turn-usage.spec.ts::derives an exact total only when both cache buckets are present",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_turn_usage.py::test_derives_total_only_from_complete_prompt_buckets"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::fails-closed-for-missing-lifecycle-or-missing-attempt-usage",
+      "source": "packages/llm/token-meter/tests/turn-usage.spec.ts::fails closed for missing lifecycle or missing attempt usage",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_turn_usage.py::test_fails_closed_for_invalid_lifecycle"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "llm/token-meter::preserves-authoritative-totals-and-explicit-optional-buckets",
+      "source": "packages/llm/token-meter/tests/turn-usage.spec.ts::preserves authoritative totals and explicit optional buckets",
+      "classification": "ported",
+      "python_tests": [
+        "tests/llm/token_meter/test_turn_usage.py::test_preserves_exact_usage_and_route"
+      ],
+      "notes": ""
     },
     {
       "id": "session/session-format-catalog::first-party-session-format-catalog-restores-the-installed-current-vocabulary-without-freezing-ordinary-payload-additions",

@@ -5,9 +5,10 @@ agent runtime, built on [deepseek-cordis](https://github.com/akkefa/deepseek-cor
 
 PyPI distribution: `cordis-harness`. Python import: `harness`. Python 3.11+.
 
-> **Status: pre-alpha.** Scope, Session v4, JSONL persistence and session projections
-> are implemented. The model seam and agent loop are still under development, so the
-> package is not yet a runnable agent runtime. See [the plan](docs/PLAN.md).
+> **Status: pre-alpha.** Scope, Session v4, JSONL persistence, session projections,
+> the model seam, retry policy and token metering are implemented. The agent loop is
+> still under development, so the package is not yet a runnable agent runtime. See
+> [the plan](docs/PLAN.md).
 
 ## What it is
 

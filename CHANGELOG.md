@@ -59,4 +59,13 @@
 - The distribution scope is now the standalone core runtime through plan Phase 6.
   Execution, skills, web/MCP, Azure, telemetry and product providers move to
   independently versioned plugin families documented in `docs/plugin-roadmap.md`.
+- Phase 4, model seam:
+  - `harness.llm`: Cordis-owned adapter registration, exact-model resolution,
+    registration-bound prepared calls, stream assembly, compact durable stream helpers,
+    normalized failures, API-key checks and provider retry-policy resolution.
+  - `harness.llm.retry`: durable provider-routed retry scheduling, bounded jittered
+    backoff, projection-backed retry continuation and cancellation on plugin disposal.
+  - `harness.llm.token_meter`: fixed token estimation, replay-aware measurement,
+    usage/context-pressure/context-breakdown projections and complete-turn accounting.
+  - `harness.testing.ScriptedAdapter` and a pytest-independent LLM adapter contract.
 

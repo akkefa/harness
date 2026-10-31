@@ -11,6 +11,7 @@ dependencies = [
   "deepseek-cordis>=0.1.1,<0.2",
   "pydantic>=2.7,<3",
   "pyyaml>=6,<7",
+  "typing-extensions>=4.12,<5",
   "zstandard>=0.23,<1",
 ]
 classifiers = [

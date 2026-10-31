@@ -79,21 +79,24 @@
       "npm": "@deepseek-ai/dsh-llm",
       "module": "harness.llm",
       "milestone": "0.1",
-      "status": "in-progress"
+      "status": "ported",
+      "note": "Core runtime, stream and registry behavior is ported; attachment projection remains in the external attachment plugin."
     },
     {
       "upstream": "packages/llm/llm-retry",
       "npm": "@deepseek-ai/dsh-llm-retry",
       "module": "harness.llm.retry",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported",
+      "note": "The structural request-error listener is ready for the Phase 5 agent event."
     },
     {
       "upstream": "packages/llm/token-meter",
       "npm": "@deepseek-ai/dsh-token-meter",
       "module": "harness.llm.token_meter",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported",
+      "note": "Attachment occurrences use structural heuristic pricing until the external attachment plugin supplies route projections."
     },
     {
       "upstream": "packages/llm/llm-deepseek",

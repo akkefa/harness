@@ -177,7 +177,7 @@ exactly, because sessions and model-visible output must match upstream.
 
 | Group | Packages |
 |---|---|
-| core | `deepseek-cordis>=0.1.1,<0.2`, `pydantic>=2.7,<3`, `pyyaml>=6`, `zstandard>=0.23,<1` |
+| core | `deepseek-cordis>=0.1.1,<0.2`, `pydantic>=2.7,<3`, `pyyaml>=6`, `typing-extensions>=4.12,<5`, `zstandard>=0.23,<1` |
 
 Each extra is added to `pyproject.toml` in the phase that adds the module needing it,
 and registered in `tests/boundary/test_import_boundaries.py`.
@@ -326,6 +326,19 @@ Implemented so far, with these scope notes:
 
 **Exit:** the scripted adapter passes the adapter contract; retry and token metering
 pass their ported specs.
+
+Implemented (Phase 4):
+
+- `harness.llm` now provides the provider registry, exact-model preparation, retry-policy
+  resolution, stream/failure vocabulary, compact assistant streams and block assembly.
+- `harness.llm.retry` records retry scheduling before cancellable waits and resumes retry
+  state from the durable projection; its structural `agent/request-error` listener is
+  consumed by the Phase 5 agent package.
+- `harness.llm.token_meter` provides replay-aware estimates, usage/pressure/breakdown
+  projections and exact complete-turn accounting.
+- `harness.testing.ScriptedAdapter` and `llm_adapter_contract` are public. Attachment
+  occurrences retain structural heuristic pricing until the external attachment plugin
+  supplies request-time projections.
 
 ### Phase 5 — Agent spine and bundles
 

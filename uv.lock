@@ -310,6 +310,7 @@ dependencies = [
     { name = "deepseek-cordis" },
     { name = "pydantic" },
     { name = "pyyaml" },
+    { name = "typing-extensions" },
     { name = "zstandard" },
 ]
 
@@ -330,6 +331,7 @@ requires-dist = [
     { name = "deepseek-cordis", specifier = ">=0.1.1,<0.2" },
     { name = "pydantic", specifier = ">=2.7,<3" },
     { name = "pyyaml", specifier = ">=6,<7" },
+    { name = "typing-extensions", specifier = ">=4.12,<5" },
     { name = "zstandard", specifier = ">=0.23,<1" },
 ]
 
