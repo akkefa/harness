@@ -8,7 +8,7 @@ license = "Apache-2.0"
 license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 authors = [{name = "Ikram Ali"}]
 dependencies = [
-  "deepseek-cordis>=0.1.1,<0.2",
+  "deepseek-cordis>=0.2.0,<0.3",
   "pydantic>=2.7,<3",
   "pyyaml>=6,<7",
   "typing-extensions>=4.12,<5",
@@ -86,7 +86,7 @@ select = ["E", "F", "I", "UP", "B", "ASYNC"]
 python_version = "3.11"
 strict = true
 files = ["src", "tests", "scripts"]
-mypy_path = "src:tests:scripts"
+mypy_path = "src:tests:scripts:examples/external_plugin/src"
 explicit_package_bases = true
 
 [dependency-groups]

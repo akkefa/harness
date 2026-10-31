@@ -3,7 +3,11 @@
   "upstream": {
     "repository": "https://github.com/deepseek-ai/deepseek-harness",
     "commit": "ce7073d51254c26cd63b22a60835b8f948deb447",
-    "date": "2026-10-30"
+    "date": "2026-10-30",
+    "vendor": {
+      "vendor/cordis": "4.0.6-alpha.1",
+      "vendor/loader": "1.0.7-alpha.1"
+    }
   },
   "distribution_scope": {
     "core_milestone": "0.1",
@@ -37,7 +41,8 @@
       "npm": "@deepseek-ai/dsh-tools",
       "module": "deskagents.core.tools",
       "milestone": "0.1",
-      "status": "ported"
+      "status": "in-progress",
+      "note": "Registry, scoped layers, guards and the pre-execute, execute, post-execute and result seams are ported; post-execute accept with a replacement value or additional contexts is not, and most of the upstream suite is not yet catalogued."
     },
     {
       "upstream": "packages/core/tool-executor-native",
@@ -51,14 +56,16 @@
       "npm": "@deepseek-ai/dsh-agent",
       "module": "deskagents.core.agent",
       "milestone": "0.1",
-      "status": "ported"
+      "status": "in-progress",
+      "note": "Registry, scoped agent events with contained notifications and model selection are ported; initiator tracking is not, and the upstream suite is not yet catalogued."
     },
     {
       "upstream": "packages/core/agent-loop",
       "npm": "@deepseek-ai/dsh-agent-loop",
       "module": "deskagents.core.agent_loop",
       "milestone": "0.1",
-      "status": "ported"
+      "status": "in-progress",
+      "note": "Turn and step driving, inbox, pre-step, request, request-error, assistant-stream, turn-stopping, request-header series and tool-registry diffs are ported; recording interrupted assistant blocks on abort is not, and most of the upstream suite is not yet catalogued."
     },
     {
       "upstream": "packages/core/agent-default-model",
@@ -690,6 +697,88 @@
       "origin": "pepgpt",
       "note": "Azure Container Apps sessions fs and subprocess providers, shaped like packages/ssh/*",
       "status": "planned"
+    }
+  ],
+  "watched": [
+    {
+      "upstream": "packages/boot/config-editor",
+      "used_by": [
+        "packages/core/agent-default-model"
+      ]
+    },
+    {
+      "upstream": "packages/core/tool-executor-ptc",
+      "used_by": [
+        "packages/core/agent-tool-presentation"
+      ]
+    },
+    {
+      "upstream": "packages/identity/anonymous-user-id",
+      "used_by": [
+        "packages/llm/llm-deepseek"
+      ]
+    },
+    {
+      "upstream": "packages/typert/protocol",
+      "used_by": [
+        "packages/core/agent",
+        "packages/llm/llm"
+      ]
+    },
+    {
+      "upstream": "packages/util/atomic-write",
+      "used_by": [
+        "packages/llm/llm-deepseek"
+      ]
+    },
+    {
+      "upstream": "packages/util/brand",
+      "used_by": [
+        "packages/core/agent",
+        "packages/core/agent-loop",
+        "packages/core/session",
+        "packages/core/tools",
+        "packages/llm/llm",
+        "packages/llm/llm-deepseek",
+        "packages/llm/llm-retry",
+        "packages/session/session-log-deepseek",
+        "packages/session/session-persistence",
+        "packages/session/session-title"
+      ]
+    },
+    {
+      "upstream": "packages/util/crypto",
+      "used_by": [
+        "packages/llm/llm"
+      ]
+    },
+    {
+      "upstream": "packages/util/home-paths",
+      "used_by": [
+        "packages/llm/llm-deepseek"
+      ]
+    },
+    {
+      "upstream": "packages/util/launch-environment",
+      "used_by": [
+        "packages/llm/llm-deepseek",
+        "packages/llm/llm-deepseek-api-key"
+      ]
+    },
+    {
+      "upstream": "packages/util/timeout",
+      "used_by": [
+        "packages/llm/llm",
+        "packages/llm/llm-deepseek",
+        "packages/llm/llm-retry",
+        "packages/session/session-persistence"
+      ]
+    },
+    {
+      "upstream": "packages/workspace/workspace",
+      "used_by": [
+        "packages/core/agent"
+      ]
     }
   ]
 }

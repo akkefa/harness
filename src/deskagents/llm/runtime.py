@@ -9,7 +9,6 @@ vocabulary and can be projected by that plugin before dispatch.
 
 from __future__ import annotations
 
-import inspect
 import logging
 from abc import ABC, abstractmethod
 from collections.abc import AsyncIterable, AsyncIterator, Callable, Mapping, Sequence
@@ -17,7 +16,7 @@ from typing import Any, cast
 
 from deepseek_cordis import Context, Service, current_context
 
-from deskagents._cordis import dispatch
+from deskagents._cordis import emit_contained
 from deskagents.util.values import deep_freeze, is_safe_integer, snapshot_json_value, thaw_json
 
 from .content import project_tool_updates
@@ -191,26 +190,7 @@ class LlmRuntime(Service):
         return candidate
 
     def _emit_updated(self) -> None:
-        for callback in dispatch(self.ctx, "emit", "llm/adapters-updated", (), None):
-            try:
-                result = callback()
-                if inspect.isawaitable(result):
-
-                    async def contain(awaitable: Any) -> None:
-                        try:
-                            await awaitable
-                        except Exception:
-                            logger.warning("llm/adapters-updated listener failed", exc_info=True)
-
-                    try:
-                        import asyncio
-
-                        asyncio.get_running_loop().create_task(contain(result))
-                    except RuntimeError:
-                        if inspect.iscoroutine(result):
-                            result.close()
-            except Exception:
-                logger.warning("llm/adapters-updated listener failed", exc_info=True)
+        emit_contained(self.ctx, "llm/adapters-updated", log=logger)
 
     def _prepare_routes(
         self,

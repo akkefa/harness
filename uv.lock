@@ -368,11 +368,11 @@ wheels = [
 
 [[package]]
 name = "deepseek-cordis"
-version = "0.1.1"
+version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fa/ec/019178d28755dad7a9ab65508ac0a008bff04bb41fc602424ce7a347148b/deepseek_cordis-0.1.1.tar.gz", hash = "sha256:30fa8620c73c2c4762ffc3520b5012273bd7e831d5f665e2744410b0a3467a4a", size = 211841, upload-time = "2026-10-16T05:21:16.298Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/76/58/a145396aeb91a936c4ee9858a33da23522f6ba632fa1c36bdf6f5442a40c/deepseek_cordis-0.2.0.tar.gz", hash = "sha256:478e0caebe0373e48f3524ac155fc62e4e543cb2ef50c0a2706d7047c2a49028", size = 221090, upload-time = "2026-10-31T14:54:04.397Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c6/1f/58b810da07e4275178f73a8cdc71d1bcd343f274a55be275e13d258b329f/deepseek_cordis-0.1.1-py3-none-any.whl", hash = "sha256:76f66cd33f549468b83367c31cc3cc8b8270fb62585036cdf94ca5e97078bfbd", size = 31006, upload-time = "2026-10-16T05:21:14.938Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/a8/5122b956f85dfdfe0073445aee9850e2f1907da4f345752a86be8fd95b14/deepseek_cordis-0.2.0-py3-none-any.whl", hash = "sha256:de3dca0b0e786c76139150814053090dae3f8c586394c42ea4921767288d1564", size = 32295, upload-time = "2026-10-31T14:54:02.996Z" },
 ]
 
 [[package]]
@@ -412,7 +412,7 @@ packaging = [
 
 [package.metadata]
 requires-dist = [
-    { name = "deepseek-cordis", specifier = ">=0.1.1,<0.2" },
+    { name = "deepseek-cordis", specifier = ">=0.2.0,<0.3" },
     { name = "httpx", marker = "extra == 'all'", specifier = ">=0.27,<1" },
     { name = "httpx", marker = "extra == 'deepseek'", specifier = ">=0.27,<1" },
     { name = "httpx", marker = "extra == 'openai'", specifier = ">=0.27,<1" },

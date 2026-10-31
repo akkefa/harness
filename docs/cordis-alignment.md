@@ -1,8 +1,8 @@
 # Cordis alignment (plan Phase 1)
 
-Date: 2026-10-30. Upstream pin: DeepSeek Harness `ce7073d` (vendored Cordis
-`4.0.6-alpha.1`). Python runtime checked: deepseek-cordis `0.1.1` from PyPI (the
-version locked here); the PyCordis repo at `0.1.2` (`f804a26`) has the same API.
+Date: 2026-10-30, updated 2026-10-31. Upstream pin: DeepSeek Harness `ce7073d`
+(vendored Cordis `4.0.6-alpha.1`, Loader `1.0.7-alpha.1`). Python runtime checked:
+deepseek-cordis `0.2.0` from PyPI, the version locked here.
 
 ## Method
 
@@ -12,15 +12,16 @@ version locked here); the PyCordis repo at `0.1.2` (`f804a26`) has the same API.
 2. Each feature was checked against deepseek-cordis's public API and documented
    behaviour (`PyCordis/docs/compatibility.md`), and the ones the harness depends on
    were probed against the installed package.
-3. `tests/test_cordis_contract.py` keeps those probes. Each gap is a strict `xfail`, so
-   it starts failing (XPASS) the moment deepseek-cordis gains the feature.
+3. `tests/test_cordis_contract.py` keeps those probes. A gap is a strict `xfail` until
+   deepseek-cordis gains the feature; it then becomes an ordinary contract test.
 
 ## Result
 
-deepseek-cordis covers almost everything the core distribution uses. G1 and G2 are
-isolated behind the tested `deskagents._cordis` compatibility adapter. G3 is not
-monkey-patched: the Phase 5 agent uses explicit owner effects for teardown and records
-that lifecycle adaptation in the compatibility catalog.
+deepseek-cordis 0.2.0 covers everything the core distribution uses. It closes G1–G5:
+public `Events.dispatch`, `Fiber.assert_active`, the `internal/status` and
+`internal/plugin` events, `fiber.entry`, and config resolution. The 0.1 shims are gone;
+the harness calls these APIs directly and `deskagents._cordis` now holds only the shared
+contained-notification helper. G6 remains open and is not needed by the core.
 
 ### Covered
 
@@ -42,7 +43,9 @@ that lifecycle adaptation in the compatibility catalog.
 
 ### Gaps
 
-| Id | Feature | Needed by | First needed | deepseek-cordis today | Proposed fix |
+G1–G5 are closed by deepseek-cordis 0.2.0; the table keeps the original findings.
+
+| Id | Feature | Needed by | First needed | deepseek-cordis 0.1.1 | Proposed fix |
 |---|---|---|---|---|---|
 | **G1** | `ctx.events.dispatch(mode, args)`: the snapshot of listener callables, which the caller invokes itself to contain listener failures | `core/session`, `core/agent`, `core/agent-loop`, `core/tools`, `credentials/credentials` +5 | **0.1, Phase 2** (`core/session`) | private `Events._dispatch(mode, name, args, filter_)` | make it public as `Events.dispatch`, with the same snapshot and filter rules |
 | **G2** | `fiber.assertActive()`: raise if the owning fiber has been disposed | `core/agent-loop`, `session/session-projection`, `session/working-directory`, `context/time-context`, `subagent/tool-subagent` | **0.1, Phase 3** (`session-projection`) | missing | add `Fiber.assert_active()`: raise `CordisError` when `uid is None`, as upstream does |
@@ -68,21 +71,20 @@ needed by this package.
 
 ## Upstream Cordis rc.11
 
-Upstream's `vendor/cordis-rc11-upgrade-plan.md` is still a proposal. Its PR 1 (config
-access) is exactly G5, and its Loader work overlaps G6. G1–G4 match the current vendored
-Cordis and don't depend on rc.11. The `ce7073d` vendored Cordis (`4.0.6-alpha.1`) is the
-one deepseek-cordis was last audited against (Harness `f3803c9`), so there's no other
-known drift.
+Upstream's `vendor/cordis-rc11-upgrade-plan.md` is still a proposal at `ce7073d`. It
+would move vendored Cordis to `4.0.0-rc.11` and Loader to `1.0.0-rc.8` in staged PRs;
+its Loader work overlaps G6. `docs/upstream.json` records the vendored versions, and the
+upstream watch reports any commit under `vendor/cordis` or `vendor/loader`, so
+deepseek-cordis can follow before this package raises its range.
 
 ## Core 0.1 compatibility policy
 
-1. G1 and G2 stay in `deskagents._cordis`; no other module may access the corresponding
-   Cordis private attributes. Passing harness tests cover the adapter while strict
-   xfails continue to report whether the public Cordis APIs have landed.
-2. G3 is adapted in Phase 5 with explicit effects owned by the Agent lifecycle. The
-   harness does not monkey-patch `Fiber._change_state`.
-3. G4–G6 belong to external product/preset plugins and are not core 0.1 blockers.
-4. Re-evaluate and remove each shim when a compatible public deepseek-cordis API ships.
+1. The harness uses only public deepseek-cordis APIs; no module touches Cordis private
+   attributes.
+2. Non-vetoing notifications (`agent/*`, `tools/result`, `llm/adapters-updated`) go
+   through `deskagents._cordis.emit_contained`, which takes the `Events.dispatch`
+   snapshot and logs each listener's sync or async failure, as upstream does.
+3. G6 belongs to external product and preset plugins and is not a core 0.1 blocker.
 
 ## Dependencies on deepseek-cordis internals
 
@@ -93,4 +95,3 @@ Added in Phase 3. Recheck these whenever the deepseek-cordis pin moves:
   disposer, as upstream's is. A change to that constructor or to how effects adopt
   returned values would break it; `tests/session/projection/test_compatibility.py`
   covers the adoption cases.
-- `deskagents._cordis` holds the G1/G2 shims (`Events._dispatch`, `Fiber.uid`).

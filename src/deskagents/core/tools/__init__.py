@@ -8,6 +8,7 @@ from __future__ import annotations
 import asyncio
 import inspect
 import json
+import logging
 import math
 from collections.abc import Awaitable, Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
@@ -15,6 +16,7 @@ from typing import Any, cast
 
 from deepseek_cordis import Context, Service, current_context
 
+from deskagents._cordis import emit_contained
 from deskagents.core.scope import (
     AnonymousEntries,
     NamedEntries,
@@ -41,6 +43,8 @@ from .schema import (
     validate_args,
     value_schema_spec_to_json_schema,
 )
+
+logger = logging.getLogger(__name__)
 
 RUN_CODE_NAME = "run_code"
 TOOL_ABORTED = "ABORTED"
@@ -457,12 +461,14 @@ class NativeToolExecutor:
                     )
                 ),
             }
+        scope = scope_target(self.tools, input_.get("agent"))
+        result: Mapping[str, Any]
         try:
             decision = self.ctx.waterfall(
                 "tools/pre-execute",
                 execution,
                 next_=lambda: {"kind": "allow"},
-                filter_=scope_target(self.tools, input_.get("agent")),
+                filter_=scope,
             )
             if inspect.isawaitable(decision):
                 decision = await decision
@@ -478,39 +484,27 @@ class NativeToolExecutor:
                 )
             if reason is not None:
                 raise HarnessError(reason, (decision.get("info") or {}).get("code", "DENIED"))
-            tool = self.tools.executable(call["name"], input_.get("agent"), input_.get("toolSet"))
-            if tool is None:
-                raise ToolNotFoundError(call["name"])
-            value = await tool["execute"](arguments, execution)
-            detached = snapshot_json_value(value)
-            if detached is None:
-                raise ToolOutputError(call["name"], ["value is not lossless JSON"])
-            violations = validate_json_schema_value(tool["output"]["schema"], detached)
-            if violations:
-                raise ToolOutputError(call["name"], violations)
-            content = tool["output"]["render"](arguments, detached)
-            result: dict[str, Any] = {
-                "isError": False,
-                "value": deep_freeze(detached),
-                "content": content,
-                **(
-                    {"meta": tool["output"]["presentationMeta"](arguments, detached)}
-                    if "presentationMeta" in tool["output"]
-                    else {}
-                ),
-                **(
-                    {"additionalContexts": execution.additional_contexts}
-                    if execution.additional_contexts
-                    else {}
-                ),
-                **({"concludesTurn": True} if execution.concludes_turn else {}),
-            }
+
+            async def dispatch() -> Mapping[str, Any]:
+                # A thrown or unknown tool is already an error result when a
+                # tools/execute wrapper's next() returns, and still reaches post-execute.
+                try:
+                    return await self._dispatch_body(call, arguments, execution, input_)
+                except Exception as error:
+                    return _failure(error)
+
+            dispatched = self.ctx.waterfall(
+                "tools/execute", execution, next_=dispatch, filter_=scope
+            )
+            if inspect.isawaitable(dispatched):
+                dispatched = await dispatched
+            result = cast(Mapping[str, Any], dispatched)
             post = self.ctx.waterfall(
                 "tools/post-execute",
                 execution,
                 result,
                 next_=lambda: {"kind": "accept"},
-                filter_=scope_target(self.tools, input_.get("agent")),
+                filter_=scope,
             )
             if inspect.isawaitable(post):
                 post = await post
@@ -524,15 +518,53 @@ class NativeToolExecutor:
             elif "content" in post:
                 result = {**result, "content": post["content"]}
         except BaseException as error:
-            result = _failure(error if isinstance(error, BaseException) else Exception(str(error)))
+            result = _failure(error)
         final = snapshot_json_value(result, freeze=True)
-        self.ctx.emit(
+        emit_contained(
+            self.ctx,
             "tools/result",
             execution,
             final,
-            filter_=scope_target(self.tools, input_.get("agent")),
+            filter_=scope,
+            describe=f'tool "{call["name"]}" ({call["id"]}): tools/result observer',
+            log=logger,
         )
         return {"callId": call["id"], "result": final}
+
+    async def _dispatch_body(
+        self,
+        call: Mapping[str, Any],
+        arguments: object,
+        execution: ToolRunContext,
+        input_: Mapping[str, Any],
+    ) -> dict[str, Any]:
+        tool = self.tools.executable(call["name"], input_.get("agent"), input_.get("toolSet"))
+        if tool is None:
+            raise ToolNotFoundError(call["name"])
+        value = await tool["execute"](arguments, execution)
+        detached = snapshot_json_value(value)
+        if detached is None and value is not None:
+            raise ToolOutputError(call["name"], ["value is not lossless JSON"])
+        violations = validate_json_schema_value(tool["output"]["schema"], detached)
+        if violations:
+            raise ToolOutputError(call["name"], violations)
+        content = tool["output"]["render"](arguments, detached)
+        return {
+            "isError": False,
+            "value": deep_freeze(detached),
+            "content": content,
+            **(
+                {"meta": tool["output"]["presentationMeta"](arguments, detached)}
+                if "presentationMeta" in tool["output"]
+                else {}
+            ),
+            **(
+                {"additionalContexts": execution.additional_contexts}
+                if execution.additional_contexts
+                else {}
+            ),
+            **({"concludesTurn": True} if execution.concludes_turn else {}),
+        }
 
     async def execute(self, input_: Mapping[str, Any]) -> Mapping[str, Any]:
         limit = input_.get("maxParallelToolCalls", self.max_parallel())

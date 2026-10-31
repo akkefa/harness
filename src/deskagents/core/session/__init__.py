@@ -11,8 +11,8 @@ Python differences:
   intent as keyword arguments; upstream's compile-time requirement becomes the runtime
   surface check upstream also performs.
 - ``session/*`` events are dispatched with a scope filter (``filter_=``) instead of a
-  Cordis ``thisArg`` carrier. Listener callbacks are collected through deepseek-cordis's
-  private ``Events._dispatch`` until gap G1 closes (docs/cordis-alignment.md).
+  Cordis ``thisArg`` carrier. Listener callbacks are collected through
+  ``ctx.events.dispatch``, as upstream does.
 - Upstream Cordis gives a service method the caller's context, so a session or message
   projection belongs to the fiber that created it, and that caller's scope routes its
   ``session/*`` events. deepseek-cordis services keep their own context, so the store

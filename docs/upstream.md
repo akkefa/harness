@@ -9,6 +9,11 @@ maps every upstream package in scope to its Python module, release milestone and
 porting status (`planned`, `in-progress`, `ported`). It also lists the modules that
 have no upstream package (`new_modules`).
 
+`watched` lists unmapped upstream packages that milestone `0.1` packages import, such
+as `util/brand`, `util/timeout` and `typert/protocol`. Python inlines or omits their
+behavior, so they have no module, but their commits are reported like a mapped
+package's. The v0–v3 session-format migrations are left out on purpose.
+
 Only milestone `0.1` belongs to the `deskagents` distribution. Later mapped
 packages are retained as the source inventory for the external plugin families in
 [plugin-roadmap.md](plugin-roadmap.md).
@@ -56,17 +61,43 @@ checksums. Regenerate them with `scripts/dsh_session_fixtures.ts`; use
 `scripts/write_interop_session.py` plus that script's `verify` command for the reverse
 Python-to-`dsh` check.
 
+## Vendored Cordis
+
+The pin also records the versions of the two vendored upstream packages that
+[deepseek-cordis](https://github.com/akkefa/deepseek-cordis) ports: `vendor/cordis`
+(`@deepseek-ai/cordis`) and `vendor/loader` (`@deepseek-ai/cordis-plugin-loader`).
+At `ce7073d` they are `4.0.6-alpha.1` and `1.0.7-alpha.1`. Upstream's
+`vendor/cordis-rc11-upgrade-plan.md` proposes moving them to Cordis `4.0.0-rc.11`
+and Loader `1.0.0-rc.8` in staged PRs. When a vendored version moves, deepseek-cordis
+follows first, then this package raises its `deepseek-cordis` range.
+
+## Watching upstream
+
+`.github/workflows/upstream.yml` runs daily and on demand. It takes a blobless clone
+of upstream master, verifies the pin with `--check`, and runs the change report with
+`--exit-code`. When anything changed it opens one issue titled "Upstream DeepSeek
+Harness changed since the pin", or refreshes its body and comments when upstream moves
+again. Close the issue when the pin moves. The workflow uses the job's own token
+with `issues: write`; no secret is configured.
+
+`.github/dependabot.yml` opens a pull request for each new `deepseek-cordis` release,
+including releases outside the pinned range.
+
+Scheduled workflows run only from the default branch.
+
 ## Moving the pin
 
-At the start of each milestone:
+When the watch opens an issue, or at the start of each milestone:
 
 1. Fetch upstream and run `uv run python scripts/upstream_changes.py --to origin/master`.
    It lists commits since the pin for every mapped package, new upstream packages in
-   mapped groups, and pinned assets that changed.
+   mapped groups, pinned assets that changed, and vendored Cordis packages that
+   changed, with their old and new versions.
 2. Write `docs/upstream-audit-<date>.md`: for each change, adopt, defer, or record an
    intentional Python difference.
-3. Port the adopted changes with their tests, update the pin in `upstream.json`, refresh
-   the assets and `MANIFEST.json`, and update spec checksums in `compatibility-cases.json`.
+3. Port the adopted changes with their tests, update the pin and vendored versions in
+   `upstream.json`, refresh the assets and `MANIFEST.json`, and update spec checksums in
+   `compatibility-cases.json`.
 4. Run `uv run python scripts/upstream_changes.py --check`.
 
 ## Intentional Phase 3 omissions

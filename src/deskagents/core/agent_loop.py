@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import time
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any, cast
 
 from deepseek_cordis import Context, Service
@@ -26,6 +26,8 @@ from deskagents.core.session import (
     RestoredSessionOptions,
     Session,
     SessionStore,
+    canonical_header,
+    header_equals,
     interrupted_turn_closers,
 )
 from deskagents.core.system_prompt import (
@@ -41,6 +43,7 @@ from deskagents.llm import (
     LlmError,
     LlmRuntime,
     create_assistant_message,
+    create_developer_message,
     create_system_message,
 )
 from deskagents.session.persistence import SessionHandle, SessionPersistence
@@ -166,6 +169,61 @@ class _Signal:
         self.aborted, self.reason = True, reason
 
 
+class _LiveAttempt:
+    """One model attempt's ``agent/assistant-stream`` frames.
+
+    Upstream: AssistantStreamAttempt in packages/core/agent-loop/src/assistant-stream.ts.
+    A started attempt always ends with exactly one ``end`` frame: committed after its
+    durable ``assistant/message`` or ``assistant/attempt``, otherwise abandoned.
+    """
+
+    def __init__(self, agent: ReactLoopAgent, turn: int, step: int) -> None:
+        agent._attempt_counter += 1
+        self.attempt_id = f"{agent.session.id}:{agent._attempt_counter}"
+        self.accumulator, self.assembler = AssistantStreamAccumulator(), BlockAssembler()
+        self._agent, self._turn, self._step = agent, turn, step
+        self._index = 0
+        self.ended = False
+
+    def _emit(self, frame: Mapping[str, Any]) -> None:
+        self._agent._stream_revision += 1
+        self._agent.dispatch.emit(
+            "agent/assistant-stream",
+            {
+                "frame": {
+                    **frame,
+                    "attemptId": self.attempt_id,
+                    "revision": self._agent._stream_revision,
+                }
+            },
+        )
+
+    def start(self) -> None:
+        self._emit({"type": "start", "turn": self._turn, "step": self._step})
+
+    def push(self, chunk: Mapping[str, Any]) -> None:
+        timed = self.accumulator.push({"time": time.time_ns() // 1_000_000, "chunk": chunk})
+        self.assembler.push(dict(timed["chunk"]))
+        self._emit({"type": "chunk", "index": self._index, **timed})
+        self._index += 1
+
+    def settle(self, event_type: str, append: Callable[[], Mapping[str, Any]]) -> None:
+        try:
+            event = append()
+        except BaseException:
+            self.abandon()
+            raise
+        self.ended = True
+        outcome = {"kind": "committed", "eventType": event_type, "seq": event["seq"]}
+        self._emit({"type": "end", "index": self._index, "outcome": outcome})
+
+    def abandon(self) -> None:
+        if self.ended:
+            return
+        self.ended = True
+        self._emit({"type": "end", "index": self._index, "outcome": {"kind": "abandoned"}})
+
+
 class ReactLoopAgent:
     def __init__(
         self,
@@ -184,6 +242,10 @@ class ReactLoopAgent:
         self._signal: _Signal | None = None
         self._disposed = False
         self._last_turn = turn_boundary_of(session)["lastTurn"]
+        self._attempt_counter = 0
+        self._stream_revision = 0
+        self._request_header_logged = False
+        self._request_surface_generation = session.surface.content_generation
 
     @property
     def status(self) -> str:
@@ -288,8 +350,9 @@ class ReactLoopAgent:
                         "agent/pre-step",
                         {
                             "messages": proposed,
-                            "signal": signal,
+                            "turn": turn,
                             "step": step + 1,
+                            "signal": signal,
                             "modelSelection": selection,
                         },
                         next_=enter_offered,
@@ -306,13 +369,29 @@ class ReactLoopAgent:
                     step += 1
                     self.session.append("step/start", {"turn": turn, "step": step})
                     try:
-                        result = await self._step(turn, step, proposed, selection, tool_set, signal)
+                        result = await self._step(
+                            turn,
+                            step,
+                            proposed,
+                            selection,
+                            tool_set,
+                            signal,
+                            decision.get("startsRequestSeries") is True,
+                        )
                     finally:
                         self.session.append("step/end", {"turn": turn, "step": step})
                 finally:
                     tool_set.dispose()
                 if result in ("completed", "max-tokens"):
-                    reason = {"kind": result}
+                    if reason["kind"] != "max-tokens":
+                        reason = {"kind": result}
+                    if not self.inbox.next_step:
+                        # A listener may queue next-step input to continue the turn.
+                        await self.dispatch.serial(
+                            "agent/turn-stopping", {"turn": turn, "signal": signal}
+                        )
+                        if signal.aborted:
+                            raise asyncio.CancelledError
                     if not self.inbox.next_step:
                         break
                 target = "next-step"
@@ -327,9 +406,67 @@ class ReactLoopAgent:
                     "code": getattr(error, "code", "UNKNOWN"),
                 },
             }
-            self.dispatch.emit("agent/error", {"error": error})
+            self.dispatch.emit("agent/error", {"turn": turn, "step": step, "error": error})
         finally:
             self.session.append("turn/end", {"turn": turn, "reason": reason})
+
+    def _log_request_header(
+        self, header: Mapping[str, Any], turn: int, step: int, starts_series: bool
+    ) -> None:
+        """Log the request header when it is first used, changes, or starts a series.
+
+        A change to the tool list also appends the model-visible tool-registry diff.
+        """
+        generation = self.session.surface.content_generation
+        starts_series = starts_series or self._request_surface_generation != generation
+        series = {"startsSeries": True} if starts_series else {}
+        baseline = self.session.request_header()
+        header_seq = None
+        if not self._request_header_logged:
+            reason = "initial" if baseline is None else "resume"
+            header_seq = self.session.append(
+                "request/header", {"header": header, "reason": reason, **series}
+            )["seq"]
+            self._request_header_logged = True
+        elif baseline is None or not header_equals(baseline, header):
+            header_seq = self.session.append(
+                "request/header", {"header": header, "reason": "change", **series}
+            )["seq"]
+        elif starts_series:
+            self.session.append("request/header", {"header": header, "reason": "series"})
+        if baseline is not None and header_seq is not None:
+            previous_tools = baseline.get("tools", ())
+            current_tools = header.get("tools", ())
+            previous = {tool["name"] for tool in previous_tools}
+            current = {tool["name"] for tool in current_tools}
+            changes = [
+                *(
+                    {"type": "tool-addition", "toolName": tool["name"]}
+                    for tool in current_tools
+                    if tool["name"] not in previous
+                ),
+                *(
+                    {"type": "tool-removal", "toolName": tool["name"]}
+                    for tool in previous_tools
+                    if tool["name"] not in current
+                ),
+            ]
+            if changes:
+                message = create_developer_message(
+                    source={"kind": "tool-registry"}, content=changes
+                )
+                additions = any(change["type"] == "tool-addition" for change in changes)
+                self.session.append(
+                    "developer/message",
+                    {
+                        "turn": turn,
+                        "step": step,
+                        "message": message,
+                        **({"headerSeq": header_seq} if additions else {}),
+                    },
+                    surface_op="append",
+                )
+        self._request_surface_generation = generation
 
     async def _step(
         self,
@@ -339,6 +476,7 @@ class ReactLoopAgent:
         selection: Mapping[str, Any],
         tool_set: ResolvedToolSet,
         signal: _Signal,
+        starts_series: bool,
     ) -> str | None:
         prompt = self.loop_ctx.get("systemPrompt")
         llm = self.loop_ctx.get("llm")
@@ -452,23 +590,18 @@ class ReactLoopAgent:
             if error.code != "NO_ADAPTER":
                 raise
             config = dict(proposed)
-        header = {
-            "config": config,
-            **(
-                {"adapterDefaults": prepared.adapter_defaults}
-                if prepared and prepared.adapter_defaults
-                else {}
-            ),
-            **({"tools": assembly["tools"]} if assembly["tools"] else {}),
-        }
-        baseline = self.session.request_header()
-        self.session.append(
-            "request/header",
+        header = canonical_header(
             {
-                "header": header,
-                "reason": "initial" if baseline is None else "change",
-            },
+                "config": config,
+                **(
+                    {"adapterDefaults": prepared.adapter_defaults}
+                    if prepared and prepared.adapter_defaults
+                    else {}
+                ),
+                **({"tools": assembly["tools"]} if assembly["tools"] else {}),
+            }
         )
+        self._log_request_header(header, turn, step, starts_series)
         request_context = {
             "provider": config["provider"],
             "model": config["model"],
@@ -495,21 +628,56 @@ class ReactLoopAgent:
             "sessionId": self.id,
             "signal": signal,
         }
-        accumulator, assembler = AssistantStreamAccumulator(), BlockAssembler()
         stream = prepared.stream(request) if prepared else llm.stream(request)
-        async for chunk in stream:
-            timed = {"time": time.time_ns() // 1_000_000, "chunk": chunk}
-            accumulator.push(timed)
-            assembler.push(dict(chunk))
-        if signal.aborted:
-            raise asyncio.CancelledError
-        finish = assembler.finish
-        stream_record = list(accumulator.snapshot())
+        live = _LiveAttempt(self, turn, step)
+        live.start()
+        try:
+            async for chunk in stream:
+                live.push(chunk)
+            if signal.aborted:
+                raise asyncio.CancelledError
+            assembler = live.assembler
+            finish = assembler.finish
+            stream_record = list(live.accumulator.snapshot())
+            if finish["kind"] in ("error", "aborted"):
+                live.settle(
+                    "assistant/attempt",
+                    lambda: self.session.append(
+                        "assistant/attempt",
+                        {"turn": turn, "step": step, "stream": stream_record},
+                    ),
+                )
+            else:
+                message = create_assistant_message(
+                    content=assembler.blocks(),
+                    source={
+                        "provider": config["provider"],
+                        "model": config["model"],
+                        **(
+                            {"replayState": assembler.replay_state}
+                            if assembler.replay_state is not None
+                            else {}
+                        ),
+                    },
+                )
+                live.settle(
+                    "assistant/message",
+                    lambda: self.session.append(
+                        "assistant/message",
+                        {
+                            "turn": turn,
+                            "step": step,
+                            "message": message,
+                            **({"usage": assembler.usage} if assembler.usage else {}),
+                            "stream": stream_record,
+                        },
+                        surface_op="append",
+                    ),
+                )
+        except BaseException:
+            live.abandon()
+            raise
         if finish["kind"] in ("error", "aborted"):
-            self.session.append(
-                "assistant/attempt",
-                {"turn": turn, "step": step, "stream": stream_record},
-            )
             action = self.dispatch.waterfall(
                 "agent/request-error",
                 {
@@ -525,31 +693,8 @@ class ReactLoopAgent:
             if asyncio.iscoroutine(action):
                 action = await action
             if isinstance(action, Mapping) and action.get("kind") == "retry":
-                return await self._step(turn, step, [], selection, tool_set, signal)
+                return await self._step(turn, step, [], selection, tool_set, signal, False)
             raise LlmError(finish["failure"]["message"], finish["failure"]["code"])
-        message = create_assistant_message(
-            content=assembler.blocks(),
-            source={
-                "provider": config["provider"],
-                "model": config["model"],
-                **(
-                    {"replayState": assembler.replay_state}
-                    if assembler.replay_state is not None
-                    else {}
-                ),
-            },
-        )
-        self.session.append(
-            "assistant/message",
-            {
-                "turn": turn,
-                "step": step,
-                "message": message,
-                **({"usage": assembler.usage} if assembler.usage else {}),
-                "stream": stream_record,
-            },
-            surface_op="append",
-        )
         if finish["kind"] == "max-tokens":
             return "max-tokens"
         calls = [block for block in message["content"] if block["type"] == "tool-call"]
@@ -630,16 +775,19 @@ class AgentLoop(Service):
         session = sessions.prepare(options["sessionId"], options.get("sessionOptions"))
         persistence = self.ctx.get("sessionPersistence")
         storage: SessionHandle | None = None
-        if isinstance(persistence, SessionPersistence):
-            storage = await persistence.create(
-                session.header,
-                inherited_event_count=session.inherited_event_count,
-            )
-            seed = session.snapshot_events()
-            if seed:
-                await storage.append(seed)
-        detach_session = sessions.enter(session, ctx=owner_ctx)
+        detach_session = None
         try:
+            if isinstance(persistence, SessionPersistence):
+                storage = await persistence.create(
+                    session.header,
+                    inherited_event_count=session.inherited_event_count,
+                )
+                seed = session.snapshot_events()
+                if seed:
+                    await storage.append(seed)
+            # The owner may have unloaded while storage was created.
+            owner_ctx.fiber.assert_active()
+            detach_session = sessions.enter(session, ctx=owner_ctx)
             sessions.announce(session)
             agent = ReactLoopAgent(
                 self.ctx,
@@ -658,7 +806,8 @@ class AgentLoop(Service):
             await self.agents.announce(agent, "create", options.get("signal"))
             return AgentHandle(agent, detach_agent, detach_session, storage)
         except BaseException:
-            detach_session()
+            if detach_session is not None:
+                detach_session()
             if storage is not None:
                 await storage.close()
             raise
@@ -697,6 +846,8 @@ class AgentLoop(Service):
             normalized_suffix = session.snapshot_events()[len(events) :]
             if normalized_suffix:
                 await storage.append(normalized_suffix)
+            # The owner may have unloaded during the cold read.
+            owner_ctx.fiber.assert_active()
             detach_session = sessions.enter(session, ctx=owner_ctx)
             sessions.announce(session)
             agent = ReactLoopAgent(

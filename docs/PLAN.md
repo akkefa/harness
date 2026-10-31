@@ -177,7 +177,7 @@ exactly, because sessions and model-visible output must match upstream.
 
 | Group | Packages |
 |---|---|
-| core | `deepseek-cordis>=0.1.1,<0.2`, `pydantic>=2.7,<3`, `pyyaml>=6`, `typing-extensions>=4.12,<5`, `zstandard>=0.23,<1` |
+| core | `deepseek-cordis>=0.2.0,<0.3`, `pydantic>=2.7,<3`, `pyyaml>=6`, `typing-extensions>=4.12,<5`, `zstandard>=0.23,<1` |
 
 Each extra is added to `pyproject.toml` in the phase that adds the module needing it,
 and registered in `tests/boundary/test_import_boundaries.py`.
@@ -202,11 +202,13 @@ and registered in `tests/boundary/test_import_boundaries.py`.
    the pinned commit are committed as fixtures and must open, project and replay in
    Python. Python-written files must open in `dsh`.
 4. **Change tracking.** `scripts/upstream_changes.py` lists upstream commits since the
-   pin that touch any mapped package. It is run at the start of every milestone and
-   the result goes in `docs/upstream-audit-<date>.md`, as PyCordis does.
-5. **Cordis compatibility is isolated.** Missing public runtime operations are either
-   adapted behind `deskagents._cordis` with contract tests or scheduled upstream before
-   another harness module may rely on them.
+   pin that touch any mapped or watched package or the vendored Cordis packages. The
+   `Upstream watch` workflow runs it daily and keeps one tracking issue open while the
+   pin is behind; each move of the pin is recorded in `docs/upstream-audit-<date>.md`,
+   as PyCordis does.
+5. **Public Cordis APIs only.** The harness uses public deepseek-cordis APIs. A missing
+   runtime operation is added to deepseek-cordis before a harness module relies on it;
+   `tests/test_cordis_contract.py` probes the behavior the harness depends on.
 
 ## PepGPT replacement
 
@@ -272,6 +274,9 @@ owner's go-ahead.
 
 **Exit:** every needed behavior is either covered by deepseek-cordis or by the tested,
 isolated compatibility adapter; no private API is used outside `deskagents._cordis`.
+
+Closed 2026-10-31: deepseek-cordis 0.2.0 provides G1–G5 publicly, so the adapter and
+its private-API use are removed.
 
 ### Phase 2 — Scope and session log
 

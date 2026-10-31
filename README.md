@@ -32,7 +32,9 @@ prompts, tools, the agent loop, bundle composition, and DeepSeek/OpenAI-compatib
 model adapters.
 
 Execution, skills, web, MCP, Azure, telemetry and product integrations are separate
-plugin families. See the [plugin roadmap](docs/plugin-roadmap.md).
+plugin families. See the [plugin roadmap](docs/plugin-roadmap.md), and
+[extending deskagents](docs/extending.md) for writing a plugin package in another
+repository.
 
 ## Quick start
 

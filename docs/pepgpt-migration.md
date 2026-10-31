@@ -2,9 +2,15 @@
 
 Status: **in progress, updated 2026-10-31**. Every core phase updates the rows it covers.
 
-This lists every symbol PepGPT imports from its in-tree `deskagents` package today
+This lists every symbol PepGPT imports from its in-tree harness package today
 (129 symbols, from `app/`, `m365/` and `onereach_profile/` at PepGPT `dev` @
-`0cffd1ff`), and where each one lands when PepGPT switches to this package.
+`0cffd1ff`), and where each one lands when PepGPT switches to this package. PepGPT
+imports that package as `harness`; this document writes it as `deskagents`. The
+import surface was re-verified unchanged at `dev` @ `0316255c` on 2026-10-31.
+
+By status: 48 symbols are provided by this package, 30 wait for external plugin
+families (execution, Azure, control, skills, web and product), 39 become PepGPT-owned
+plugins on public seams, and 12 stay in PepGPT's application code.
 
 Targets marked *proposed* follow the upstream package that owns the concept. They
 are confirmed, with exact names, in the phase that ports that package.

@@ -1,8 +1,14 @@
-"""Id-addressable YAML bundle loader for the Python runtime."""
+"""Id-addressable YAML bundle loader for the Python runtime.
+
+A row's ``name`` resolves, in order, to a plugin passed to :class:`BundleLoader`, a
+core plugin, or a plugin that an installed distribution declares in the
+``deskagents.plugins`` entry-point group. Only installed code is ever loaded.
+"""
 
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
+from importlib.metadata import entry_points
 from pathlib import Path
 from typing import Any
 
@@ -28,6 +34,20 @@ def _native_executor_plugin(ctx: Context, config: object = None) -> Any:
 def _checkpoint_policy_plugin(ctx: Context, config: object = None) -> Any:
     install_checkpoint_policy(ctx, config)
     return lambda: None
+
+
+PLUGIN_ENTRY_POINTS = "deskagents.plugins"
+
+
+def installed_plugin(name: str) -> Any | None:
+    """Load the plugin an installed distribution declares under ``name``, if any."""
+    matches = list(entry_points(group=PLUGIN_ENTRY_POINTS, name=name))
+    if not matches:
+        return None
+    if len(matches) > 1:
+        sources = ", ".join(sorted(match.value for match in matches))
+        raise ValueError(f'plugin "{name}" is declared by several distributions: {sources}')
+    return matches[0].load()
 
 
 def apply_row_patches(
@@ -121,12 +141,20 @@ class BundleLoader:
         entries: list[PluginEntry] = []
         for row in rows:
             name = row["name"]
-            if name not in self.plugins:
-                raise ValueError(f'bundle row "{row["id"]}" names unknown plugin "{name}"')
+            plugin = self.plugins.get(name)
+            if plugin is None:
+                plugin = installed_plugin(name)
+            if plugin is None:
+                raise ValueError(
+                    f'bundle row "{row["id"]}" names unknown plugin "{name}"; pass it to '
+                    "BundleLoader or install a distribution declaring it in "
+                    f'"{PLUGIN_ENTRY_POINTS}"'
+                )
+            self.plugins[name] = plugin
             entries.append(
                 PluginEntry(
                     id=row["id"],
-                    plugin=self.plugins[name],
+                    plugin=plugin,
                     config=row.get("config"),
                     enabled=row.get("disabled") is not True,
                 )
@@ -149,6 +177,8 @@ __all__ = [
     "BundleBuilder",
     "BundleLoader",
     "MINIMAL_BUNDLE",
+    "PLUGIN_ENTRY_POINTS",
     "apply_row_patches",
+    "installed_plugin",
     "load_bundle_rows",
 ]

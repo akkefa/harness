@@ -41,6 +41,17 @@ def test_entry_fields(entry: dict[str, Any]) -> None:
     assert entry["status"] in STATUSES
 
 
+def test_watched_dependencies_are_unmapped_and_used_by_core_packages() -> None:
+    mapped = {entry["upstream"]: entry for entry in DATA["packages"]}
+    watched = [entry["upstream"] for entry in DATA["watched"]]
+    assert len(watched) == len(set(watched))
+    for entry in DATA["watched"]:
+        assert re.fullmatch(r"packages/[a-z0-9-]+/[a-z0-9-]+", entry["upstream"])
+        assert entry["upstream"] not in mapped
+        assert entry["used_by"]
+        assert all(mapped[user]["milestone"] == "0.1" for user in entry["used_by"])
+
+
 def test_ported_modules_name_their_upstream() -> None:
     for entry in DATA["packages"]:
         if entry["status"] != "ported":

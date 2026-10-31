@@ -12,13 +12,13 @@ import os
 import re
 import time
 import weakref
-from collections.abc import Awaitable, Callable, Iterator, Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any, Literal
 
 from deepseek_cordis import Context, Service, current_context
 
-from deskagents._cordis import dispatch
+from deskagents._cordis import contain
 from deskagents.core.scope import ScopeCarrier, scope_of, scope_target
 from deskagents.llm import Message, ToolHistory
 from deskagents.util.values import (
@@ -71,9 +71,6 @@ _ENVELOPE_KEYS = frozenset(
 _ADAPTER_DEFAULT_KEYS = frozenset({"reasoningEffort", "maxTokens"})
 _PLUGIN_RECORD_TYPE = re.compile(r"plugin:[a-z0-9][a-z0-9._-]*(?:/[a-z0-9][a-z0-9._-]*)*")
 _PLAIN_RECORDS = (dict, FrozenJsonObject)
-
-# Background tasks of contained observer coroutines; held so they aren't collected.
-_observer_tasks: set[asyncio.Task[None]] = set()
 
 
 def _now() -> int:
@@ -333,29 +330,7 @@ def plugin_record_of(event: SessionEvent) -> PluginRecord | None:
 def _collect_callbacks(
     ctx: Context, name: str, args: tuple[object, ...], carrier: ScopeCarrier[Session]
 ) -> list[Callable[..., object]]:
-    return dispatch(ctx, "emit", name, args, carrier)
-
-
-def _contain(returned: object, describe: str) -> None:
-    """Log, never raise, a listener's asynchronous failure."""
-    if not inspect.isawaitable(returned):
-        return
-
-    async def watch(awaitable: Awaitable[object]) -> None:
-        try:
-            await awaitable
-        except Exception as error:
-            logger.warning("%s rejected: %s", describe, error)
-
-    try:
-        task = asyncio.get_running_loop().create_task(watch(returned))
-    except RuntimeError:
-        if inspect.iscoroutine(returned):
-            returned.close()
-        logger.warning("%s returned an awaitable outside an event loop", describe)
-        return
-    _observer_tasks.add(task)
-    task.add_done_callback(_observer_tasks.discard)
+    return list(ctx.events.dispatch("emit", name, args, carrier))
 
 
 def _invoke_contained(
@@ -367,7 +342,7 @@ def _invoke_contained(
     describe = f'session "{session_id}": {name} listener'
     for callback in callbacks:
         try:
-            _contain(callback(*args), describe)
+            contain(callback(*args), describe, logger)
         except Exception as error:
             logger.warning("%s threw: %s", describe, error)
 
@@ -918,7 +893,7 @@ class SessionStore(Service):
             callbacks = _collect_callbacks(self.ctx, "session/created", args, entry.carrier)
             for callback in callbacks:
                 # A synchronous throw vetoes publication; an async rejection is logged.
-                _contain(callback(*args), f'session "{entry.id}": session/created listener')
+                contain(callback(*args), f'session "{entry.id}": session/created listener', logger)
             entry.announcement = "complete"
         except BaseException:
             entry.announcement = "failed"

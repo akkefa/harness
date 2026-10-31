@@ -85,4 +85,29 @@
     tools, usage, custom endpoints/headers and Azure OpenAI deployment mode.
   - Both adapters run the public LLM adapter contract against committed HTTP/SSE
     response fixtures; tests make no network calls.
+- deepseek-cordis 0.2.0 (`>=0.2.0,<0.3`): the `Events.dispatch` and
+  `Fiber.assert_active` shims are removed in favor of the public APIs, and the strict
+  xfails for G1–G4 are now contract tests.
+- Agent spine fidelity against the pin, each with upstream-marked tests:
+  - `tools/execute` wraps every tool body, so the checkpoint policy flushes before
+    side effects; thrown and unknown tools reach `tools/execute` and
+    `tools/post-execute` as error results; tools may return JSON `null`.
+  - `agent/assistant-stream` frames for each model attempt and `agent/turn-stopping`
+    before a turn ends.
+  - `request/header` is logged only on first use, change, resume or a new series, and
+    tool-list changes append the `tool-registry` developer message.
+  - `agent/*` and `tools/result` listener failures are contained and logged;
+    `agent/pre-step` carries `turn` and `agent/error` carries `turn` and `step`.
+  - Agent creation closes the new write handle when the seed append fails, and create
+    and resume reject an owner that unloaded meanwhile.
+  - `core/agent-loop`, `core/agent` and `core/tools` are now marked `in-progress`,
+    with notes on what is not yet ported.
+- Plugin packages: `BundleLoader` resolves bundle row names through the
+  `deskagents.plugins` entry-point group, so a plugin distribution from another
+  repository is mounted by name. [docs/extending.md](docs/extending.md) and
+  `examples/external_plugin` show a complete plugin family.
+- Upstream watch: `docs/upstream.json` records the vendored Cordis versions and the
+  unmapped upstream packages the core imports. `scripts/upstream_changes.py` reports
+  their changes and gains `--exit-code`. A daily workflow keeps a tracking issue open
+  while the pin is behind, and Dependabot proposes new `deepseek-cordis` releases.
 

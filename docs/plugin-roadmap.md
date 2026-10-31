@@ -32,14 +32,15 @@ created only when work on that family starts.
 1. Plugins depend on service definitions and event contracts exported by
    `deskagents`, never on a concrete provider or a private module.
 2. Plugins may depend directly on `deepseek-cordis` for plugin lifecycle APIs, but
-   may not use its private attributes. The core's temporary Cordis compatibility
-   shims are not public plugin APIs.
+   may not use its private attributes. `deskagents._cordis` is private.
 3. Provider packages run the applicable suites from `deskagents.testing`.
 4. Optional dependencies required by a plugin stay in that plugin's distribution.
 5. Durable event and model-visible names remain compatible with the pinned DeepSeek
    Harness version.
 6. A plugin may be composed through YAML rows or the equivalent Python row builder;
-   installing it must not mutate the core bundle implicitly.
+   installing it must not mutate the core bundle implicitly. Installed plugins are
+   declared in the `deskagents.plugins` entry-point group; see
+   [extending.md](extending.md).
 
 ## PepGPT
 

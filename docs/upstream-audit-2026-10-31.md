@@ -4,10 +4,13 @@
 
 - DeepSeek Harness: `ce7073d51254c26cd63b22a60835b8f948deb447`
 - Session format: v4
-- deepseek-cordis: `>=0.1.1,<0.2`
+- Vendored Cordis `4.0.6-alpha.1`, Loader `1.0.7-alpha.1`
+- deepseek-cordis: `>=0.2.0,<0.3`, raised from `>=0.1.1,<0.2` during this audit
 
-The pin did not move during this audit. `scripts/upstream_changes.py --check` verifies
-the package inventory and pinned persistence assets against the checkout.
+The pin did not move during this audit; upstream master is still `ce7073d`.
+`scripts/upstream_changes.py --check` verifies the package inventory, the watched core
+dependencies, the vendored versions and the pinned persistence assets against the
+checkout.
 
 ## Distribution scope decision
 
@@ -30,12 +33,51 @@ not planned modules of this distribution. The boundary is documented in
 
 ## Intentional Python adaptations
 
-- G1/G2 remain isolated in `deskagents._cordis` until deepseek-cordis exposes equivalent
-  public APIs.
-- G3 is not implemented by monkey-patching Cordis internals. Phase 5 agent teardown
-  will use explicit Cordis-owned effects.
 - v0–v3 session migrations remain outside the core reader; v4 is the only admitted
   logical format.
+
+## deepseek-cordis 0.2.0
+
+deepseek-cordis 0.2.0 makes `Events.dispatch`, `Fiber.assert_active`, `internal/status`,
+`internal/plugin`, `fiber.entry` and config resolution public, closing G1–G5 in
+[cordis-alignment.md](cordis-alignment.md). The shims are removed and their strict
+xfails are ordinary contract tests. Its two breaking changes, `Fiber.inject` as a
+mapping and a single-use waterfall `next_`, need no harness change.
+
+## Agent spine fidelity
+
+Session, persistence and model packages are covered by catalogued upstream cases. The
+agent spine was not: `core/agent-loop`, `core/agent` and `core/tools` had a handful of
+Python tests against several hundred upstream cases, and were marked ported. Comparing
+their sources with the pin found missing plugin seams and behaviour, now adopted with
+upstream-marked tests:
+
+- `tools/execute` is dispatched around each tool body. The checkpoint policy's
+  pre-tool flush was previously never reached.
+- A thrown or unknown tool is normalized before `tools/execute` and `tools/post-execute`
+  see it; a tool returning JSON `null` is no longer rejected.
+- `agent/assistant-stream` publishes each attempt's `start`, `chunk` and `end` frames,
+  committed with the settled event's `seq` or abandoned.
+- `agent/turn-stopping` runs before a turn ends and may steer another step; a
+  `max-tokens` turn outcome is sticky.
+- `request/header` is logged only when first used, changed, resumed or starting a
+  series, and tool additions and removals append the `tool-registry` developer message.
+- `agent/*` and `tools/result` notifications contain listener failures; `agent/pre-step`
+  carries `turn` and `agent/error` carries `turn` and `step`.
+- A seed append failure closes the new write handle, and an owner disposed during
+  storage creation or a resume read is rejected.
+
+The three packages are now `in-progress` in `upstream.json`, with notes naming what
+remains: post-execute replacement values, `ask` routing through an approval service,
+initiator tracking, interrupted assistant blocks on abort, and porting the rest of their
+upstream suites.
+
+## Tracking
+
+`docs/upstream.json` adds the vendored Cordis versions and `watched`, the unmapped
+upstream packages that 0.1 packages import. `.github/workflows/upstream.yml` runs the
+change report daily and keeps one tracking issue current; `.github/dependabot.yml`
+proposes new `deepseek-cordis` releases.
 
 ## Deferred to core Phases 4–6
 

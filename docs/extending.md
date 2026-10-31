@@ -1,0 +1,151 @@
+# Extending deskagents from another repository
+
+Skills, web search, MCP, execution backends and product integrations live outside
+this distribution as plugin packages. A plugin package depends on `deskagents` and
+`deepseek-cordis`, declares its plugins as entry points, and is mounted by bundle rows,
+just as upstream DeepSeek Harness mounts npm packages. The family boundaries are in
+[plugin-roadmap.md](plugin-roadmap.md).
+
+[`examples/external_plugin`](../examples/external_plugin) is a complete plugin
+distribution laid out as its own repository. `tests/bundle/test_external_plugin.py`
+mounts it on the core bundle and drives a turn through it.
+
+## A plugin
+
+A plugin is a Cordis plugin:
+
+- a module with `apply(ctx, config)`, or
+- a `deepseek_cordis.Service` subclass with a `name`, which provides `ctx.get(name)`.
+
+Either form may declare `inject = ["tools", "systemPrompt", ...]`. The plugin starts
+when those services exist and stops when any of them leaves.
+
+Register through the plugin's `ctx`. Every registration below is owned by the
+registering plugin and is removed when it unloads:
+
+```python
+from deskagents.core import define_tool
+
+inject = ["tools", "systemPrompt"]
+
+
+def apply(ctx, config=None):
+    ctx.get("systemPrompt").section({"name": "weather", "order": 50, "text": "..."}, ctx=ctx)
+    ctx.get("tools").register(define_tool(name="weather", ...), ctx=ctx)
+    ctx.on("agent/turn-stopping", on_turn_stopping)
+```
+
+## A plugin distribution
+
+```text
+deskagents-weather/
+  pyproject.toml
+  src/deskagents_weather/__init__.py      Service Definition (optional)
+  src/deskagents_weather/provider_x.py    providers
+  src/deskagents_weather/tool_weather.py  model-facing consumer
+```
+
+```toml
+[project]
+dependencies = ["deskagents>=0.1,<0.2", "deepseek-cordis>=0.2.0,<0.3"]
+
+[project.entry-points."deskagents.plugins"]
+"deskagents_weather" = "deskagents_weather:WeatherService"
+"deskagents_weather.tool_weather" = "deskagents_weather.tool_weather"
+```
+
+The entry-point name is what a bundle row's `name` refers to. A name declared by two
+installed distributions is rejected.
+
+## Mounting
+
+Bundle rows resolve a `name` to a plugin passed to `BundleLoader`, then a core plugin,
+then an installed entry point. A host extends the core bundle with id-addressed
+patches, so installing a plugin never changes the core bundle:
+
+```python
+import yaml
+from deskagents.bundle import MINIMAL_BUNDLE, BundleLoader, apply_row_patches, load_bundle_rows
+
+rows = apply_row_patches(load_bundle_rows(MINIMAL_BUNDLE), yaml.safe_load(open("bundle.yml")))
+await BundleLoader(ctx).load(rows)
+```
+
+```yaml
+- insert:
+    - id: weather
+      name: deskagents_weather
+      config: {units: metric}
+    - id: tool-weather
+      name: deskagents_weather.tool_weather
+- id: system-prompt          # patch a core row
+  config: {personaPrefix: You are the weather desk assistant.}
+```
+
+A patch replaces the named top-level fields of a row whole; `config` is not merged.
+
+`BundleBuilder` builds the same rows in Python. `BundleLoader(ctx, plugins={...})`
+mounts plugins that are not installed, such as a host application's own.
+
+## Extension points
+
+Registries, all taking `ctx=` for ownership:
+
+| Service | Registration |
+|---|---|
+| `tools` | `register(definition, when=...)`, `guard(callback)` |
+| `systemPrompt` | `section(...)`, `variable(name, provider)`, `tools(provider)` |
+| `llm` | `register_adapter(routes, adapter)`; see [model-adapters.md](model-adapters.md) |
+| `deepseekLlmApiExtensions` | `register(field, provider)` for DeepSeek request fields |
+| `sessionPersistence` | a `SessionPersistence` subclass for a storage backend |
+
+Events, with the upstream names and dispatch modes. A waterfall listener receives
+`next_` and returns the (possibly replaced) result. Listener failures of notification
+events are logged and contained; failures of waterfall and serial listeners propagate.
+
+| Event | Mode | Use |
+|---|---|---|
+| `tools/pre-execute` | waterfall | allow, deny or cancel a call before dispatch |
+| `tools/execute` | waterfall | wrap dispatch; `next_()` returns the normalized result |
+| `tools/post-execute` | waterfall | inspect each result, errors included |
+| `tools/result` | notification | observe the final frozen result |
+| `agent/created` | serial | set up per-agent state |
+| `agent/pre-step` | waterfall | admit, rewrite or reject a step's input; `startsRequestSeries` |
+| `agent/request` | waterfall | adjust the model call configuration |
+| `agent/request-error` | waterfall | decide whether a failed request retries |
+| `agent/assistant-stream` | notification | live `start`, `chunk` and `end` frames of each attempt |
+| `agent/turn-stopping` | serial | `agent.steer(...)` to continue the turn |
+| `agent/status`, `agent/error`, `agent/disposed`, `agent/inbox/*` | notification | observe |
+| `llm/stream` | waterfall | wrap a model stream |
+| `session/event` | notification | observe each committed session event |
+| `session/flush` | awaited | make the session durable at a checkpoint |
+
+A `tools/pre-execute` decision of `ask` is treated as a denial until the approval seam
+of the control family exists.
+
+## Skills and web search
+
+Build these families with upstream's three seam roles: a Service Definition, providers
+and a model-facing consumer that depend on the definition only.
+
+| Family | Service Definition | Providers | Consumer |
+|---|---|---|---|
+| Skills | `skill/skill` (`skills`) | `skill/skill-filesystem` | `skill/tool-skill` |
+| Web | `web/web` (`web`) | `web/web-fetch-http`, `web/web-search-*` | `web/tool-web` |
+
+The skill registry and the web service need only the core seams. Upstream's filesystem
+skill provider needs the `fs` seam, and `tool-skill` needs `session/working-directory`,
+so those come after the execution family. `tool-web` and the HTTP fetcher use
+`util/output-retention` and `util/timeout`. The example package is a reduced skill
+family; a full port follows the upstream packages above and their tests.
+
+## Testing a plugin
+
+- Mount it with the core bundle in a `Context` and drive turns with
+  `deskagents.testing.ScriptedAdapter`.
+- Run the contract suites in `deskagents.testing` for persistence backends, live write
+  paths and model adapters.
+- Dispose the plugin and assert its tools, sections and listeners are gone.
+
+Use only public `deskagents` and `deepseek-cordis` APIs; modules and attributes whose
+names start with an underscore are private.

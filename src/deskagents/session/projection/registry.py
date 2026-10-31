@@ -13,7 +13,6 @@ from typing import Any, Generic, TypeVar
 
 from deepseek_cordis import Context, Effect, Fiber, FiberState, Service, current_context
 
-from deskagents._cordis import assert_active
 from deskagents.core.session import (
     Session,
     SessionEvent,
@@ -210,7 +209,7 @@ class _Registration(Effect, Generic[S]):
 
     def _handoff(self) -> None:
         try:
-            assert_active(self._projection_owner.fiber)
+            self._projection_owner.fiber.assert_active()
         except Exception as error:
             self._projection_failure = error
             _watch_rejection(lambda: self.observed, error, self._projection_owner.fiber)

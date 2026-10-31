@@ -27,7 +27,7 @@ Python differences:
   ``yield`` adopt it into a composing effect) that is also the handle: awaiting it yields
   itself after the handoff, which runs on the next event-loop turn (``loop.call_soon``,
   upstream a microtask) and fails with deepseek-cordis ``CordisError("INACTIVE_EFFECT")``
-  (via ``deskagents._cordis.assert_active``; upstream "inactive context") once the owner was
+  (via ``Fiber.assert_active``; upstream "inactive context") once the owner was
   disposed. The handle methods are reachable before the await. Calling it is the effect
   disposer and returns ``Awaitable[None] | None`` like every deepseek-cordis disposer
   (upstream always a Promise). A registration that fails before its effect exists returns

@@ -13,6 +13,7 @@ from typing import Any, Protocol
 
 from deepseek_cordis import Context, Service, current_context
 
+from deskagents._cordis import emit_contained
 from deskagents.core.scope import scope_target
 
 logger = logging.getLogger(__name__)
@@ -153,7 +154,16 @@ class AgentEvents:
         self.filter = scope_target(agent, agent)
 
     def emit(self, name: str, payload: Mapping[str, Any]) -> None:
-        self.ctx.emit(name, {**payload, "agent": self.agent}, filter_=self.filter)
+        # Agent notifications are non-vetoing: a broken listener neither starves later
+        # listeners nor fails the emitting agent.
+        emit_contained(
+            self.ctx,
+            name,
+            {**payload, "agent": self.agent},
+            filter_=self.filter,
+            describe=f'agent event "{name}" listener',
+            log=logger,
+        )
 
     async def serial(self, name: str, payload: Mapping[str, Any]) -> object:
         return await self.ctx.serial(name, {**payload, "agent": self.agent}, filter_=self.filter)

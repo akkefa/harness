@@ -101,7 +101,7 @@ class DeepSeekLlmApiExtensionRegistry(Service):
                 if result is None:
                     continue
                 detached = snapshot_json_value(result["value"])
-                if detached is None:
+                if detached is None and result["value"] is not None:
                     raise ValueError("extension value is not lossless JSON")
                 fields[field] = deep_freeze(detached)
                 accept = result.get("accept")

@@ -4,6 +4,30 @@
   "scope": "Upstream test cases ported to Python. Each case names its upstream spec file and title; python_tests lists the Python tests carrying the matching upstream mark.",
   "source_files": [
     {
+      "path": "packages/core/agent-loop/tests/agent.spec.ts",
+      "sha256": "749b7c440fb4422a4a3726af1f9db7af2c7c9f45c7988293956d13d6b81492a1"
+    },
+    {
+      "path": "packages/core/agent-loop/tests/contract-regressions.spec.ts",
+      "sha256": "fd9b254ed2bf3f3f2e8b4a7b51ddef9894f41bb8f337eb67fec1d2fb869e594d"
+    },
+    {
+      "path": "packages/core/agent-loop/tests/loop.spec.ts",
+      "sha256": "d7e1f4a2eaf505a4fd29ca3f26b30e67dd5176b797c7a935769df0518dce5e53"
+    },
+    {
+      "path": "packages/core/agent-loop/tests/request-reconstruction.spec.ts",
+      "sha256": "fd9763de9c93abd1b3f8d9cee302b6deeb065b37d4161cdbdcb9025fbe8d18ac"
+    },
+    {
+      "path": "packages/core/agent-loop/tests/resume.spec.ts",
+      "sha256": "57e44f5dff14c02e053a25332ff9dc052479c68b35bae504f7dbe28b75e490d2"
+    },
+    {
+      "path": "packages/core/agent-loop/tests/tool-updates.spec.ts",
+      "sha256": "bb9a31bd5606633d78a48fb9f7ebc61e3be6299d9d72b73f65638cc571a0ee05"
+    },
+    {
       "path": "packages/core/scope/tests/scope.spec.ts",
       "sha256": "491dc7c01521e78cd29d19d5762d3460af40dc67aa3ee68cb0480fae10454095"
     },
@@ -96,6 +120,10 @@
       "sha256": "d238f64c43111d6124065c23c6296598e49889b39f838fc665512d2dcd16f581"
     },
     {
+      "path": "packages/core/tools/tests/scoped.spec.ts",
+      "sha256": "832dacdc23089e2b8abae09d9bb977899d3090c4a63f311034951aa25b7e2f83"
+    },
+    {
       "path": "packages/core/tools/tests/tools.spec.ts",
       "sha256": "0d83814df42b1127a062ce862102fb992dd11cd90471c0dab7674207e5d1b32d"
     },
@@ -158,6 +186,10 @@
     {
       "path": "packages/llm/token-meter/tests/turn-usage.spec.ts",
       "sha256": "a3239616682d9025d075f68118facb5864eb9294c118a293352950a54efdef9f"
+    },
+    {
+      "path": "packages/session/session-checkpoint-policy/tests/session-checkpoint-policy.spec.ts",
+      "sha256": "e6943592b46506b60b994365c5fc7818e4faca76c78750c7324e4f9f58602a0a"
     },
     {
       "path": "packages/session/session-format-catalog/tests/catalog.spec.ts",
@@ -337,6 +369,78 @@
     }
   ],
   "cases": [
+    {
+      "id": "core/agent-loop::agent-contains-a-throwing-status-listener-on-both-transitions",
+      "source": "packages/core/agent-loop/tests/agent.spec.ts::Agent > contains a throwing status listener on both transitions",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_throwing_status_listener_is_contained"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::plugin-exceptions-are-contained-a-throwing-agent-turn-stopping-listener-ends-the-turn-with-an-error-loop-survives",
+      "source": "packages/core/agent-loop/tests/contract-regressions.spec.ts::plugin exceptions are contained > a throwing agent/turn-stopping listener ends the turn with an error, loop survives",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_throwing_turn_stopping_listener_ends_the_turn_with_an_error"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::agent-loop-abandons-the-live-row-when-durable-assistant-settlement-is-rejected",
+      "source": "packages/core/agent-loop/tests/loop.spec.ts::agent loop > abandons the live row when durable Assistant settlement is rejected",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_assistant_stream_abandons_a_rejected_settlement"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::agent-loop-agent-turn-stopping-can-steer-another-step-loop-pattern",
+      "source": "packages/core/agent-loop/tests/loop.spec.ts::agent loop > agent/turn-stopping can steer another step (/loop pattern)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_turn_stopping_listener_can_steer_another_step"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::agent-loop-publishes-one-dense-live-attempt-and-commits-one-v2-message-with-the-exact-embedded-stream",
+      "source": "packages/core/agent-loop/tests/loop.spec.ts::agent loop > publishes one dense live attempt and commits one v2 message with the exact embedded stream",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_assistant_stream_publishes_one_committed_attempt"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::request-stability-across-the-loop-starts-a-new-request-series-only-when-the-admitted-step-explicitly-asks-for-one",
+      "source": "packages/core/agent-loop/tests/request-reconstruction.spec.ts::request stability across the loop > starts a new request series only when the admitted step explicitly asks for one",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_request_header_is_logged_once_unless_a_series_starts"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::the-session-persistence-agent-note-agentloop-factory-create-resume-a-seed-append-failure-closes-the-fresh-write-handle-and-rethrows",
+      "source": "packages/core/agent-loop/tests/resume.spec.ts::the session-persistence Agent Note: AgentLoop factory create/resume > a seed append failure closes the fresh write handle and rethrows",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_seed_append_failure_closes_the_write_handle"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/agent-loop::tool-update-emission-logs-additions-bound-to-the-new-header-and-removals-without-one-after-the-first-header",
+      "source": "packages/core/agent-loop/tests/tool-updates.spec.ts::tool update emission > logs additions bound to the new header and removals without one, after the first header",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_tool_registry_changes_append_developer_messages"
+      ],
+      "notes": ""
+    },
     {
       "id": "core/scope::createscope-exposes-the-exact-raw-disposer-for-ordered-composite-teardown",
       "source": "packages/core/scope/tests/scope.spec.ts::createScope > exposes the exact raw disposer for ordered composite teardown",
@@ -3368,11 +3472,38 @@
       "notes": ""
     },
     {
+      "id": "core/tools::scoped-execution-dispatch-notifies-every-tools-result-observer-with-the-frozen-final-outcome-and-contains-failures",
+      "source": "packages/core/tools/tests/scoped.spec.ts::scoped execution dispatch > notifies every tools/result observer with the frozen final outcome and contains failures",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_tools_result_observer_failures_are_contained"
+      ],
+      "notes": ""
+    },
+    {
       "id": "core/tools::registry-round-trips-a-definetool-definition-register-schemas-execute",
       "source": "packages/core/tools/tests/tools.spec.ts::registry round-trips a defineTool definition (register→schemas→execute)",
       "classification": "ported",
       "python_tests": [
         "tests/core/test_phase5_runtime.py::test_native_tool_round_trip"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::toolruntime-a-thrown-tool-is-normalized-to-an-iserror-result-before-a-tools-execute-listener-sees-next",
+      "source": "packages/core/tools/tests/tools.spec.ts::ToolRuntime > a thrown tool is normalized to an isError result BEFORE a tools/execute listener sees next()",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_tools_execute_wrapper_sees_the_normalized_error"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::toolruntime-a-thrown-tool-normalized-inside-tools-execute-still-reaches-post-execute",
+      "source": "packages/core/tools/tests/tools.spec.ts::ToolRuntime > a thrown tool normalized inside tools/execute still reaches post-execute",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_thrown_tool_still_reaches_post_execute"
       ],
       "notes": ""
     },
@@ -3706,6 +3837,24 @@
       "classification": "ported",
       "python_tests": [
         "tests/llm/token_meter/test_turn_usage.py::test_preserves_exact_usage_and_route"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-checkpoint-policy::session-checkpoint-policy-tool-and-step-boundaries-awaits-the-checkpoint-before-a-top-level-tool-body",
+      "source": "packages/session/session-checkpoint-policy/tests/session-checkpoint-policy.spec.ts::session-checkpoint-policy tool and step boundaries > awaits the checkpoint before a top-level tool body",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/test_checkpoint_policy.py::test_checkpoint_precedes_a_top_level_tool_body"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "session/session-checkpoint-policy::session-checkpoint-policy-tool-and-step-boundaries-turns-a-rejected-checkpoint-into-an-error-result-without-running-the-tool-body",
+      "source": "packages/session/session-checkpoint-policy/tests/session-checkpoint-policy.spec.ts::session-checkpoint-policy tool and step boundaries > turns a rejected checkpoint into an error result without running the tool body",
+      "classification": "ported",
+      "python_tests": [
+        "tests/session/test_checkpoint_policy.py::test_rejected_checkpoint_skips_the_tool_body"
       ],
       "notes": ""
     },
