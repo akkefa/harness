@@ -213,6 +213,8 @@ class ReactLoopAgent:
             self.inbox.clear()
         if self._signal is not None:
             self._signal.abort(reason or {"kind": "user"})
+        if self._task is not None and not self._task.done():
+            self._task.cancel()
 
     async def when_idle(self) -> None:
         while self._task is not None:

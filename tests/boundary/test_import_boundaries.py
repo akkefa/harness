@@ -23,7 +23,10 @@ IMPORT_NAMES = {"deepseek-cordis": "deepseek_cordis", "pyyaml": "yaml"}
 # Extra name -> (import names it provides, modules allowed to import them).
 # Each phase that adds an extra registers it here, e.g.
 #   "openai": ({"httpx"}, {"harness.llm.openai"}),
-EXTRA_IMPORTS: dict[str, tuple[set[str], set[str]]] = {}
+EXTRA_IMPORTS: dict[str, tuple[set[str], set[str]]] = {
+    "deepseek": ({"httpx"}, {"harness.llm.deepseek"}),
+    "openai": ({"httpx"}, {"harness.llm.openai"}),
+}
 
 
 def module_name(path: Path) -> str:

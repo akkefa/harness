@@ -103,21 +103,22 @@
       "npm": "@deepseek-ai/dsh-llm-deepseek",
       "module": "harness.llm.deepseek",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported",
+      "note": "Messages API transport, native reasoning replay, tools, usage, SSE and provider-neutral failures are ported; attachment/file projection remains in the external attachment family."
     },
     {
       "upstream": "packages/llm/llm-deepseek-api-key",
       "npm": "@deepseek-ai/dsh-llm-deepseek-api-key",
       "module": "harness.llm.deepseek_api_key",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/llm/deepseek-llm-api-extensions",
       "npm": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
       "module": "harness.llm.deepseek_llm_api_extensions",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/util/values",
@@ -196,7 +197,7 @@
       "npm": "@deepseek-ai/dsh-session-log-deepseek",
       "module": "harness.session.log_deepseek",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/subprocess/subprocess",
@@ -681,7 +682,7 @@
       "milestone": "0.1",
       "origin": "new",
       "note": "OpenAI-compatible Chat Completions adapter on the llm seam",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "module": "harness.azure_sessions",

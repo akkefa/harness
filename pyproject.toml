@@ -26,7 +26,9 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-# Each extra is declared in the phase that adds the module needing it; see docs/PLAN.md.
+deepseek = ["httpx>=0.27,<1"]
+openai = ["httpx>=0.27,<1"]
+all = ["httpx>=0.27,<1"]
 
 [project.urls]
 Homepage = "https://github.com/akkefa/harness"

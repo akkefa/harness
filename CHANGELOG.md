@@ -76,4 +76,13 @@
   - Id-addressed YAML bundles, a Python bundle builder, `bundle/minimal.yml`, and the
     scripted `examples/minimal_agent.py`.
   - Session durability checkpoints and deterministic fallback/user session titles.
+- Phase 6, model adapters:
+  - `harness.llm.deepseek`: DeepSeek Messages serialization, SSE translation, native
+    reasoning replay, tool calls, usage, API-key provider and request extensions.
+  - `harness.session.log_deepseek`: bounded incremental session-log delivery with
+    acceptance watermarks.
+  - `harness.llm.openai`: OpenAI-compatible Chat Completions streaming with reasoning,
+    tools, usage, custom endpoints/headers and Azure OpenAI deployment mode.
+  - Both adapters run the public LLM adapter contract against committed HTTP/SSE
+    response fixtures; tests make no network calls.
 

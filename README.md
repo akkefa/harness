@@ -7,8 +7,8 @@ PyPI distribution: `cordis-harness`. Python import: `harness`. Python 3.11+.
 
 > **Status: pre-alpha.** The standalone core runtime is runnable: Scope, Session v4,
 > JSONL persistence, projections, prompts, tools, the model seam, retry policy, token
-> metering, agent loop and bundle composition are implemented. Model adapters are the
-> remaining 0.1 release phase. See [the plan](docs/PLAN.md).
+> metering, agent loop, bundle composition, DeepSeek Messages and OpenAI-compatible
+> adapters are implemented. See [the plan](docs/PLAN.md).
 
 ## What it is
 
@@ -33,6 +33,37 @@ model adapters.
 
 Execution, skills, web, MCP, Azure, telemetry and product integrations are separate
 plugin families. See the [plugin roadmap](docs/plugin-roadmap.md).
+
+## Quick start
+
+Install the core with the provider extra you need:
+
+```bash
+pip install "cordis-harness[deepseek]"
+# or: pip install "cordis-harness[openai]"
+```
+
+Create the minimal standalone runtime and register a provider adapter:
+
+```python
+from deepseek_cordis import Context
+from harness.bundle import MINIMAL_BUNDLE, BundleLoader
+from harness.llm import LlmRuntime
+from harness.llm.deepseek import DeepSeekAdapter
+
+ctx = Context()
+await BundleLoader(ctx).load_file(MINIMAL_BUNDLE)
+llm = ctx.get("llm")
+assert isinstance(llm, LlmRuntime)
+llm.register_adapter(
+    ["deepseek"],
+    DeepSeekAdapter(api_key="...", models=({"id": "deepseek-chat"},)),
+)
+```
+
+`harness.llm.openai.OpenAIAdapter` uses the same seam and supports custom compatible
+base URLs plus Azure OpenAI deployment URLs. See `examples/minimal_agent.py` for a
+network-free complete turn.
 
 ## Name clash
 
