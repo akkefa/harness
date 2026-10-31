@@ -5,10 +5,10 @@ agent runtime, built on [deepseek-cordis](https://github.com/akkefa/deepseek-cor
 
 PyPI distribution: `cordis-harness`. Python import: `harness`. Python 3.11+.
 
-> **Status: pre-alpha.** Scope, Session v4, JSONL persistence, session projections,
-> the model seam, retry policy and token metering are implemented. The agent loop is
-> still under development, so the package is not yet a runnable agent runtime. See
-> [the plan](docs/PLAN.md).
+> **Status: pre-alpha.** The standalone core runtime is runnable: Scope, Session v4,
+> JSONL persistence, projections, prompts, tools, the model seam, retry policy, token
+> metering, agent loop and bundle composition are implemented. Model adapters are the
+> remaining 0.1 release phase. See [the plan](docs/PLAN.md).
 
 ## What it is
 
@@ -19,8 +19,7 @@ This package follows the same design in Python:
 - one Python module per upstream package, mapped in [docs/upstream.json](docs/upstream.json)
 - the same event names, tool schemas and JSONL session format (v4); committed
   cross-runtime fixtures verify interoperability with the pinned `dsh` implementation
-- agents composed from YAML bundles of plugin rows, loaded through the deepseek-cordis
-  `Loader`
+- agents composed from id-addressed YAML plugin rows through the Python bundle loader
 
 It is an independent implementation, not an official DeepSeek product. Upstream's own
 Python SDK (`deepseek_harness`) drives the Node `dsh` binary over JSON-RPC; this

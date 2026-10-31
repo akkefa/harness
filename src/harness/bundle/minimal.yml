@@ -1,0 +1,29 @@
+- insert:
+    - id: llm
+      name: harness.llm
+    - id: sessions
+      name: harness.core.session
+    - id: session-projections
+      name: harness.session.projection
+    - id: session-title
+      name: harness.session.title
+      config:
+        fallbackMaxWords: 5
+        fallbackMaxBytes: 40
+        maxTitleBytes: 80
+    - id: system-prompt
+      name: harness.core.system_prompt
+      config:
+        personaPrefix: You are a helpful assistant.
+    - id: tools
+      name: harness.core.tools
+    - id: native-tools
+      name: harness.core.tool_executor_native
+    - id: agents
+      name: harness.core.agent
+    - id: agent-loop
+      name: harness.core.agent_loop
+      config:
+        agents: []
+    - id: session-checkpoint-policy
+      name: harness.session.checkpoint_policy

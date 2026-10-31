@@ -92,6 +92,14 @@
       "sha256": "7598fd6f19f42c7da1e2051eeeb52c87f13e3cee076f09943825c1d14b33ee44"
     },
     {
+      "path": "packages/core/system-prompt/tests/system-prompt.spec.ts",
+      "sha256": "d238f64c43111d6124065c23c6296598e49889b39f838fc665512d2dcd16f581"
+    },
+    {
+      "path": "packages/core/tools/tests/tools.spec.ts",
+      "sha256": "0d83814df42b1127a062ce862102fb992dd11cd90471c0dab7674207e5d1b32d"
+    },
+    {
       "path": "packages/llm/llm-retry/tests/retry.spec.ts",
       "sha256": "888e3ec0403db42ad4000e308c21c7eed4db1b818b4fefb0c271a8e4fb56040d"
     },
@@ -3333,6 +3341,24 @@
       "classification": "not-applicable",
       "python_tests": [],
       "notes": "Typed-RPC (typert) registration is out of scope for this package."
+    },
+    {
+      "id": "core/system-prompt::assembles-sections-in-order-with-context-resolved-text-and-collected-tools",
+      "source": "packages/core/system-prompt/tests/system-prompt.spec.ts::assembles sections in order with context-resolved text and collected tools",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_prompt_assembly"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "core/tools::registry-round-trips-a-definetool-definition-register-schemas-execute",
+      "source": "packages/core/tools/tests/tools.spec.ts::registry round-trips a defineTool definition (register→schemas→execute)",
+      "classification": "ported",
+      "python_tests": [
+        "tests/core/test_phase5_runtime.py::test_native_tool_round_trip"
+      ],
+      "notes": ""
     },
     {
       "id": "llm/llm-retry::applies-bounded-exponential-jitter-and-stops-after-the-configured-budget",

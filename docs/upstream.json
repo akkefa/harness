@@ -30,49 +30,49 @@
       "npm": "@deepseek-ai/dsh-system-prompt",
       "module": "harness.core.system_prompt",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/tools",
       "npm": "@deepseek-ai/dsh-tools",
       "module": "harness.core.tools",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/tool-executor-native",
       "npm": "@deepseek-ai/dsh-tool-executor-native",
       "module": "harness.core.tool_executor_native",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/agent",
       "npm": "@deepseek-ai/dsh-agent",
       "module": "harness.core.agent",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/agent-loop",
       "npm": "@deepseek-ai/dsh-agent-loop",
       "module": "harness.core.agent_loop",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/agent-default-model",
       "npm": "@deepseek-ai/dsh-agent-default-model",
       "module": "harness.core.agent_default_model",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/core/agent-tool-presentation",
       "npm": "@deepseek-ai/dsh-agent-tool-presentation",
       "module": "harness.core.agent_tool_presentation",
       "milestone": "0.1",
-      "status": "planned"
+      "status": "ported"
     },
     {
       "upstream": "packages/llm/llm",
@@ -181,16 +181,15 @@
       "npm": "@deepseek-ai/dsh-session-checkpoint-policy",
       "module": "harness.session.checkpoint_policy",
       "milestone": "0.1",
-      "status": "planned",
-      "note": "moved to Phase 5: hooks agent and tool events"
+      "status": "ported"
     },
     {
       "upstream": "packages/session/session-title",
       "npm": "@deepseek-ai/dsh-session-title",
       "module": "harness.session.title",
       "milestone": "0.1",
-      "status": "planned",
-      "note": "moved to Phase 5: reads agent turn state"
+      "status": "ported",
+      "note": "Fallback titles and explicit user renames are ported; LLM-generated titles remain an external plugin."
     },
     {
       "upstream": "packages/session/session-log-deepseek",
@@ -667,8 +666,8 @@
       "module": "harness.bundle",
       "milestone": "0.1",
       "origin": "new",
-      "note": "YAML bundle rows loaded through the deepseek-cordis Loader; mirrors packages/bundle/*",
-      "status": "planned"
+      "note": "Id-addressed YAML patches and Python builder compile to deepseek-cordis flat Loader rows; JavaScript expressions and grouped trees remain intentionally unsupported.",
+      "status": "ported"
     },
     {
       "module": "harness.testing",

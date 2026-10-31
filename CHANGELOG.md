@@ -68,4 +68,12 @@
   - `harness.llm.token_meter`: fixed token estimation, replay-aware measurement,
     usage/context-pressure/context-breakdown projections and complete-turn accounting.
   - `harness.testing.ScriptedAdapter` and a pytest-independent LLM adapter contract.
+- Phase 5, agent spine and bundles:
+  - Ordered system-prompt sections, runtime-context snapshots, scoped tool registration,
+    native bounded execution, model selection and agent lifecycle services.
+  - Event-sourced no-tool, tool-recursive, retry, cancellation, failure and persisted
+    resume paths, including balanced turn/step boundaries.
+  - Id-addressed YAML bundles, a Python bundle builder, `bundle/minimal.yml`, and the
+    scripted `examples/minimal_agent.py`.
+  - Session durability checkpoints and deterministic fallback/user session titles.
 
